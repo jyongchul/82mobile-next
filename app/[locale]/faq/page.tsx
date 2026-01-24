@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { unstable_setRequestLocale } from 'next-intl/server';
+
+export const dynamic = 'force-dynamic';
 
 const faqs = [
   {
@@ -112,11 +113,7 @@ const faqs = [
   }
 ];
 
-export default function FaqPage({
-  params: { locale }
-}: {
-  params: { locale: string };
-}) {
+export default function FaqPage() {
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {

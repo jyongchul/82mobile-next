@@ -14,6 +14,13 @@
     "buyNow": "今すぐ購入",
     "viewDetails": "詳細を見る"
   },
+  "nav": {
+    "home": "ホーム",
+    "shop": "ショップ",
+    "about": "概要",
+    "faq": "よくある質問",
+    "contact": "お問い合わせ"
+  },
   "header": {
     "title": "82mobile",
     "subtitle": "韓国旅行のための最高のSIMカード"
@@ -54,6 +61,12 @@
     "placeOrder": "注文する"
   },
   "footer": {
+    "tagline": "韓国旅行のための信頼できるモバイル接続パートナー",
+    "quickLinks": "クイックリンク",
+    "contact": "お問い合わせ",
+    "stores": "店舗所在地",
+    "myeongdong": "明洞：ソウル特別市中区明洞通り74",
+    "hongdae": "弘大：ソウル特別市麻浦区楊花路160",
     "copyright": "© 2026 82mobile. 全著作権所有。",
     "poweredBy": "提供",
     "whitehatMarketing": "Whitehat Marketing"

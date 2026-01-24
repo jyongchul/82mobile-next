@@ -5,17 +5,19 @@ import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 export default function OrderCompletePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const locale = useLocale();
+  const currentLocale = useLocale();
   const orderId = searchParams.get('orderId');
 
   useEffect(() => {
     if (!orderId) {
-      router.push(`/${locale}`);
+      router.push(`/${currentLocale}`);
     }
-  }, [orderId, router, locale]);
+  }, [orderId, router, currentLocale]);
 
   if (!orderId) return null;
 
@@ -158,13 +160,13 @@ export default function OrderCompletePage() {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            href={`/${locale}/shop`}
+            href={`/${currentLocale}/shop`}
             className="flex-1 text-center px-6 py-3 bg-white border-2 border-gray-300 rounded-lg font-bold text-gray-700 hover:border-dancheong-red hover:text-dancheong-red transition-colors"
           >
             Continue Shopping
           </Link>
           <Link
-            href={`/${locale}`}
+            href={`/${currentLocale}`}
             className="flex-1 text-center px-6 py-3 bg-dancheong-red hover:bg-red-700 text-white font-bold rounded-lg transition-all transform hover:scale-105"
           >
             Back to Home
@@ -175,7 +177,7 @@ export default function OrderCompletePage() {
         <div className="text-center mt-8 text-gray-600">
           <p className="text-sm">
             Need help?{' '}
-            <Link href={`/${locale}/contact`} className="text-dancheong-red hover:underline font-medium">
+            <Link href={`/${currentLocale}/contact`} className="text-dancheong-red hover:underline font-medium">
               Contact Support
             </Link>
           </p>

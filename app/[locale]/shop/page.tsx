@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl';
 import ProductCard from '@/components/shop/ProductCard';
 import ProductFilter from '@/components/shop/ProductFilter';
 
+export const dynamic = 'force-dynamic';
+
 interface Product {
   id: number;
   slug: string;

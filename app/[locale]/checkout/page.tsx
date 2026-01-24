@@ -8,9 +8,11 @@ import BillingForm, { BillingData } from '@/components/checkout/BillingForm';
 import PaymentMethods from '@/components/checkout/PaymentMethods';
 import OrderSummary from '@/components/cart/OrderSummary';
 
+export const dynamic = 'force-dynamic';
+
 export default function CheckoutPage() {
   const router = useRouter();
-  const locale = useLocale();
+  const currentLocale = useLocale();
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
 
@@ -20,7 +22,7 @@ export default function CheckoutPage() {
 
   // Redirect if cart is empty
   if (items.length === 0) {
-    router.push(`/${locale}/cart`);
+    router.push(`/${currentLocale}/cart`);
     return null;
   }
 
@@ -50,7 +52,7 @@ export default function CheckoutPage() {
       clearCart();
 
       // Redirect to order confirmation
-      router.push(`/${locale}/order-complete?orderId=${orderId}`);
+      router.push(`/${currentLocale}/order-complete?orderId=${orderId}`);
     } catch (error) {
       console.error('Order failed:', error);
       setIsProcessing(false);
