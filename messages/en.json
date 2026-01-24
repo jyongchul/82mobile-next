@@ -1,0 +1,74 @@
+{
+  "common": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "viewDetails": "View Details"
+  },
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "header": {
+    "title": "82mobile",
+    "subtitle": "Your Best SIM Card for Traveling in Korea"
+  },
+  "hero": {
+    "title": "Stay Connected in Korea",
+    "subtitle": "Data, Calls, and Texts in One SIM Card",
+    "cta": "Shop Now"
+  },
+  "products": {
+    "title": "Our Products",
+    "categories": {
+      "all": "All",
+      "esim": "eSIM",
+      "physicalSim": "Physical SIM",
+      "dataPlan": "Data Plan"
+    },
+    "filters": {
+      "sortBy": "Sort By",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "newest": "Newest"
+    }
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "proceedToCheckout": "Proceed to Checkout",
+    "continueShopping": "Continue Shopping"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "billingDetails": "Billing Details",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order"
+  },
+  "footer": {
+    "tagline": "Your trusted mobile connection partner for traveling in Korea",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "stores": "Store Locations",
+    "myeongdong": "Myeongdong: 74 Myeongdong-gil, Jung-gu, Seoul",
+    "hongdae": "Hongdae: 160 Yanghwa-ro, Mapo-gu, Seoul",
+    "copyright": "© 2026 82mobile. All rights reserved.",
+    "poweredBy": "Powered by",
+    "whitehatMarketing": "Whitehat Marketing"
+  }
+}

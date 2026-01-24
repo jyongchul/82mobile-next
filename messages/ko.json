@@ -1,0 +1,74 @@
+{
+  "common": {
+    "home": "홈",
+    "shop": "상품",
+    "about": "소개",
+    "contact": "문의",
+    "faq": "자주 묻는 질문",
+    "cart": "장바구니",
+    "checkout": "결제",
+    "search": "검색",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "addToCart": "장바구니에 담기",
+    "buyNow": "바로 구매",
+    "viewDetails": "자세히 보기"
+  },
+  "nav": {
+    "home": "홈",
+    "shop": "상품",
+    "about": "소개",
+    "faq": "자주 묻는 질문",
+    "contact": "문의"
+  },
+  "header": {
+    "title": "82모바일",
+    "subtitle": "한국 여행을 위한 최고의 SIM 카드"
+  },
+  "hero": {
+    "title": "한국에서의 완벽한 연결",
+    "subtitle": "데이터, 통화, 문자를 하나의 SIM 카드로",
+    "cta": "지금 쇼핑하기"
+  },
+  "products": {
+    "title": "우리의 상품",
+    "categories": {
+      "all": "전체",
+      "esim": "eSIM",
+      "physicalSim": "물리적 SIM",
+      "dataPlan": "데이터 플랜"
+    },
+    "filters": {
+      "sortBy": "정렬",
+      "priceAsc": "가격: 낮은 순",
+      "priceDesc": "가격: 높은 순",
+      "newest": "최신순"
+    }
+  },
+  "cart": {
+    "title": "장바구니",
+    "empty": "장바구니가 비어 있습니다",
+    "subtotal": "소계",
+    "total": "총액",
+    "proceedToCheckout": "결제하기",
+    "continueShopping": "쇼핑 계속하기"
+  },
+  "checkout": {
+    "title": "결제",
+    "billingDetails": "청구 정보",
+    "paymentMethod": "결제 수단",
+    "orderSummary": "주문 요약",
+    "placeOrder": "주문하기"
+  },
+  "footer": {
+    "tagline": "한국 여행을 위한 신뢰할 수 있는 모바일 연결 파트너",
+    "quickLinks": "빠른 링크",
+    "contact": "연락처",
+    "stores": "매장 위치",
+    "myeongdong": "명동점: 서울특별시 중구 명동길 74",
+    "hongdae": "홍대점: 서울특별시 마포구 양화로 160",
+    "copyright": "© 2026 82모바일. All rights reserved.",
+    "poweredBy": "Powered by",
+    "whitehatMarketing": "Whitehat Marketing"
+  }
+}
