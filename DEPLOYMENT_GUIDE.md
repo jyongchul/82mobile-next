@@ -1,5 +1,7 @@
 # 82Mobile Next.js Deployment Guide
 
+**GitHub Repository**: https://github.com/jyongchul/82mobile-next
+
 ## 📋 프로젝트 상태
 
 ✅ **완료된 작업**:
@@ -86,13 +88,17 @@ vercel
 vercel --prod
 ```
 
-### Option 2: Vercel Dashboard
+### Option 2: Vercel Dashboard (권장)
+
+**GitHub 레포지토리**: https://github.com/jyongchul/82mobile-next
 
 1. https://vercel.com 로그인
 
 2. "Import Project" 클릭
 
-3. GitHub 레포지토리 연결 또는 파일 업로드
+3. GitHub 레포지토리 연결
+   - 레포지토리 선택: `jyongchul/82mobile-next`
+   - 또는 URL 직접 입력: https://github.com/jyongchul/82mobile-next
 
 4. **Build Settings**:
    - Framework Preset: `Next.js`
