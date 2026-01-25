@@ -13,6 +13,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 100;
+    const imageSize = searchParams.get('imageSize') || 'shop_catalog';
 
     // Fetch products from WooCommerce
     const products = await getProducts();
@@ -29,21 +30,37 @@ export async function GET(request: Request) {
     const limitedProducts = filteredProducts.slice(0, limit);
 
     // Transform WooCommerce data to our format
-    const transformedProducts = limitedProducts.map((product: any) => ({
-      id: product.id,
-      slug: product.slug,
-      name: product.name,
-      price: product.price,
-      regularPrice: product.regular_price,
-      image: product.images[0]?.src || '/images/products/placeholder.jpg',
-      category: product.categories[0]?.name || 'Uncategorized',
-      description: product.short_description || product.description,
-      // Extract custom attributes (duration, data amount)
-      duration: product.attributes.find((attr: any) => attr.name === 'Duration')?.options[0],
-      dataAmount: product.attributes.find((attr: any) => attr.name === 'Data')?.options[0],
-      // Variations for plan selector
-      variations: product.variations || []
-    }));
+    const transformedProducts = limitedProducts.map((product: any) => {
+      let imageUrl = product.images[0]?.src || '/images/products/placeholder.jpg';
+      const imageFull = product.images[0]?.src || '/images/products/placeholder.jpg';
+
+      // Apply image size transformation
+      if (imageUrl !== '/images/products/placeholder.jpg') {
+        if (imageSize === 'thumbnail') {
+          imageUrl = imageUrl.replace(/\.(jpg|jpeg|png|webp)$/i, '-150x150.$1');
+        } else if (imageSize === 'shop_catalog') {
+          imageUrl = imageUrl.replace(/\.(jpg|jpeg|png|webp)$/i, '-300x300.$1');
+        }
+        // 'full' size uses original URL (no transformation)
+      }
+
+      return {
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        regularPrice: product.regular_price,
+        image: imageUrl, // Optimized image
+        imageFull: imageFull, // Full resolution image
+        category: product.categories[0]?.name || 'Uncategorized',
+        description: product.short_description || product.description,
+        // Extract custom attributes (duration, data amount)
+        duration: product.attributes.find((attr: any) => attr.name === 'Duration')?.options[0],
+        dataAmount: product.attributes.find((attr: any) => attr.name === 'Data')?.options[0],
+        // Variations for plan selector
+        variations: product.variations || []
+      };
+    });
 
     return NextResponse.json({
       success: true,
