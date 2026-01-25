@@ -5,21 +5,26 @@ import { useState } from 'react';
 interface FilterOptions {
   duration: string[];
   dataAmount: string[];
+  type: string[];
   sortBy: 'price-asc' | 'price-desc' | 'newest';
 }
 
 interface ProductFilterProps {
   onFilterChange: (filters: FilterOptions) => void;
+  productsCount?: number;
+  totalCount?: number;
 }
 
-export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
+export default function ProductFilter({ onFilterChange, productsCount, totalCount }: ProductFilterProps) {
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const [selectedDataAmounts, setSelectedDataAmounts] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<FilterOptions['sortBy']>('newest');
   const [isOpen, setIsOpen] = useState(false);
 
   const durations = ['3 Days', '5 Days', '10 Days', '20 Days', '30 Days'];
   const dataAmounts = ['3GB', '5GB', '10GB', '20GB', 'Unlimited'];
+  const types = ['eSIM', 'Physical'];
 
   const handleDurationToggle = (duration: string) => {
     const newDurations = selectedDurations.includes(duration)
@@ -30,6 +35,7 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
     onFilterChange({
       duration: newDurations,
       dataAmount: selectedDataAmounts,
+      type: selectedTypes,
       sortBy
     });
   };
@@ -43,6 +49,21 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
     onFilterChange({
       duration: selectedDurations,
       dataAmount: newAmounts,
+      type: selectedTypes,
+      sortBy
+    });
+  };
+
+  const handleTypeToggle = (type: string) => {
+    const newTypes = selectedTypes.includes(type)
+      ? selectedTypes.filter((t) => t !== type)
+      : [...selectedTypes, type];
+
+    setSelectedTypes(newTypes);
+    onFilterChange({
+      duration: selectedDurations,
+      dataAmount: selectedDataAmounts,
+      type: newTypes,
       sortBy
     });
   };
@@ -52,6 +73,7 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
     onFilterChange({
       duration: selectedDurations,
       dataAmount: selectedDataAmounts,
+      type: selectedTypes,
       sortBy: newSort
     });
   };
@@ -59,15 +81,17 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
   const clearFilters = () => {
     setSelectedDurations([]);
     setSelectedDataAmounts([]);
+    setSelectedTypes([]);
     setSortBy('newest');
     onFilterChange({
       duration: [],
       dataAmount: [],
+      type: [],
       sortBy: 'newest'
     });
   };
 
-  const activeFiltersCount = selectedDurations.length + selectedDataAmounts.length;
+  const activeFiltersCount = selectedDurations.length + selectedDataAmounts.length + selectedTypes.length;
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-8">
@@ -102,6 +126,34 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
       {/* Filter Content */}
       <div className={`${isOpen ? 'block' : 'hidden md:block'}`}>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Type Filter */}
+          <div>
+            <h3 className="font-heading font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <svg className="w-5 h-5 text-jade-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              Type
+            </h3>
+            <div className="space-y-2">
+              {types.map((type) => (
+                <label
+                  key={type}
+                  className="flex items-center gap-2 cursor-pointer group"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedTypes.includes(type)}
+                    onChange={() => handleTypeToggle(type)}
+                    className="w-4 h-4 text-jade-green border-gray-300 rounded focus:ring-jade-green"
+                  />
+                  <span className="text-sm text-gray-700 group-hover:text-jade-green transition-colors">
+                    {type}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
           {/* Duration Filter */}
           <div>
             <h3 className="font-heading font-bold text-gray-900 mb-3 flex items-center gap-2">
@@ -197,6 +249,22 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
         {activeFiltersCount > 0 && (
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="flex flex-wrap gap-2">
+              {selectedTypes.map((type) => (
+                <span
+                  key={type}
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-jade-50 text-jade-green rounded-full text-sm font-medium"
+                >
+                  {type}
+                  <button
+                    onClick={() => handleTypeToggle(type)}
+                    className="hover:bg-jade-green hover:text-white rounded-full p-0.5 transition-colors"
+                  >
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </span>
+              ))}
               {selectedDurations.map((duration) => (
                 <span
                   key={duration}

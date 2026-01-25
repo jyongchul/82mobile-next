@@ -3,11 +3,32 @@
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import RotatingSIMCard from './RotatingSIMCard';
-import ProductPreview from './ProductPreview';
 import WhyChooseUs from './WhyChooseUs';
 import FaqPreview from './FaqPreview';
 import { useHashNavigation } from '@/hooks/useHashNavigation';
+
+const ProductsSection = dynamic(
+  () => import('@/components/home/ProductsSection'),
+  {
+    loading: () => (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="animate-pulse">
+            <div className="h-12 bg-gray-200 rounded w-1/2 mx-auto mb-8" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="h-96 bg-gray-200 rounded-lg" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    ),
+    ssr: false,
+  }
+);
 
 export default function SinglePageHome() {
   const t = useTranslations();
@@ -253,33 +274,7 @@ export default function SinglePageHome() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <span className="inline-block px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-bold mb-4">
-              OUR PRODUCTS
-            </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Choose Your Perfect Plan
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              From short trips to extended stays, we've got you covered with flexible data plans
-            </p>
-          </div>
-          <ProductPreview />
-          <div className="text-center mt-12">
-            <Link
-              href={`/${locale}/shop`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-hanbok-blue hover:bg-blue-700 text-white font-bold rounded-lg transition-all transform hover:scale-105"
-            >
-              View All Plans
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <ProductsSection />
 
       {/* Why Choose Us Section */}
       <section id="why-choose-us" className="py-20 bg-white">
