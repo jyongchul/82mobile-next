@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import LenisProvider from '@/components/providers/LenisProvider';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -26,13 +27,15 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">
-          {children}
-        </main>
-        <Footer />
-      </div>
+      <LenisProvider>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </LenisProvider>
     </NextIntlClientProvider>
   );
 }
