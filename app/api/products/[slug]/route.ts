@@ -80,7 +80,7 @@ export async function GET(
 function extractFeatures(description: string): string[] {
   // Basic HTML parsing to extract list items
   const listItemRegex = /<li[^>]*>(.*?)<\/li>/gi;
-  const matches = description.matchAll(listItemRegex);
+  const matches = Array.from(description.matchAll(listItemRegex));
   const features: string[] = [];
 
   for (const match of matches) {
