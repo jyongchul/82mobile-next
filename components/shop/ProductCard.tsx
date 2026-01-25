@@ -4,6 +4,7 @@ import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/stores/cart';
+import { useToast } from '@/hooks/useToast';
 import { useState } from 'react';
 
 interface ProductCardProps {
@@ -31,6 +32,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const locale = useLocale();
   const addItem = useCartStore((state) => state.addItem);
+  const toast = useToast();
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -48,10 +50,14 @@ export default function ProductCard({
       image
     }, 1);
 
-    // Show success animation
+    // Show success toast with cart icon
     setTimeout(() => {
       setIsAdding(false);
-    }, 1000);
+      toast.success(`${name} added to cart!`, {
+        icon: '🛒',
+        duration: 3000,
+      });
+    }, 500);
   };
 
   return (
