@@ -4,6 +4,8 @@ import { useState, useMemo } from 'react';
 import { useProducts } from '@/hooks/useProducts';
 import ProductCard from '@/components/shop/ProductCard';
 import ProductFilter from '@/components/shop/ProductFilter';
+import ProductExpanded from './ProductExpanded';
+import type { Product } from '@/hooks/useProducts';
 
 export default function ProductsSection() {
   const { data, isLoading, error } = useProducts();
@@ -13,6 +15,7 @@ export default function ProductsSection() {
     type: [] as string[],
     sortBy: 'newest' as 'price-asc' | 'price-desc' | 'newest'
   });
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const filteredProducts = useMemo(() => {
     if (!data?.products) return [];
@@ -101,11 +104,20 @@ export default function ProductsSection() {
         {!isLoading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
             {filteredProducts.map((product, index) => (
-              <ProductCard
+              <div
                 key={product.id}
-                {...product}
-                index={index}
-              />
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setSelectedProduct(product);
+                }}
+                className="cursor-pointer"
+              >
+                <ProductCard
+                  {...product}
+                  index={index}
+                />
+              </div>
             ))}
           </div>
         )}
@@ -117,6 +129,12 @@ export default function ProductsSection() {
           </div>
         )}
       </div>
+
+      {/* Product Expanded Modal */}
+      <ProductExpanded
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </section>
   );
 }
