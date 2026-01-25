@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import './RotatingSIMCard.css';
 
 export default function RotatingSIMCard() {
   const cardRef = useRef<HTMLDivElement>(null);
