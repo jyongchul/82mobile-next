@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,16 +13,89 @@ export default function OrderCompletePage() {
   const currentLocale = useLocale();
   const orderId = searchParams.get('orderId');
 
+  const [orderData, setOrderData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch order data from WooCommerce
   useEffect(() => {
     if (!orderId) {
       router.push(`/${currentLocale}`);
+      return;
     }
+
+    const fetchOrder = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/orders?id=${orderId}`);
+        const data = await response.json();
+
+        if (data.success && data.order) {
+          setOrderData(data.order);
+        } else {
+          setError(data.error || 'Order not found');
+        }
+      } catch (err) {
+        console.error('Error fetching order:', err);
+        setError('Failed to load order details');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOrder();
   }, [orderId, router, currentLocale]);
 
-  if (!orderId) return null;
+  // Generate eSIM QR code (use order metadata if available, otherwise generate mock)
+  const esimQrCode = orderData?.esimQrCode ||
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=LPA:1$sm-dp.example.com$${orderData?.esimActivationCode || `ACTIVATION-CODE-${orderId}`}`;
 
-  // Mock eSIM QR code - in production, this would come from WooCommerce order
-  const esimQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=LPA:1$sm-dp.example.com$ACTIVATION-CODE-${orderId}`;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <svg
+            className="animate-spin h-12 w-12 text-dancheong-red mx-auto mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          <p className="text-gray-600">Loading order details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !orderData) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4 text-gray-900">{error || 'Order not found'}</h1>
+          <Link
+            href={`/${currentLocale}`}
+            className="text-dancheong-red hover:underline"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -48,19 +121,47 @@ export default function OrderCompletePage() {
             <div>
               <p className="text-sm text-gray-600 mb-1">Order Number</p>
               <p className="font-heading text-2xl font-bold text-gray-900">
-                #{orderId}
+                #{orderData.number || orderId}
               </p>
             </div>
             <div className="text-right">
               <p className="text-sm text-gray-600 mb-1">Order Date</p>
               <p className="font-medium text-gray-900">
-                {new Date().toLocaleDateString('en-US', {
+                {new Date(orderData.createdAt || Date.now()).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
                 })}
               </p>
             </div>
+          </div>
+
+          {/* Order Items */}
+          <div className="mb-6 pb-6 border-b border-gray-200">
+            <h3 className="font-heading text-lg font-bold text-gray-900 mb-4">Order Items</h3>
+            <div className="space-y-3">
+              {orderData.lineItems?.map((item: any) => (
+                <div key={item.id} className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium text-gray-900">{item.name}</p>
+                    <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+                  </div>
+                  <p className="font-bold text-gray-900">
+                    {orderData.currency === 'KRW' ? '₩' : '$'}
+                    {parseFloat(item.total).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Order Total */}
+          <div className="flex justify-between items-center mb-6 pb-6 border-b border-gray-200">
+            <p className="font-heading text-xl font-bold text-gray-900">Total</p>
+            <p className="font-heading text-2xl font-bold text-dancheong-red">
+              {orderData.currency === 'KRW' ? '₩' : '$'}
+              {parseFloat(orderData.total).toLocaleString()}
+            </p>
           </div>
 
           {/* eSIM QR Code */}

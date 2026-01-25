@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createOrder } from '@/lib/woocommerce';
+import { createOrder, getOrder } from '@/lib/woocommerce';
 
 /**
  * POST /api/orders
@@ -91,8 +91,8 @@ export async function POST(request: Request) {
 }
 
 /**
- * GET /api/orders/:id
- * Fetch order details
+ * GET /api/orders?id={orderId}
+ * Fetch order details from WooCommerce
  */
 export async function GET(request: Request) {
   try {
@@ -106,17 +106,49 @@ export async function GET(request: Request) {
       );
     }
 
-    // TODO: Fetch order from WooCommerce
-    // const order = await getOrder(orderId);
+    // Fetch order from WooCommerce
+    const order = await getOrder(parseInt(orderId));
+
+    if (!order) {
+      return NextResponse.json(
+        { success: false, error: 'Order not found' },
+        { status: 404 }
+      );
+    }
+
+    // Transform order data for frontend
+    const transformedOrder = {
+      id: order.id,
+      number: order.number,
+      status: order.status,
+      total: order.total,
+      currency: order.currency,
+      createdAt: order.date_created || new Date().toISOString(),
+      billing: {
+        firstName: order.billing.first_name,
+        lastName: order.billing.last_name,
+        email: order.billing.email,
+        phone: order.billing.phone,
+        address: order.billing.address_1,
+        city: order.billing.city,
+        postcode: order.billing.postcode,
+        country: order.billing.country
+      },
+      lineItems: order.line_items.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        productId: item.product_id,
+        quantity: item.quantity,
+        total: item.total
+      })),
+      // Extract eSIM QR code from order metadata (if exists)
+      esimQrCode: order.meta_data?.find((meta: any) => meta.key === '_esim_qr_code')?.value,
+      esimActivationCode: order.meta_data?.find((meta: any) => meta.key === '_esim_activation_code')?.value
+    };
 
     return NextResponse.json({
       success: true,
-      order: {
-        id: orderId,
-        status: 'completed',
-        total: '45000',
-        currency: 'KRW'
-      }
+      order: transformedOrder
     });
   } catch (error: any) {
     console.error('Error fetching order:', error);

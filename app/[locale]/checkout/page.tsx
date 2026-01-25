@@ -40,23 +40,66 @@ export default function CheckoutPage() {
     setIsProcessing(true);
 
     try {
-      // TODO: Create order in WooCommerce
-      // TODO: Initiate payment with Eximbay
-      // For now, simulate order creation
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Step 1: Create order in WooCommerce
+      const orderResponse = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: items.map(item => ({
+            id: item.productId,
+            quantity: item.quantity
+          })),
+          billing: billingData,
+          paymentMethod: paymentMethod
+        }),
+      });
 
-      // Mock order ID
-      const orderId = Math.floor(Math.random() * 10000);
+      const orderData = await orderResponse.json();
 
-      // Clear cart
-      clearCart();
+      if (!orderData.success) {
+        throw new Error(orderData.error || 'Failed to create order');
+      }
 
-      // Redirect to order confirmation
-      router.push(`/${currentLocale}/order-complete?orderId=${orderId}`);
-    } catch (error) {
+      // Step 2: Initiate payment with Eximbay
+      const paymentResponse = await fetch('/api/payment/initiate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderId: orderData.orderId,
+          amount: orderData.total,
+          currency: orderData.currency || 'KRW',
+          customerEmail: billingData.email,
+          customerName: `${billingData.firstName} ${billingData.lastName}`,
+          returnUrl: `${window.location.origin}/${currentLocale}/order-complete?orderId=${orderData.orderId}`
+        }),
+      });
+
+      const paymentData = await paymentResponse.json();
+
+      if (!paymentData.success) {
+        throw new Error(paymentData.error || 'Failed to initiate payment');
+      }
+
+      // Step 3: Redirect to Eximbay payment page or open popup
+      if (paymentData.paymentUrl) {
+        // Clear cart before redirecting
+        clearCart();
+
+        // Redirect to payment gateway
+        window.location.href = paymentData.paymentUrl;
+      } else {
+        // If payment not required (free order or test mode), go directly to completion
+        clearCart();
+        router.push(`/${currentLocale}/order-complete?orderId=${orderData.orderId}`);
+      }
+    } catch (error: any) {
       console.error('Order failed:', error);
       setIsProcessing(false);
-      alert('Payment failed. Please try again.');
+      alert(error.message || 'Payment failed. Please try again.');
     }
   };
 

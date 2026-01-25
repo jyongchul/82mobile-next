@@ -1,8 +1,5 @@
 import { unstable_setRequestLocale } from 'next-intl/server';
-import Hero from '@/components/home/Hero';
-import ProductPreview from '@/components/home/ProductPreview';
-import WhyChooseUs from '@/components/home/WhyChooseUs';
-import FaqPreview from '@/components/home/FaqPreview';
+import SinglePageHome from '@/components/home/SinglePageHome';
 
 export default function HomePage({
   params: { locale }
@@ -12,12 +9,5 @@ export default function HomePage({
   // Enable static rendering
   unstable_setRequestLocale(locale);
 
-  return (
-    <>
-      <Hero />
-      <ProductPreview />
-      <WhyChooseUs />
-      <FaqPreview />
-    </>
-  );
+  return <SinglePageHome />;
 }

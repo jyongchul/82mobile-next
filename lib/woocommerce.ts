@@ -50,6 +50,7 @@ export interface WooOrder {
   status: string;
   currency: string;
   total: string;
+  date_created?: string;
   line_items: Array<{
     id: number;
     name: string;
@@ -67,6 +68,11 @@ export interface WooOrder {
     postcode: string;
     country: string;
   };
+  meta_data?: Array<{
+    id?: number;
+    key: string;
+    value: any;
+  }>;
 }
 
 /**
@@ -147,6 +153,21 @@ export async function createOrder(orderData: Partial<WooOrder>): Promise<WooOrde
     return data as WooOrder;
   } catch (error) {
     console.error('Error creating order:', error);
+    return null;
+  }
+}
+
+/**
+ * Get order by ID
+ * @param orderId - Order ID
+ * @returns Order details
+ */
+export async function getOrder(orderId: number): Promise<WooOrder | null> {
+  try {
+    const { data } = await woo.get(`orders/${orderId}`);
+    return data as WooOrder;
+  } catch (error) {
+    console.error(`Error fetching order ${orderId}:`, error);
     return null;
   }
 }

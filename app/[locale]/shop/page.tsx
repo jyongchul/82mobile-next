@@ -131,23 +131,45 @@ export default function ShopPage() {
     setFilteredProducts(filtered);
   };
 
-  // TODO: Fetch real products from WooCommerce
+  // Fetch real products from WooCommerce
   useEffect(() => {
-    // Example: Fetch from WooCommerce API
-    // const fetchProducts = async () => {
-    //   setIsLoading(true);
-    //   try {
-    //     const response = await fetch('/api/products');
-    //     const data = await response.json();
-    //     setProducts(data);
-    //     setFilteredProducts(data);
-    //   } catch (error) {
-    //     console.error('Failed to fetch products:', error);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
-    // fetchProducts();
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+
+        if (data.success && data.products) {
+          const transformedProducts = data.products.map((p: any) => ({
+            id: p.id,
+            slug: p.slug,
+            name: p.name,
+            price: p.price,
+            regularPrice: p.regularPrice,
+            image: p.image,
+            duration: p.duration,
+            dataAmount: p.dataAmount,
+            badge: p.badge
+          }));
+
+          setProducts(transformedProducts);
+          setFilteredProducts(transformedProducts);
+        } else {
+          console.error('Failed to fetch products:', data.error);
+          // Fall back to mock data on error
+          setProducts(mockProducts);
+          setFilteredProducts(mockProducts);
+        }
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        // Fall back to mock data on error
+        setProducts(mockProducts);
+        setFilteredProducts(mockProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
 
   return (

@@ -3,19 +3,53 @@
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/stores/cart';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 
 export default function Header() {
   const t = useTranslations();
   const locale = useLocale();
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const cartItemCount = useCartStore((state) =>
     state.items.reduce((sum, item) => sum + item.quantity, 0)
   );
 
-  const navigation = [
+  // Check if we're on the home page (single-page design)
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Navigation items - different for single-page vs multi-page
+  const singlePageNavigation = [
+    { name: t('nav.home'), id: 'hero', icon: '🏠' },
+    { name: t('nav.shop'), id: 'products', icon: '📱' },
+    { name: 'Why Us', id: 'why-choose-us', icon: '⭐' },
+    { name: t('nav.faq'), id: 'faq', icon: '❓' },
+    { name: t('nav.contact'), id: 'contact', icon: '📧' },
+  ];
+
+  const multiPageNavigation = [
     { name: t('nav.home'), href: `/${locale}` },
     { name: t('nav.shop'), href: `/${locale}/shop` },
     { name: t('nav.about'), href: `/${locale}/about` },
@@ -24,32 +58,59 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-lg'
+          : 'bg-white/80 backdrop-blur-sm border-b border-gray-100'
+      }`}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center space-x-2">
-            <Image
-              src="/images/logo/logo.png"
-              alt="82Mobile"
-              width={120}
-              height={40}
-              className="h-10 w-auto"
-              priority
-            />
+          <Link href={`/${locale}`} className="flex items-center space-x-2 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-dancheong-red to-hanbok-blue rounded-lg blur-sm opacity-0 group-hover:opacity-50 transition-opacity" />
+              <div className="relative font-display text-2xl font-black bg-gradient-to-r from-dancheong-red to-hanbok-blue bg-clip-text text-transparent">
+                82Mobile
+              </div>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-700 hover:text-dancheong-red transition-colors font-medium"
-              >
-                {item.name}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center space-x-1">
+            {isHomePage ? (
+              // Single-page navigation (smooth scroll)
+              <>
+                {singlePageNavigation.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="px-4 py-2 text-gray-700 hover:text-dancheong-red hover:bg-red-50 rounded-lg transition-all font-medium group"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        {item.icon}
+                      </span>
+                      {item.name}
+                    </span>
+                  </button>
+                ))}
+              </>
+            ) : (
+              // Multi-page navigation (page links)
+              <>
+                {multiPageNavigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="px-4 py-2 text-gray-700 hover:text-dancheong-red hover:bg-red-50 rounded-lg transition-all font-medium"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </>
+            )}
           </div>
 
           {/* Right Side: Language + Cart */}
@@ -59,10 +120,10 @@ export default function Header() {
             {/* Cart Icon */}
             <Link
               href={`/${locale}/cart`}
-              className="relative p-2 text-gray-700 hover:text-dancheong-red transition-colors"
+              className="relative p-2 text-gray-700 hover:text-dancheong-red transition-colors group"
             >
               <svg
-                className="w-6 h-6"
+                className="w-6 h-6 group-hover:scale-110 transition-transform"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -75,7 +136,7 @@ export default function Header() {
                 />
               </svg>
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-dancheong-red text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-dancheong-red text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-scale-in">
                   {cartItemCount}
                 </span>
               )}
@@ -84,7 +145,7 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-700"
+              className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <svg
                 className="w-6 h-6"
@@ -115,17 +176,36 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200 animate-slide-down">
-            <div className="flex flex-col space-y-3">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-700 hover:text-dancheong-red transition-colors font-medium px-2 py-2"
-                >
-                  {item.name}
-                </Link>
-              ))}
+            <div className="flex flex-col space-y-2">
+              {isHomePage ? (
+                // Single-page mobile navigation
+                <>
+                  {singlePageNavigation.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className="text-left text-gray-700 hover:text-dancheong-red hover:bg-red-50 transition-all font-medium px-4 py-3 rounded-lg flex items-center gap-3"
+                    >
+                      <span className="text-xl">{item.icon}</span>
+                      {item.name}
+                    </button>
+                  ))}
+                </>
+              ) : (
+                // Multi-page mobile navigation
+                <>
+                  {multiPageNavigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="text-gray-700 hover:text-dancheong-red hover:bg-red-50 transition-all font-medium px-4 py-3 rounded-lg"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </>
+              )}
             </div>
           </div>
         )}

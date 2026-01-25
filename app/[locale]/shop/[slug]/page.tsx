@@ -1,70 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
 import PlanSelector from '@/components/shop/PlanSelector';
-
-// Mock product data - will be replaced with WooCommerce API
-const mockProductData: any = {
-  'korea-esim-unlimited-30days': {
-    id: 1,
-    name: 'Korea eSIM Unlimited',
-    description: 'Stay connected throughout your entire Korean journey with unlimited high-speed data. No throttling, no limits - just pure connectivity wherever you go.',
-    image: '/images/products/esim-unlimited.jpg',
-    category: 'eSIM',
-    features: [
-      'Unlimited 4G LTE/5G data',
-      'Instant QR code delivery',
-      'Works on all eSIM-compatible devices',
-      'Activate before you land',
-      'No physical SIM card needed',
-      '24/7 customer support'
-    ],
-    plans: [
-      {
-        id: 'esim-unlimited-3',
-        duration: '3 Days',
-        dataAmount: 'Unlimited',
-        price: 18000,
-        regularPrice: 22000
-      },
-      {
-        id: 'esim-unlimited-5',
-        duration: '5 Days',
-        dataAmount: 'Unlimited',
-        price: 28000,
-        regularPrice: 35000
-      },
-      {
-        id: 'esim-unlimited-10',
-        duration: '10 Days',
-        dataAmount: 'Unlimited',
-        price: 38000,
-        regularPrice: 48000,
-        recommended: true
-      },
-      {
-        id: 'esim-unlimited-20',
-        duration: '20 Days',
-        dataAmount: 'Unlimited',
-        price: 52000,
-        regularPrice: 68000
-      },
-      {
-        id: 'esim-unlimited-30',
-        duration: '30 Days',
-        dataAmount: 'Unlimited',
-        price: 65000,
-        regularPrice: 85000
-      }
-    ]
-  }
-  // Add more mock products as needed
-};
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -74,20 +16,87 @@ export default function ProductDetailPage() {
 
   const addItem = useCartStore((state) => state.addItem);
 
-  // Get product data (mock - will be from WooCommerce)
-  const product = mockProductData[slug] || null;
+  // State for product data
+  const [product, setProduct] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [selectedPlan, setSelectedPlan] = useState(
-    product?.plans?.find((p: any) => p.recommended) || product?.plans?.[0]
-  );
+  // Fetch product data from WooCommerce
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/products/${slug}`);
+        const data = await response.json();
+
+        if (data.success && data.product) {
+          setProduct(data.product);
+        } else {
+          setError(data.error || 'Product not found');
+        }
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        setError('Failed to load product');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (slug) {
+      fetchProduct();
+    }
+  }, [slug]);
+
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
 
-  if (!product) {
+  // Update selected plan when product loads
+  useEffect(() => {
+    if (product?.plans) {
+      const defaultPlan = product.plans.find((p: any) => p.recommended) || product.plans[0];
+      setSelectedPlan(defaultPlan);
+    }
+  }, [product]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <svg
+            className="animate-spin h-12 w-12 text-dancheong-red mx-auto mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          <p className="text-gray-600">Loading product...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error or not found state
+  if (error || !product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Product not found</h1>
+          <h1 className="text-4xl font-bold mb-4">{error || 'Product not found'}</h1>
           <Link
             href={`/${locale}/shop`}
             className="text-dancheong-red hover:underline"
@@ -100,7 +109,7 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    if (!selectedPlan) return;
+    if (!selectedPlan || !product) return;
 
     setIsAdding(true);
 
@@ -108,7 +117,7 @@ export default function ProductDetailPage() {
       productId: product.id,
       name: `${product.name} - ${selectedPlan.duration}`,
       slug: product.slug,
-      price: selectedPlan.price,
+      price: typeof selectedPlan.price === 'string' ? parseFloat(selectedPlan.price) : selectedPlan.price,
       image: product.image
     }, quantity);
 
