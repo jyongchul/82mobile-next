@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useCartStore } from '@/stores/cart';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 
@@ -188,42 +189,50 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200 animate-slide-down">
-            <div className="flex flex-col space-y-2">
-              {isHomePage ? (
-                // Single-page mobile navigation
-                <>
-                  {singlePageNavigation.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      className="text-left text-gray-700 hover:text-dancheong-red hover:bg-red-50 transition-all font-medium px-4 py-3 rounded-lg flex items-center gap-3"
-                    >
-                      <span className="text-xl">{item.icon}</span>
-                      {item.name}
-                    </button>
-                  ))}
-                </>
-              ) : (
-                // Multi-page mobile navigation
-                <>
-                  {multiPageNavigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-gray-700 hover:text-dancheong-red hover:bg-red-50 transition-all font-medium px-4 py-3 rounded-lg"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </>
-              )}
-            </div>
-          </div>
-        )}
+        {/* Mobile Menu - with Framer Motion AnimatePresence */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="md:hidden overflow-hidden border-t border-gray-200"
+            >
+              <nav className="py-4 space-y-2">
+                {isHomePage ? (
+                  // Single-page mobile navigation
+                  <>
+                    {singlePageNavigation.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => scrollToSection(item.id)}
+                        className="text-left text-gray-700 hover:text-dancheong-red hover:bg-red-50 transition-all font-medium px-4 py-3 rounded-lg flex items-center gap-3 w-full"
+                      >
+                        <span className="text-xl">{item.icon}</span>
+                        {item.name}
+                      </button>
+                    ))}
+                  </>
+                ) : (
+                  // Multi-page mobile navigation
+                  <>
+                    {multiPageNavigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block text-gray-700 hover:text-dancheong-red hover:bg-red-50 transition-all font-medium px-4 py-3 rounded-lg"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </>
+                )}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

@@ -97,6 +97,22 @@
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* GPU acceleration for animated header (Plan 01-04) */
+  header,
+  .sticky-header,
+  [data-header] {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Ensure scroll progress bar is GPU-accelerated */
+  .scroll-progress-bar,
+  [data-scroll-progress] {
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
   .card-3d:hover {
     transform: rotateY(180deg);
   }
