@@ -1,0 +1,186 @@
+# Roadmap: 82Mobile Single-Page E-Commerce
+
+**Milestone:** v1.0.0 - Single-Page E-Commerce Launch
+**Created:** 2026-01-25
+**Status:** In Progress (Phase 1 complete, Phase 2 planned)
+
+---
+
+## Overview
+
+Transform the existing multi-page WordPress site into a pure single-page Next.js experience where users complete the entire journey (Hook → Browse → Select → Pay) without page transitions.
+
+**Core Value:** "Hook → Browse → Select → Pay를 단일 페이지에서 완료" - Maintain customer attention from landing to purchase completion on a single page.
+
+---
+
+## Milestone Goal
+
+Enable tourists to discover, select, and purchase Korean SIM/eSIM products through an uninterrupted single-page experience that prioritizes conversion over traditional navigation patterns.
+
+**Success Metrics:**
+- Mobile conversion rate >2.5%
+- Cart abandonment <70%
+- Time to checkout <60 seconds
+- Lighthouse Performance >85
+- Back button works correctly (no site exit)
+
+---
+
+## Phase 1: Foundation & Navigation ✅ COMPLETE
+
+**Goal:** Implement smooth scroll navigation with browser history support and active section tracking.
+
+**Plans:** 4 plans
+- [x] 01-01-PLAN.md — Lenis smooth scroll with RAF loop
+- [x] 01-02-PLAN.md — History API hash navigation (pushState/replaceState)
+- [x] 01-03-PLAN.md — Intersection Observer optimization (max ratio algorithm)
+- [x] 01-04-PLAN.md — Mobile header enhancements (GPU acceleration + Framer Motion)
+
+**Success Criteria:** All met
+1. ✓ Smooth Scroll Works
+2. ✓ Back Button Navigates
+3. ✓ Sections Bookmarkable
+4. ✓ Active Section Highlighted
+5. ✓ Cart Icon Visible
+
+---
+
+## Phase 2: Product Discovery
+
+**Goal:** Display WooCommerce products in grid format with shopping functionality on single page.
+
+**Plans:** 6 plans in 3 waves
+- [ ] 02-01-PLAN.md — Migrate ProductPreview to use WooCommerce API + React Query (Wave 1)
+- [ ] 02-02-PLAN.md — Add toast notifications for add-to-cart feedback (Wave 1)
+- [ ] 02-03-PLAN.md — Implement product filtering (eSIM/Physical/duration) (Wave 2)
+- [ ] 02-04-PLAN.md — Inline product expansion with AnimatePresence + DOMPurify (Wave 2)
+- [ ] 02-05-PLAN.md — Image lazy loading optimization (Wave 1)
+- [ ] 02-06-PLAN.md — Integration verification checkpoint (Wave 3)
+
+**Success Criteria:**
+1. Products Display: WooCommerce products appear in grid below hero section
+2. Add to Cart Feedback: Clicking "Add to Cart" shows toast in <500ms
+3. Inline Details Work: Clicking product card shows full details without page navigation
+4. Filters Functional: Type (eSIM/Physical) and duration filters update grid in real-time
+5. Images Lazy Load: Product images below fold load on scroll, not immediately
+
+**Estimated Effort:** ~8 hours
+
+**Dependencies:**
+- Phase 1 complete (scroll navigation working)
+- Existing WooCommerce API integration (`/api/products`)
+- Existing cart store (`stores/cart.ts`)
+
+---
+
+## Phase 3: Cart & Side Drawer
+
+**Goal:** Replace cart page with side drawer overlay that maintains single-page flow.
+
+**Plans:** (created by /gsd:plan-phase)
+
+**Success Criteria:**
+1. Drawer Opens: Cart icon click opens drawer from right (desktop) or bottom (mobile)
+2. Cart Persists: Add item → refresh page → item still in cart
+3. Management Works: +/- quantity and remove item buttons update cart immediately
+4. Checkout Transition: "Proceed to Checkout" button transitions drawer to checkout view
+
+**Dependencies:**
+- Phase 2 complete (add-to-cart working)
+- Zustand cart store verified (ALREADY VERIFIED - has persist middleware)
+
+---
+
+## Phase 4: Checkout Flow
+
+**Goal:** Enable guest checkout in drawer with single-form payment submission.
+
+**Plans:** (created by /gsd:plan-phase)
+
+**Success Criteria:**
+1. Guest Checkout Works: User can complete purchase without account creation
+2. Single Form: All billing fields visible in one view, no "Next Step" buttons
+3. Payment Submits: Clicking "Pay Now" creates WooCommerce order and processes payment
+4. Confirmation Shows: Successful payment displays order details in drawer or new section
+
+**Dependencies:**
+- Phase 3 complete (drawer checkout view)
+- WooCommerce API configured
+- Eximbay credentials (customer provides)
+
+---
+
+## Phase 5: Mobile Optimization
+
+**Goal:** Optimize mobile experience with sticky CTA, performance tuning, and animation fallbacks.
+
+**Plans:** (created by /gsd:plan-phase)
+
+**Success Criteria:**
+1. Sticky CTA Visible: Bottom bar or floating button shows cart count and "Checkout" on mobile
+2. Load Time Met: Lighthouse mobile score shows LCP <3s with 3G throttling
+3. Animations Optimized: 3D SIM card animation replaced with static image on mobile devices
+4. Touch Targets Met: All buttons meet 44x44px minimum tap size
+
+**Dependencies:**
+- Phases 1-4 complete (full flow working)
+- Mobile testing environment
+
+---
+
+## Phase 6: Performance & Analytics
+
+**Goal:** Achieve Lighthouse >85 and implement conversion funnel tracking.
+
+**Plans:** (created by /gsd:plan-phase)
+
+**Success Criteria:**
+1. Bundle Met: Lighthouse shows Total Blocking Time <300ms, bundle <220KB
+2. Scroll Smooth: Chrome DevTools Performance shows consistent 60fps during scroll
+3. Score Met: Lighthouse Performance >85, Accessibility >90
+4. Tracking Works: GA4 shows page views for each section
+5. Funnel Tracked: GA4 tracks product_view → add_to_cart → begin_checkout → purchase
+
+**Dependencies:**
+- Phases 1-5 complete (full site built)
+- GA4 account configured
+
+---
+
+## Phase 7: Language Cleanup
+
+**Goal:** Remove zh/ja languages and optimize for ko/en only.
+
+**Plans:** (created by /gsd:plan-phase)
+
+**Success Criteria:**
+1. Files Removed: messages/zh.json and messages/ja.json deleted from codebase
+2. Switcher Updated: Language switcher shows only ko/en options
+3. Config Updated: next-intl configured with locales: ['ko', 'en']
+4. Bundle Reduced: Initial JavaScript bundle reduced by 30-40KB
+
+**Dependencies:**
+- None (can run anytime, best after Phase 6 for bundle verification)
+
+---
+
+## Progress Tracking
+
+**Completed Phases:** 1/7 (14%)
+**Completed Plans:** 4/~30 (13%)
+**Phase 2 Plans:** 0/6 (ready for execution)
+
+---
+
+## Notes
+
+- All requirements mapped to phases (100% coverage)
+- Performance budget tracked throughout
+- Mobile-first approach (63% of traffic)
+- Research-backed decisions documented
+- Risk mitigation strategies defined
+
+---
+
+*Last updated: 2026-01-26 after Phase 2 planning*
