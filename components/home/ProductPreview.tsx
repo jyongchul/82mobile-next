@@ -2,7 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import Image from 'next/image';
+import SimCardFlip from '@/components/ui/SimCardFlip';
 
 /**
  * Product Preview Section - Shows featured products on homepage
@@ -14,29 +14,41 @@ const featuredProducts = [
   {
     id: 1,
     slug: 'korea-esim-unlimited-30days',
-    name: 'Korea eSIM Unlimited 30 Days',
-    price: '45,000',
-    currency: '₩',
-    image: '/images/products/esim-unlimited.jpg',
-    badge: 'Most Popular'
+    name: 'Korea eSIM',
+    subtitle: 'Unlimited 30 Days',
+    price: '₩45,000',
+    features: [
+      'Unlimited 5G Data',
+      'Instant Activation',
+      'Keep Your Phone Number',
+      'No Physical Card Needed'
+    ]
   },
   {
     id: 2,
     slug: 'korea-esim-standard-10days',
-    name: 'Korea eSIM Standard 10 Days',
-    price: '25,000',
-    currency: '₩',
-    image: '/images/products/esim-standard.jpg',
-    badge: 'Best Value'
+    name: 'Korea eSIM',
+    subtitle: 'Standard 10 Days',
+    price: '₩25,000',
+    features: [
+      '10GB High-Speed Data',
+      'Instant QR Code',
+      'Compatible with All Carriers',
+      'Perfect for Short Trips'
+    ]
   },
   {
     id: 3,
     slug: 'korea-physical-sim-unlimited',
-    name: 'Physical SIM Unlimited',
-    price: '35,000',
-    currency: '₩',
-    image: '/images/products/sim-korea-unlimited.jpg',
-    badge: null
+    name: 'Physical SIM',
+    subtitle: 'Unlimited Data',
+    price: '₩35,000',
+    features: [
+      'Unlimited 4G/5G Data',
+      'Works in Any Phone',
+      'Pick up at Airport',
+      '24/7 Customer Support'
+    ]
   }
 ];
 
@@ -57,41 +69,20 @@ export default function ProductPreview() {
           </p>
         </div>
 
-        {/* Product Grid */}
+        {/* Product Grid with 3D Flip SIM Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {featuredProducts.map((product, index) => (
+          {featuredProducts.map((product) => (
             <Link
               key={product.id}
               href={`/${locale}/shop/${product.slug}`}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="block"
             >
-              {/* Product Image */}
-              <div className="relative h-64 overflow-hidden bg-gray-100">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-
-                {/* Badge */}
-                {product.badge && (
-                  <div className="absolute top-4 right-4 bg-dancheong-red text-white px-3 py-1 rounded-full text-sm font-bold">
-                    {product.badge}
-                  </div>
-                )}
-              </div>
-
-              {/* Product Info */}
-              <div className="p-6">
-                <h3 className="font-heading text-xl font-bold text-gray-900 mb-2 group-hover:text-dancheong-red transition-colors">
-                  {product.name}
-                </h3>
-                <p className="text-3xl font-bold text-dancheong-red">
-                  {product.currency}{product.price}
-                </p>
-              </div>
+              <SimCardFlip
+                title={product.name}
+                subtitle={product.subtitle}
+                features={product.features}
+                price={product.price}
+              />
             </Link>
           ))}
         </div>
