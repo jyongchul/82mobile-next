@@ -7,6 +7,7 @@ import RotatingSIMCard from './RotatingSIMCard';
 import ProductPreview from './ProductPreview';
 import WhyChooseUs from './WhyChooseUs';
 import FaqPreview from './FaqPreview';
+import { useHashNavigation } from '@/hooks/useHashNavigation';
 
 export default function SinglePageHome() {
   const t = useTranslations();
@@ -14,15 +15,14 @@ export default function SinglePageHome() {
   const [activeSection, setActiveSection] = useState('hero');
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Smooth scroll to section
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  // Initialize hash navigation hook
+  const { scrollToSection, updateHashOnScroll } = useHashNavigation({
+    onSectionChange: setActiveSection,
+    headerOffset: 80,
+    scrollDuration: 1.2,
+  });
 
-  // Scroll progress tracking
+  // Scroll progress tracking (with passive listener for 60fps)
   useEffect(() => {
     const updateScrollProgress = () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -32,25 +32,36 @@ export default function SinglePageHome() {
       setScrollProgress(progress);
     };
 
-    window.addEventListener('scroll', updateScrollProgress);
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
     updateScrollProgress(); // Initial calculation
 
     return () => window.removeEventListener('scroll', updateScrollProgress);
   }, []);
 
-  // Intersection Observer for active section detection
+  // Optimized Intersection Observer for accurate section tracking
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        // Find the entry with the largest intersection ratio
+        let maxEntry: IntersectionObserverEntry | null = null;
+        let maxRatio = 0;
+
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            maxEntry = entry;
           }
         });
+
+        // Only update if we found an intersecting entry with at least 30% visibility
+        if (maxEntry && maxRatio >= 0.3) {
+          const sectionId = maxEntry.target.id;
+          updateHashOnScroll(sectionId); // Updates both activeSection and URL hash
+        }
       },
       {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -50% 0px'
+        threshold: [0.1, 0.3, 0.5, 0.7, 0.9], // Multiple thresholds for accuracy
+        rootMargin: '0px 0px -20% 0px',       // Bottom 20% is "dead zone"
       }
     );
 
@@ -61,7 +72,7 @@ export default function SinglePageHome() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [updateHashOnScroll]);
 
   return (
     <div className="single-page-container">

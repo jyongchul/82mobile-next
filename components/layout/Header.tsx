@@ -21,22 +21,37 @@ export default function Header() {
   // Check if we're on the home page (single-page design)
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
-  // Smooth scroll to section
+  // Smooth scroll to section with hash navigation
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setIsMenuOpen(false);
+    if (!element) return;
+
+    // Update hash with pushState (enables Back button)
+    const newHash = `#${sectionId}`;
+    if (window.location.hash !== newHash) {
+      window.history.pushState({ section: sectionId }, '', newHash);
     }
+
+    // Scroll with Lenis if available
+    if (window.lenis) {
+      window.lenis.scrollTo(element, {
+        offset: -80,
+        duration: 1.2,
+      });
+    } else {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    setIsMenuOpen(false);
   };
 
-  // Handle scroll effect
+  // Handle scroll effect (with passive listener for 60fps)
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
