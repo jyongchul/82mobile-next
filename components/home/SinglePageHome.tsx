@@ -12,6 +12,7 @@ export default function SinglePageHome() {
   const t = useTranslations();
   const locale = useLocale();
   const [activeSection, setActiveSection] = useState('hero');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Smooth scroll to section
   const scrollToSection = (sectionId: string) => {
@@ -20,6 +21,22 @@ export default function SinglePageHome() {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  // Scroll progress tracking
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      const progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', updateScrollProgress);
+    updateScrollProgress(); // Initial calculation
+
+    return () => window.removeEventListener('scroll', updateScrollProgress);
+  }, []);
 
   // Intersection Observer for active section detection
   useEffect(() => {
@@ -89,9 +106,7 @@ export default function SinglePageHome() {
         <div
           className="h-full bg-gradient-to-r from-dancheong-red via-hanbok-blue to-jade-green transition-all duration-300"
           style={{
-            width: `${((document.documentElement.scrollTop || document.body.scrollTop) /
-              ((document.documentElement.scrollHeight || document.body.scrollHeight) -
-                document.documentElement.clientHeight)) * 100}%`
+            width: `${scrollProgress}%`
           }}
         />
       </div>
