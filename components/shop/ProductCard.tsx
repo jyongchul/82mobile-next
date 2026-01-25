@@ -14,9 +14,11 @@ interface ProductCardProps {
   price: string;
   regularPrice?: string;
   image: string;
+  imageFull?: string;
   duration?: string;
   dataAmount?: string;
   badge?: string;
+  index: number; // For lazy loading strategy
 }
 
 export default function ProductCard({
@@ -26,15 +28,23 @@ export default function ProductCard({
   price,
   regularPrice,
   image,
+  imageFull,
   duration,
   dataAmount,
-  badge
+  badge,
+  index
 }: ProductCardProps) {
   const locale = useLocale();
   const addItem = useCartStore((state) => state.addItem);
   const toast = useToast();
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+
+  // Determine loading strategy based on position
+  // First 6 products (index 0-5) are above fold → eager load
+  // Products 7+ (index 6+) are below fold → lazy load
+  const loadingStrategy = index < 6 ? 'eager' : 'lazy';
+  const priority = index < 6; // LCP optimization for above-fold images
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -84,6 +94,9 @@ export default function ProductCard({
                 alt={name}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading={loadingStrategy}
+                priority={priority}
               />
 
               {/* Badge */}
