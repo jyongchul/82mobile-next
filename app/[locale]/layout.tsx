@@ -8,6 +8,7 @@ import LenisProvider from '@/components/providers/LenisProvider';
 import ToastProvider from '@/components/providers/ToastProvider';
 import CartDrawerWrapper from '@/components/cart/CartDrawerWrapper';
 import { StickyMobileCTA } from '@/components/mobile/StickyMobileCTA';
+import ScrollProgress from '@/components/ui/ScrollProgress';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -31,6 +32,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <LenisProvider>
+        <ScrollProgress />
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">
