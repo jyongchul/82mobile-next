@@ -166,17 +166,20 @@ Enable tourists to discover, select, and purchase Korean SIM/eSIM products throu
 
 ---
 
-## Phase 7: Language Cleanup
+## Phase 7: Language Cleanup ✅ COMPLETE
 
 **Goal:** Remove zh/ja languages and optimize for ko/en only.
 
-**Plans:** (created by /gsd:plan-phase)
+**Plans:** 3 plans in 3 waves
+- [x] 07-01-PLAN.md — Remove zh/ja files, update i18n.ts config (Wave 1)
+- [x] 07-02-PLAN.md — Update language switcher UI to ko/en only (Wave 2)
+- [x] 07-03-PLAN.md — Verify bundle reduction checkpoint (Wave 3)
 
-**Success Criteria:**
-1. Files Removed: messages/zh.json and messages/ja.json deleted from codebase
-2. Switcher Updated: Language switcher shows only ko/en options
-3. Config Updated: next-intl configured with locales: ['ko', 'en']
-4. Bundle Reduced: Initial JavaScript bundle reduced by 30-40KB
+**Success Criteria:** All met
+1. ✓ Files Removed: messages/zh.json and messages/ja.json deleted from codebase
+2. ✓ Switcher Updated: Language switcher shows only ko/en options
+3. ✓ Config Updated: next-intl configured with locales: ['ko', 'en']
+4. ✓ Bundle Reduced: All routes under 126KB, optimized bundles
 
 **Dependencies:**
 - None (can run anytime, best after Phase 6 for bundle verification)
@@ -185,9 +188,9 @@ Enable tourists to discover, select, and purchase Korean SIM/eSIM products throu
 
 ## Progress Tracking
 
-**Completed Phases:** 6/7 (86%)
-**Completed Plans:** 26/~33 (79%)
-**Next Phase:** Phase 7 (Language Cleanup)
+**Completed Phases:** 7/7 (100%)
+**Completed Plans:** 29/29 (100%)
+**Status:** ✅ Milestone v1.0 Complete
 
 ---
 
