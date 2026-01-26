@@ -708,3 +708,35 @@ section {
     }
   }
 }
+
+
+/* =================================================================
+   LENIS SMOOTH SCROLL - GPU ACCELERATION
+   ================================================================= */
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* GPU acceleration for smooth 60fps scrolling */
+[data-lenis-scroll] {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
