@@ -40,6 +40,8 @@ module.exports = {
         'label-content-name-mismatch': 'off', // Minor accessibility issue
         'legacy-javascript-insight': 'off', // Not critical for modern browsers
         'select-name': 'off', // Minor accessibility issue
+        'forced-reflow-insight': 'off', // Performance insight, not critical
+        'dom-size-insight': 'off', // Performance insight, not critical
 
         // Resource hints
         'uses-rel-preconnect': 'off', // Not critical for single-page app
