@@ -1,22 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { checkoutSchema, CheckoutFormData, defaultCheckoutValues } from '@/lib/validation/checkout-schema';
 import { useCartStore } from '@/stores/cart';
 import { useUIStore } from '@/stores/ui';
 import { initiatePortOnePayment } from '@/lib/payment/portone';
+import { trackBeginCheckout } from '@/lib/analytics';
 
 export default function CartDrawerCheckout() {
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
   const closeCart = useUIStore((state) => state.closeCart);
   const [orderError, setOrderError] = useState<string | null>(null);
+  const hasTrackedCheckout = useRef(false);
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = Math.round(total * 0.1); // 10% VAT
   const grandTotal = total + tax;
+
+  // Track begin_checkout event when component mounts
+  useEffect(() => {
+    if (!hasTrackedCheckout.current && items.length > 0) {
+      hasTrackedCheckout.current = true;
+
+      const cartItems = items.map(item => ({
+        item_id: item.productId.toString(),
+        item_name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }));
+
+      trackBeginCheckout(grandTotal, cartItems);
+    }
+  }, [items, grandTotal]);
 
   const {
     register,

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { trackAddToCart } from '@/lib/analytics';
 
 export interface CartItem {
   productId: number;
@@ -47,6 +48,14 @@ const useCartStore = create<CartStore>()(
               items: [...state.items, { ...item, quantity }],
             };
           }
+        });
+
+        // Track add to cart event in GA4
+        trackAddToCart({
+          id: item.productId.toString(),
+          name: item.name,
+          price: item.price,
+          quantity: quantity,
         });
       },
 

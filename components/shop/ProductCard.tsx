@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { useCartStore } from '@/stores/cart';
 import { useUIStore } from '@/stores/ui';
 import { useToast } from '@/hooks/useToast';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { trackProductView } from '@/lib/analytics';
 
 interface ProductCardProps {
   id: number;
@@ -41,6 +42,7 @@ export default function ProductCard({
   const toast = useToast();
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const hasTrackedView = useRef(false);
 
   // Determine loading strategy based on position
   // First 6 products (index 0-5) are above fold → eager load
@@ -74,10 +76,24 @@ export default function ProductCard({
     }, 500);
   };
 
+  const handleMouseEnter = () => {
+    setIsFlipped(true);
+
+    // Track product view only once per session
+    if (!hasTrackedView.current) {
+      hasTrackedView.current = true;
+      trackProductView({
+        id: id.toString(),
+        name,
+        price: parseFloat(price.replace(/,/g, '')),
+      });
+    }
+  };
+
   return (
     <div
       className="group perspective-1000"
-      onMouseEnter={() => setIsFlipped(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsFlipped(false)}
     >
       <div

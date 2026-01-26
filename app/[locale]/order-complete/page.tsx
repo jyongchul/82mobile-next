@@ -3,7 +3,8 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { trackPurchase } from '@/lib/analytics';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +17,7 @@ export default function OrderCompletePage() {
   const [orderData, setOrderData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasTrackedPurchase = useRef(false);
 
   // Fetch order data from WooCommerce
   useEffect(() => {
@@ -47,6 +49,26 @@ export default function OrderCompletePage() {
 
     fetchOrder();
   }, [orderId, router, currentLocale]);
+
+  // Track purchase event in GA4 when order data is loaded
+  useEffect(() => {
+    if (orderData && !hasTrackedPurchase.current) {
+      hasTrackedPurchase.current = true;
+
+      const items = orderData.lineItems?.map((item: any) => ({
+        item_id: item.productId?.toString() || item.id.toString(),
+        item_name: item.name,
+        price: parseFloat(item.total) / item.quantity, // Unit price
+        quantity: item.quantity,
+      })) || [];
+
+      trackPurchase(
+        orderId || orderData.id.toString(),
+        parseFloat(orderData.total),
+        items
+      );
+    }
+  }, [orderData, orderId]);
 
   // Generate eSIM QR code (use order metadata if available, otherwise generate mock)
   const esimQrCode = orderData?.esimQrCode ||
