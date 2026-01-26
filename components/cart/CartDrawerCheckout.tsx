@@ -5,11 +5,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { checkoutSchema, CheckoutFormData, defaultCheckoutValues } from '@/lib/validation/checkout-schema';
 import { useCartStore } from '@/stores/cart';
+import { useUIStore } from '@/stores/ui';
+import { initiatePortOnePayment } from '@/lib/payment/portone';
 
 export default function CartDrawerCheckout() {
   const items = useCartStore((state) => state.items);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const closeCart = useUIStore((state) => state.closeCart);
   const [orderError, setOrderError] = useState<string | null>(null);
-  const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = Math.round(total * 0.1); // 10% VAT
@@ -28,38 +31,69 @@ export default function CartDrawerCheckout() {
 
   const onSubmit = async (data: CheckoutFormData) => {
     setOrderError(null);
-    setOrderSuccess(false);
 
     try {
-      const response = await fetch('/api/orders', {
+      // Step 1: Create WooCommerce order
+      console.log('[Checkout] Creating order...');
+      const orderResponse = await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          billing: data,
+          billing: {
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone,
+            address1: data.address1 || '',
+            city: data.city || '',
+            postcode: data.postcode || '',
+            country: data.country
+          },
           items: items.map(item => ({
             id: item.productId,
             quantity: item.quantity
           })),
-          paymentMethod: 'portone' // Default payment method
+          paymentMethod: 'portone'
         })
       });
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Failed to create order');
+      if (!orderResponse.ok) {
+        const error = await orderResponse.json();
+        throw new Error(error.error || 'Failed to create order');
       }
 
-      // Success - store order ID and redirect to payment
-      setOrderSuccess(true);
-      console.log('Order created:', result);
-      // TODO Phase 4 Plan 03: Initiate payment with PortOne/Eximbay
+      const order = await orderResponse.json();
+      console.log('[Checkout] Order created:', order.orderId);
+
+      // Step 2: Initiate payment
+      console.log('[Checkout] Initiating payment...');
+      const paymentResponse = await initiatePortOnePayment({
+        orderId: order.orderId,
+        amount: grandTotal,
+        customerEmail: data.email,
+        customerName: `${data.firstName} ${data.lastName}`
+      });
+
+      console.log('[Checkout] Payment response:', paymentResponse);
+
+      // Check payment result
+      if (paymentResponse?.code === 'FAILURE_TYPE_PG') {
+        throw new Error(paymentResponse.message || 'Payment failed');
+      }
+
+      // Success: Clear cart and close drawer
+      // Actual order status update will come via webhook
+      clearCart();
+      closeCart();
+
+      // Redirect to order confirmation
+      window.location.href = `/order-complete?orderId=${order.orderId}&paymentId=${paymentResponse?.paymentId}`;
 
     } catch (error: any) {
-      console.error('Order creation failed:', error);
-      setOrderError(error.message || 'Failed to create order. Please try again.');
+      console.error('[Checkout] Error:', error);
+      setOrderError(error.message || 'Checkout failed. Please try again.');
     }
   };
 
@@ -86,15 +120,15 @@ export default function CartDrawerCheckout() {
 
       {/* Error Message */}
       {orderError && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-800">{orderError}</p>
-        </div>
-      )}
-
-      {/* Success Message */}
-      {orderSuccess && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-sm text-green-800">Order created successfully! Redirecting to payment...</p>
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
+          <p className="text-sm text-red-800 font-medium">Payment Error</p>
+          <p className="text-sm text-red-700 mt-1">{orderError}</p>
+          <button
+            onClick={() => setOrderError(null)}
+            className="text-sm text-red-600 underline mt-2"
+          >
+            Try again
+          </button>
         </div>
       )}
 
