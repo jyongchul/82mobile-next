@@ -4,6 +4,7 @@ import './globals.css'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import QueryProvider from '@/components/providers/QueryProvider'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
+import WebVitals from '@/components/performance/WebVitals'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="ko" className={`${outfit.variable} ${plusJakarta.variable} ${syne.variable}`}>
       <body>
         <GoogleAnalytics />
+        <WebVitals />
         <QueryProvider>
           <LoadingSpinner />
           {children}
