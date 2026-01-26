@@ -49,7 +49,7 @@ export default function CartDrawerCheckout() {
             address1: data.address1 || '',
             city: data.city || '',
             postcode: data.postcode || '',
-            country: data.country
+            country: data.country || 'KR'
           },
           items: items.map(item => ({
             id: item.productId,

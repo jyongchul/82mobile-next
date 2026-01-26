@@ -31,7 +31,7 @@ export const checkoutSchema = z.object({
   address1: z.string().optional(),
   city: z.string().optional(),
   postcode: z.string().optional(),
-  country: z.string().length(2, 'Country code must be 2 letters').default('KR')
+  country: z.string().optional()
 });
 
 export type CheckoutFormData = z.infer<typeof checkoutSchema>;
