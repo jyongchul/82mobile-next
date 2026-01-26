@@ -1,20 +1,34 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useIsMobile } from '@/lib/hooks/useMediaQuery';
+import { useReducedMotion } from '@/lib/hooks/useReducedMotion';
 
 export default function RotatingSIMCard() {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = useReducedMotion();
+
+  // Show static version on mobile OR if user prefers reduced motion
+  const showStatic = isMobile || prefersReducedMotion;
 
   useEffect(() => {
-    // Add entrance animation
-    if (cardRef.current) {
+    // Add entrance animation (only if not static)
+    if (cardRef.current && !showStatic) {
       cardRef.current.classList.add('sim-card-enter');
     }
-  }, []);
+  }, [showStatic]);
 
   return (
     <div className="sim-card-container">
-      <div ref={cardRef} className="sim-card-3d">
+      <div
+        ref={cardRef}
+        className={showStatic ? "sim-card-static" : "sim-card-3d"}
+        style={showStatic ? {
+          willChange: 'transform',
+          transition: 'transform 0.3s ease-out'
+        } : undefined}
+      >
         {/* Front Face */}
         <div className="sim-card-face sim-card-front">
           <div className="sim-card-header">

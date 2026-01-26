@@ -676,3 +676,35 @@ section {
     font-size: 16px;
   }
 }
+
+/* Static SIM Card (Mobile / Reduced Motion) */
+.sim-card-static {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transform: scale(1) rotateY(0deg);
+  will-change: transform;
+}
+
+.sim-card-static:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease-out;
+}
+
+/* Disable 3D animations on mobile/reduced motion */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .sim-card-3d {
+    animation: none !important;
+  }
+  
+  .sim-card-container {
+    perspective: none;
+  }
+  
+  @keyframes rotateCard {
+    0%, 100% {
+      transform: rotateY(0deg) rotateX(0deg);
+    }
+  }
+}
