@@ -3,12 +3,11 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { locales } from '@/i18n';
 
 const languages = [
   { code: 'ko', name: '한국어', flag: '🇰🇷' },
   { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' },
 ];
 
 export default function LanguageSwitcher() {
