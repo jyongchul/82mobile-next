@@ -89,7 +89,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               {cartView === 'checkout' && (
                 <button
                   onClick={() => setCartView('cart')}
-                  className="p-2 hover:bg-gray-100 rounded-lg mr-2"
+                  className="p-3 hover:bg-gray-100 rounded-lg mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label="Back to cart"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,7 +113,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </h2>
               <button
                 onClick={onClose}
-                className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors rounded-full hover:bg-gray-100"
+                className="w-11 h-11 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors rounded-full hover:bg-gray-100"
                 aria-label="Close cart"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -192,7 +192,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               {cartView === 'checkout' && (
                 <button
                   onClick={() => setCartView('cart')}
-                  className="p-2 hover:bg-gray-100 rounded-lg mr-2"
+                  className="p-3 hover:bg-gray-100 rounded-lg mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label="Back to cart"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,7 +216,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </h2>
               <button
                 onClick={onClose}
-                className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors rounded-full hover:bg-gray-100"
+                className="w-11 h-11 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors rounded-full hover:bg-gray-100"
                 aria-label="Close cart"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

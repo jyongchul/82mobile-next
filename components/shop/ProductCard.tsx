@@ -186,7 +186,7 @@ export default function ProductCard({
             <button
               onClick={handleAddToCart}
               disabled={isAdding}
-              className={`w-full py-3 px-4 bg-white text-dancheong-red font-bold rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 ${
+              className={`w-full py-4 px-4 bg-white text-dancheong-red font-bold rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 min-h-[44px] ${
                 isAdding ? 'opacity-75' : ''
               }`}
             >
