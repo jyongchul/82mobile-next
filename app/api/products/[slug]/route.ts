@@ -3,6 +3,10 @@ import { getProductBySlug } from '@/lib/woocommerce';
 
 // Force dynamic rendering for this API route
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs'; // Explicitly use Node.js runtime
+
+// Prevent static generation of this route
+export const dynamicParams = true;
 
 /**
  * GET /api/products/[slug]
