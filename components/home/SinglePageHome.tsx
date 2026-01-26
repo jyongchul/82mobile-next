@@ -61,24 +61,33 @@ export default function SinglePageHome() {
 
   // Optimized Intersection Observer for accurate section tracking
   useEffect(() => {
+    let rafId: number;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the entry with the largest intersection ratio
-        let maxEntry: IntersectionObserverEntry | null = null;
-        let maxRatio = 0;
+        // Use RAF to debounce and align with 60fps
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
 
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio;
-            maxEntry = entry;
+        rafId = requestAnimationFrame(() => {
+          // Find the entry with the largest intersection ratio
+          let maxEntry: IntersectionObserverEntry | null = null;
+          let maxRatio = 0;
+
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+              maxRatio = entry.intersectionRatio;
+              maxEntry = entry;
+            }
+          });
+
+          // Only update if we found an intersecting entry with at least 30% visibility
+          if (maxEntry && maxRatio >= 0.3) {
+            const sectionId = (maxEntry as IntersectionObserverEntry).target.id;
+            updateHashOnScroll(sectionId); // Updates both activeSection and URL hash
           }
         });
-
-        // Only update if we found an intersecting entry with at least 30% visibility
-        if (maxEntry && maxRatio >= 0.3) {
-          const sectionId = (maxEntry as IntersectionObserverEntry).target.id;
-          updateHashOnScroll(sectionId); // Updates both activeSection and URL hash
-        }
       },
       {
         threshold: [0.1, 0.3, 0.5, 0.7, 0.9], // Multiple thresholds for accuracy
@@ -92,7 +101,12 @@ export default function SinglePageHome() {
       if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
   }, [updateHashOnScroll]);
 
   return (
