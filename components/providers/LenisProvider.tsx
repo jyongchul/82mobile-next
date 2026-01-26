@@ -22,6 +22,7 @@ export default function LenisProvider({
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,       // Enable smooth scrolling for mouse wheel
+      // @ts-ignore - smoothTouch option exists in runtime but missing from type definitions
       smoothTouch: false,      // CRITICAL: Disable on touch devices for 60fps mobile
       wheelMultiplier: 1,
       touchMultiplier: 2,

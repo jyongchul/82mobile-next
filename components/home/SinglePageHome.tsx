@@ -76,7 +76,7 @@ export default function SinglePageHome() {
 
         // Only update if we found an intersecting entry with at least 30% visibility
         if (maxEntry && maxRatio >= 0.3) {
-          const sectionId = maxEntry.target.id;
+          const sectionId = (maxEntry as IntersectionObserverEntry).target.id;
           updateHashOnScroll(sectionId); // Updates both activeSection and URL hash
         }
       },
