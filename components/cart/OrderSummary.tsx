@@ -6,9 +6,13 @@ import Link from 'next/link';
 
 interface OrderSummaryProps {
   showCheckoutButton?: boolean;
+  showContinueShopping?: boolean;
 }
 
-export default function OrderSummary({ showCheckoutButton = true }: OrderSummaryProps) {
+export default function OrderSummary({
+  showCheckoutButton = true,
+  showContinueShopping = true
+}: OrderSummaryProps) {
   const items = useCartStore((state) => state.items);
   const locale = useLocale();
 
@@ -75,12 +79,14 @@ export default function OrderSummary({ showCheckoutButton = true }: OrderSummary
       )}
 
       {/* Continue Shopping */}
-      <Link
-        href={`/${locale}/shop`}
-        className="block w-full text-center px-6 py-3 mt-4 border-2 border-gray-300 rounded-lg font-bold text-gray-700 hover:border-dancheong-red hover:text-dancheong-red transition-colors"
-      >
-        Continue Shopping
-      </Link>
+      {showContinueShopping && (
+        <Link
+          href={`/${locale}/shop`}
+          className="block w-full text-center px-6 py-3 mt-4 border-2 border-gray-300 rounded-lg font-bold text-gray-700 hover:border-dancheong-red hover:text-dancheong-red transition-colors"
+        >
+          Continue Shopping
+        </Link>
+      )}
 
       {/* Trust Badges */}
       <div className="mt-6 pt-6 border-t border-gray-200">
