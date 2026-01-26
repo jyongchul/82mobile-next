@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Outfit, Plus_Jakarta_Sans, Syne } from 'next/font/google'
 import './globals.css'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import QueryProvider from '@/components/providers/QueryProvider'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -43,8 +44,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${outfit.variable} ${plusJakarta.variable} ${syne.variable}`}>
       <body>
-        <LoadingSpinner />
-        {children}
+        <QueryProvider>
+          <LoadingSpinner />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   )

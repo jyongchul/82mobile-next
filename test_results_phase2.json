@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-01-26T13:18:18.328266",
+  "url": "https://82mobile-next.vercel.app",
+  "desktop": {
+    "homepage_loaded": true,
+    "products_section_visible": true,
+    "products_loaded": false,
+    "type_filter_exists": false,
+    "image_optimization": {
+      "total": 0,
+      "priority": 0,
+      "lazy": 0
+    },
+    "lazy_loading_works": false,
+    "horizontal_scroll": false,
+    "console_errors": []
+  },
+  "mobile": {
+    "homepage_loaded": true,
+    "small_tap_targets": [],
+    "horizontal_scroll": false
+  },
+  "issues": [
+    {
+      "severity": "critical",
+      "component": "Products",
+      "description": "Failed to find products: Page.wait_for_selector: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator(\".product-card, [class*=\\\"product\\\"]\") to be visible\n",
+      "screenshot": null
+    },
+    {
+      "severity": "major",
+      "component": "Filters",
+      "description": "No filter controls found",
+      "screenshot": null
+    },
+    {
+      "severity": "major",
+      "component": "Modal",
+      "description": "No products to click",
+      "screenshot": null
+    },
+    {
+      "severity": "minor",
+      "component": "Images",
+      "description": "No lazy loading detected",
+      "screenshot": null
+    }
+  ]
+}

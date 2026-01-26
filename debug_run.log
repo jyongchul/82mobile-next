@@ -1,0 +1,54 @@
+================================================================================
+DEBUGGING PRODUCTION CLIENT-SIDE ERROR
+================================================================================
+
+🔍 Loading: https://82mobile-next.vercel.app
+Waiting for errors to appear...
+
+[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 ()
+[CONSOLE ERROR] Error: No QueryClient set, use QueryClientProvider to set one
+    at D (https://82mobile-next.vercel.app/_next/static/chunks/513.003d22c167e398c0.js:1:10901)
+    at https://82mobile-next.vercel.app/_next/static/chunks/513.003d22c167e398c0.js:1:11971
+    at W (https://82mobile-next.vercel.app/_next/static/chunks/513.003d22c167e398c0.js:1:13003)
+    at https://82mobile-next.vercel.app/_next/static/chunks/921.6ca73e78cc324f49.js:1:4834
+    at h (https://82mobile-next.vercel.app/_next/static/chunks/921.6ca73e78cc324f49.js:1:5166)
+    at rE (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:40341)
+    at l$ (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:59316)
+    at iZ (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:117679)
+    at ia (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:95162)
+    at https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:94984
+
+================================================================================
+RESULTS
+================================================================================
+Total console logs: 2
+Total errors: 2
+Page title: 
+Has 'Application error' message: True
+
+🚨 ERRORS CAPTURED:
+
+[1] {
+  "type": "error",
+  "text": "Failed to load resource: the server responded with a status of 404 ()",
+  "location": {
+    "url": "https://82mobile-next.vercel.app/favicon.ico",
+    "lineNumber": 0,
+    "columnNumber": 0
+  }
+}
+
+[2] {
+  "type": "error",
+  "text": "Error: No QueryClient set, use QueryClientProvider to set one\n    at D (https://82mobile-next.vercel.app/_next/static/chunks/513.003d22c167e398c0.js:1:10901)\n    at https://82mobile-next.vercel.app/_next/static/chunks/513.003d22c167e398c0.js:1:11971\n    at W (https://82mobile-next.vercel.app/_next/static/chunks/513.003d22c167e398c0.js:1:13003)\n    at https://82mobile-next.vercel.app/_next/static/chunks/921.6ca73e78cc324f49.js:1:4834\n    at h (https://82mobile-next.vercel.app/_next/static/chunks/921.6ca73e78cc324f49.js:1:5166)\n    at rE (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:40341)\n    at l$ (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:59316)\n    at iZ (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:117679)\n    at ia (https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:95162)\n    at https://82mobile-next.vercel.app/_next/static/chunks/fd9d1056-3defdf83aa8f93e7.js:1:94984",
+  "location": {
+    "url": "https://82mobile-next.vercel.app/_next/static/chunks/117-c74425943f5eba83.js",
+    "lineNumber": 0,
+    "columnNumber": 4043
+  }
+}
+
+📁 Saved to: production_error_debug.json
+📸 Screenshot: production_error_screenshot.png
+
+⏸️  Browser will stay open for 60 seconds for manual inspection...
