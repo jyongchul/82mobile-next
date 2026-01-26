@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer';
 import LenisProvider from '@/components/providers/LenisProvider';
 import ToastProvider from '@/components/providers/ToastProvider';
 import CartDrawerWrapper from '@/components/cart/CartDrawerWrapper';
+import { StickyMobileCTA } from '@/components/mobile/StickyMobileCTA';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -39,6 +40,7 @@ export default async function LocaleLayout({
         </div>
         <ToastProvider />
         <CartDrawerWrapper />
+        <StickyMobileCTA />
       </LenisProvider>
     </NextIntlClientProvider>
   );
