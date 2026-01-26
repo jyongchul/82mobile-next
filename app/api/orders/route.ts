@@ -33,9 +33,13 @@ export async function POST(request: Request) {
 
     // Create order in WooCommerce
     const orderData = {
-      payment_method: paymentMethod || 'eximbay',
-      payment_method_title: 'International Credit Card (Eximbay)',
+      customer_id: 0, // Guest checkout
+      payment_method: paymentMethod || 'portone',
+      payment_method_title: paymentMethod === 'portone'
+        ? 'Credit Card (PortOne)'
+        : 'International Credit Card (Eximbay)',
       set_paid: false, // Will be set to true after successful payment
+      status: 'pending', // Explicitly set pending until payment completes
       billing: {
         first_name: billing.firstName,
         last_name: billing.lastName,
@@ -53,6 +57,14 @@ export async function POST(request: Request) {
         {
           key: '_payment_intent',
           value: 'pending'
+        },
+        {
+          key: '_order_source',
+          value: '82mobile-next'
+        },
+        {
+          key: '_created_via_api',
+          value: 'true'
         }
       ]
     };

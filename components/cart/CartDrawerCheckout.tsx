@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { checkoutSchema, CheckoutFormData, defaultCheckoutValues } from '@/lib/validation/checkout-schema';
@@ -7,6 +8,9 @@ import { useCartStore } from '@/stores/cart';
 
 export default function CartDrawerCheckout() {
   const items = useCartStore((state) => state.items);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
+
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = Math.round(total * 0.1); // 10% VAT
   const grandTotal = total + tax;
@@ -23,8 +27,40 @@ export default function CartDrawerCheckout() {
   });
 
   const onSubmit = async (data: CheckoutFormData) => {
-    console.log('Form submitted:', data);
-    // TODO Phase 4 Plan 02: Create WooCommerce order
+    setOrderError(null);
+    setOrderSuccess(false);
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          billing: data,
+          items: items.map(item => ({
+            id: item.productId,
+            quantity: item.quantity
+          })),
+          paymentMethod: 'portone' // Default payment method
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to create order');
+      }
+
+      // Success - store order ID and redirect to payment
+      setOrderSuccess(true);
+      console.log('Order created:', result);
+      // TODO Phase 4 Plan 03: Initiate payment with PortOne/Eximbay
+
+    } catch (error: any) {
+      console.error('Order creation failed:', error);
+      setOrderError(error.message || 'Failed to create order. Please try again.');
+    }
   };
 
   return (
@@ -47,6 +83,20 @@ export default function CartDrawerCheckout() {
           </div>
         </div>
       </div>
+
+      {/* Error Message */}
+      {orderError && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-800">{orderError}</p>
+        </div>
+      )}
+
+      {/* Success Message */}
+      {orderSuccess && (
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+          <p className="text-sm text-green-800">Order created successfully! Redirecting to payment...</p>
+        </div>
+      )}
 
       {/* Billing Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-y-auto space-y-4">
