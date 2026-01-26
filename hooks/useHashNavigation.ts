@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useCallback, useRef } from 'react';
+import { pageview } from '@/lib/analytics';
 
 interface UseHashNavigationOptions {
   onSectionChange?: (sectionId: string) => void;
@@ -63,6 +64,13 @@ export function useHashNavigation({
       // Use replaceState (NOT pushState) for scroll-based updates
       // This prevents Back button from having to go through every scrolled section
       window.history.replaceState({ section: sectionId }, '', newHash);
+
+      // Track section view as virtual page view in GA4
+      const sectionTitle = sectionId
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      pageview(`/#${sectionId}`, `82Mobile - ${sectionTitle}`);
     }
 
     onSectionChange?.(sectionId);
