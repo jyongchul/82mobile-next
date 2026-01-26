@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCartStore } from '@/stores/cart';
+import { useUIStore } from '@/stores/ui';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 
 export default function Header() {
@@ -18,6 +19,7 @@ export default function Header() {
   const cartItemCount = useCartStore((state) =>
     state.items.reduce((sum, item) => sum + item.quantity, 0)
   );
+  const openCart = useUIStore((state) => state.openCart);
 
   // Check if we're on the home page (single-page design)
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
@@ -134,9 +136,10 @@ export default function Header() {
             <LanguageSwitcher />
 
             {/* Cart Icon */}
-            <Link
-              href={`/${locale}/cart`}
+            <button
+              onClick={openCart}
               className="relative p-2 text-gray-700 hover:text-dancheong-red transition-colors group"
+              aria-label="Open cart"
             >
               <svg
                 className="w-6 h-6 group-hover:scale-110 transition-transform"
@@ -156,7 +159,7 @@ export default function Header() {
                   {cartItemCount}
                 </span>
               )}
-            </Link>
+            </button>
 
             {/* Mobile Menu Button */}
             <button

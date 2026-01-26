@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import LenisProvider from '@/components/providers/LenisProvider';
 import ToastProvider from '@/components/providers/ToastProvider';
+import CartDrawerWrapper from '@/components/cart/CartDrawerWrapper';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -37,6 +38,7 @@ export default async function LocaleLayout({
           <Footer />
         </div>
         <ToastProvider />
+        <CartDrawerWrapper />
       </LenisProvider>
     </NextIntlClientProvider>
   );
