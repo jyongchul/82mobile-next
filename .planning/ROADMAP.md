@@ -78,7 +78,11 @@ Enable tourists to discover, select, and purchase Korean SIM/eSIM products throu
 
 **Goal:** Replace cart page with side drawer overlay that maintains single-page flow.
 
-**Plans:** (created by /gsd:plan-phase)
+**Plans:** 4 plans in 3 waves
+- [ ] 03-01-PLAN.md — CartDrawer component with responsive animations + CartDrawerItems (Wave 1)
+- [ ] 03-02-PLAN.md — Wire drawer to Header + mount in layout + auto-open on add (Wave 2)
+- [ ] 03-03-PLAN.md — Checkout view transition within drawer (Wave 2)
+- [ ] 03-04-PLAN.md — Verification checkpoint (Wave 3)
 
 **Success Criteria:**
 1. Drawer Opens: Cart icon click opens drawer from right (desktop) or bottom (mobile)
@@ -167,9 +171,9 @@ Enable tourists to discover, select, and purchase Korean SIM/eSIM products throu
 
 ## Progress Tracking
 
-**Completed Phases:** 1/7 (14%)
-**Completed Plans:** 4/~30 (13%)
-**Phase 2 Plans:** 0/6 (ready for execution)
+**Completed Phases:** 2/7 (29%)
+**Completed Plans:** 10/~31 (32%)
+**Phase 3 Plans:** 0/4 (ready for execution)
 
 ---
 
@@ -183,4 +187,4 @@ Enable tourists to discover, select, and purchase Korean SIM/eSIM products throu
 
 ---
 
-*Last updated: 2026-01-26 after Phase 2 planning*
+*Last updated: 2026-01-26 after Phase 3 planning*
