@@ -36,13 +36,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. JWT Authentication plugin generates valid tokens; tokens authenticate API requests successfully
   5. CoCart plugin installed and activated; cart token creation endpoint (`/wp-json/cocart/v2/cart`) accessible
 
-**Plans**: TBD (to be determined during planning)
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Configure headless mode and disable frontend theme
-- [ ] 01-02: Set up JWT authentication and API keys
-- [ ] 01-03: Configure CORS headers for Vercel domain
-- [ ] 01-04: Install and configure CoCart plugin
+- [ ] 01-01-PLAN.md — Headless mode, JWT auth, CORS headers, and cache bypass
+- [ ] 01-02-PLAN.md — CoCart plugin installation and API documentation
 
 ---
 
@@ -197,7 +195,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. WordPress Backend API Setup | 0/4 | Not started | - |
+| 1. WordPress Backend API Setup | 0/2 | Planned | - |
 | 2. Infrastructure & Caching Strategy | 0/3 | Not started | - |
 | 3. Next.js API Routes & Authentication | 0/3 | Not started | - |
 | 4. Cart Implementation with CoCart | 0/3 | Not started | - |
@@ -205,5 +203,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 6. Payment Gateway Integration | 0/3 | Not started | - |
 | 7. Testing, Gradual Cutover, Stabilization | 0/4 | Not started | - |
 
-**Total Plans:** 23 plans across 7 phases
+**Total Plans:** 21 plans across 7 phases
 **Requirements Coverage:** 32/32 requirements mapped (100% ✓)
