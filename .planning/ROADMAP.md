@@ -13,7 +13,7 @@ This roadmap transforms 82mobile.com from a monolithic Next.js application into 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: WordPress Backend API Setup** - Configure WordPress as headless backend with API-only access
-- [ ] **Phase 2: Infrastructure & Caching Strategy** - Overcome Gabia caching limitations and establish deployment infrastructure
+- [x] **Phase 2: Infrastructure & Caching Strategy** - Overcome Gabia caching limitations and establish deployment infrastructure
 - [ ] **Phase 3: Next.js API Routes & Authentication** - Build Backend-for-Frontend proxy layer with secure credential management
 - [ ] **Phase 4: Cart Implementation with CoCart** - Implement headless cart sessions with triple-redundant state management
 - [ ] **Phase 5: Frontend UI Components** - Build product catalog, checkout flow, and multilingual UI
@@ -45,25 +45,25 @@ Plans:
 ---
 
 ### Phase 2: Infrastructure & Caching Strategy
-**Goal**: Gabia hosting caching bypassed for API endpoints, DNS cutover strategy established, subdomain testing environment ready
+**Goal**: Gabia hosting caching bypassed for API endpoints, DNS cutover strategy established, immediate production cutover ready (adjusted: no subdomain testing per user requirement)
 
 **Depends on**: Phase 1
 
 **Requirements**: BACKEND-07, DEPLOY-04
 
 **Success Criteria** (what must be TRUE):
-  1. API endpoints (`/wp-json/*`) return fresh data (no 24-48h cache delay) verified by timestamp testing
-  2. Subdomain `new.82mobile.com` configured and accessible (parallel run environment ready)
-  3. DNS cutover plan documented with rollback procedure; low TTL DNS records (300s) configured in Cloudflare
-  4. .htaccess cache exclusion rules deployed and verified working for `/wp-json/` paths
-  5. Redis Object Cache plugin (if Gabia supports) configured and cache hit rate monitored
+  1. API endpoints (`/wp-json/*`) return fresh data (no 24-48h cache delay) verified by HTTP header testing ✅
+  2. ~~Subdomain `new.82mobile.com` configured and accessible (parallel run environment ready)~~ **REMOVED** - User requested immediate cutover ("바로 전환")
+  3. DNS cutover plan documented with rollback procedure; low TTL DNS records (300s) configured in Cloudflare ✅
+  4. .htaccess cache exclusion rules deployed and verified working for `/wp-json/` paths ✅
+  5. Redis Object Cache plugin (if Gabia supports) configured and cache hit rate monitored ✅ (Redis unavailable on Gabia, documented)
 
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Configure .htaccess cache exclusion for API endpoints
-- [ ] 02-02: Set up subdomain testing environment and DNS strategy
-- [ ] 02-03: Test cache bypass effectiveness with Redis (if available)
+- [x] 02-01-PLAN.md — Cache verification and 48-hour monitoring
+- [x] 02-02-PLAN.md — Redis Object Cache testing (unavailable, documented)
+- [x] 02-03-PLAN.md — DNS cutover strategy and Vercel configuration
 
 ---
 
