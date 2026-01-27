@@ -23,45 +23,52 @@ Seamless backend/frontend separation where WordPress provides product catalog an
 
 Requirements for transforming WordPress into API-only headless backend.
 
-- [ ] **BACKEND-01**: Configure WordPress as headless (disable frontend theme rendering)
+- [x] **BACKEND-01**: Configure WordPress as headless (disable frontend theme rendering)
   - **Acceptance:** WordPress public pages return 404 or redirect; wp-admin remains accessible
   - **Priority:** CRITICAL
   - **Effort:** 1-2 hours
+  - **Status:** Complete (Phase 1, Plan 01-01)
 
-- [ ] **BACKEND-02**: Verify WooCommerce REST API accessibility from external domains
+- [x] **BACKEND-02**: Verify WooCommerce REST API accessibility from external domains
   - **Acceptance:** API endpoints (`/wp-json/wc/v3/*`) respond to requests from Vercel domain
   - **Priority:** CRITICAL
   - **Effort:** 1 hour
+  - **Status:** Complete (Phase 1, verified in 01-VERIFICATION.md)
 
-- [ ] **BACKEND-03**: Set up CORS headers for Vercel frontend requests
+- [x] **BACKEND-03**: Set up CORS headers for Vercel frontend requests
   - **Acceptance:** CORS headers configured via plugin + .htaccess; OPTIONS requests succeed
   - **Priority:** CRITICAL
   - **Effort:** 2 hours
+  - **Status:** Complete (Phase 1, Plan 01-01 + 01-02)
 
-- [ ] **BACKEND-04**: Implement JWT token authentication for API
+- [x] **BACKEND-04**: Implement JWT token authentication for API
   - **Acceptance:** JWT Authentication plugin installed; tokens generated and validated successfully
   - **Priority:** CRITICAL
   - **Effort:** 4 hours
+  - **Status:** Complete (Phase 1, Plan 01-01)
 
-- [ ] **BACKEND-05**: Install and configure CoCart plugin for headless cart sessions
+- [x] **BACKEND-05**: Install and configure CoCart plugin for headless cart sessions
   - **Acceptance:** CoCart plugin active; cart tokens generated; cart persists across sessions
   - **Priority:** CRITICAL
   - **Effort:** 6 hours
+  - **Status:** Complete (Phase 1, Plan 01-02)
 
-- [ ] **BACKEND-06**: Configure authentication tokens/API keys for production
+- [x] **BACKEND-06**: Configure authentication tokens/API keys for production
   - **Acceptance:** JWT secret key configured in wp-config.php; WooCommerce consumer key/secret updated
   - **Priority:** HIGH
   - **Effort:** 1 hour
+  - **Status:** Complete (Phase 1, Plan 01-01)
 
 - [ ] **BACKEND-07**: Implement Redis Object Cache to bypass Gabia server cache
   - **Acceptance:** Redis plugin installed; `/wp-json/` excluded from server cache via .htaccess
   - **Priority:** HIGH
   - **Effort:** 3 hours
 
-- [ ] **BACKEND-08**: Document API authentication flow
+- [x] **BACKEND-08**: Document API authentication flow
   - **Acceptance:** Documentation covers JWT token generation, usage, and refresh flow
   - **Priority:** MEDIUM
   - **Effort:** 2 hours
+  - **Status:** Complete (Phase 1, Plan 01-02 - API-AUTH-DOCS.md)
 
 ### Frontend Updates
 

@@ -12,7 +12,7 @@ This roadmap transforms 82mobile.com from a monolithic Next.js application into 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: WordPress Backend API Setup** - Configure WordPress as headless backend with API-only access
+- [x] **Phase 1: WordPress Backend API Setup** - Configure WordPress as headless backend with API-only access
 - [ ] **Phase 2: Infrastructure & Caching Strategy** - Overcome Gabia caching limitations and establish deployment infrastructure
 - [ ] **Phase 3: Next.js API Routes & Authentication** - Build Backend-for-Frontend proxy layer with secure credential management
 - [ ] **Phase 4: Cart Implementation with CoCart** - Implement headless cart sessions with triple-redundant state management
@@ -39,8 +39,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Headless mode, JWT auth, CORS headers, and cache bypass
-- [ ] 01-02-PLAN.md — CoCart plugin installation and API documentation
+- [x] 01-01-PLAN.md — Headless mode, JWT auth, CORS headers, and cache bypass
+- [x] 01-02-PLAN.md — CoCart plugin installation and API documentation
 
 ---
 
