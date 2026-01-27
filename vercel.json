@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/wp-admin",
+      "destination": "http://82mobile.com/wp-admin"
+    },
+    {
+      "source": "/wp-admin/:path*",
+      "destination": "http://82mobile.com/wp-admin/:path*"
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "http://82mobile.com/wp-login.php"
+    },
+    {
+      "source": "/wp-includes/:path*",
+      "destination": "http://82mobile.com/wp-includes/:path*"
+    },
+    {
+      "source": "/wp-content/:path*",
+      "destination": "http://82mobile.com/wp-content/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
+}
