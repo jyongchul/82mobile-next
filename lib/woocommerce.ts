@@ -1,31 +1,21 @@
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
-// Check if WooCommerce credentials are available
-const hasWooCredentials = Boolean(
-  process.env.WC_CONSUMER_KEY && process.env.WC_CONSUMER_SECRET
-);
-
-// Initialize WooCommerce API client (only if credentials exist)
-// During build time without credentials, we create a stub that will throw errors at runtime
-export const woo = hasWooCredentials
-  ? new WooCommerceRestApi({
-      url: process.env.WORDPRESS_URL || "https://82mobile.com",
-      consumerKey: process.env.WC_CONSUMER_KEY!,
-      consumerSecret: process.env.WC_CONSUMER_SECRET!,
-      version: "wc/v3",
-      queryStringAuth: true, // Force Basic Authentication for all requests
-    })
-  : ({
-      get: async () => {
-        throw new Error('WooCommerce API credentials not configured');
-      },
-      post: async () => {
-        throw new Error('WooCommerce API credentials not configured');
-      },
-      put: async () => {
-        throw new Error('WooCommerce API credentials not configured');
-      },
-    } as any);
+// Initialize WooCommerce API client
+// Credentials are provided via environment variables:
+// - WORDPRESS_URL: WordPress site URL (e.g., https://82mobile.com)
+// - WC_CONSUMER_KEY: WooCommerce REST API consumer key
+// - WC_CONSUMER_SECRET: WooCommerce REST API consumer secret
+//
+// In production and CI/CD, these are injected via:
+// - Vercel: Environment Variables in project settings
+// - GitHub Actions: Repository Secrets
+export const woo = new WooCommerceRestApi({
+  url: process.env.WORDPRESS_URL || "https://82mobile.com",
+  consumerKey: process.env.WC_CONSUMER_KEY || "",
+  consumerSecret: process.env.WC_CONSUMER_SECRET || "",
+  version: "wc/v3",
+  queryStringAuth: true, // Force Basic Authentication for all requests
+});
 
 // Type definitions for WooCommerce products
 export interface WooProduct {

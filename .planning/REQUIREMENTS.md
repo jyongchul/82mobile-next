@@ -262,41 +262,41 @@ Maps requirements to roadmap phases (filled by gsd-roadmapper).
 
 | Requirement ID | Category | Phase | Plan | Status |
 |----------------|----------|-------|------|--------|
-| BACKEND-01 | Backend Configuration | — | — | Pending |
-| BACKEND-02 | Backend Configuration | — | — | Pending |
-| BACKEND-03 | Backend Configuration | — | — | Pending |
-| BACKEND-04 | Backend Configuration | — | — | Pending |
-| BACKEND-05 | Backend Configuration | — | — | Pending |
-| BACKEND-06 | Backend Configuration | — | — | Pending |
-| BACKEND-07 | Backend Configuration | — | — | Pending |
-| BACKEND-08 | Backend Configuration | — | — | Pending |
-| FRONTEND-01 | Frontend Updates | — | — | Pending |
-| FRONTEND-02 | Frontend Updates | — | — | Pending |
-| FRONTEND-03 | Frontend Updates | — | — | Pending |
-| FRONTEND-04 | Frontend Updates | — | — | Pending |
-| FRONTEND-05 | Frontend Updates | — | — | Pending |
-| FRONTEND-06 | Frontend Updates | — | — | Pending |
-| FRONTEND-07 | Frontend Updates | — | — | Pending |
-| DEPLOY-01 | Integration & Deployment | — | — | Pending |
-| DEPLOY-02 | Integration & Deployment | — | — | Pending |
-| DEPLOY-03 | Integration & Deployment | — | — | Pending |
-| DEPLOY-04 | Integration & Deployment | — | — | Pending |
-| DEPLOY-05 | Integration & Deployment | — | — | Pending |
-| TEST-01 | Testing & Verification | — | — | Pending |
-| TEST-02 | Testing & Verification | — | — | Pending |
-| TEST-03 | Testing & Verification | — | — | Pending |
-| TEST-04 | Testing & Verification | — | — | Pending |
-| TEST-05 | Testing & Verification | — | — | Pending |
-| TEST-06 | Testing & Verification | — | — | Pending |
-| TEST-07 | Testing & Verification | — | — | Pending |
-| CRITICAL-01 | Critical Issues Resolution | — | — | Pending |
-| CRITICAL-02 | Critical Issues Resolution | — | — | Pending |
-| CRITICAL-03 | Critical Issues Resolution | — | — | Pending |
-| CRITICAL-04 | Critical Issues Resolution | — | — | Pending |
+| BACKEND-01 | Backend Configuration | Phase 1 | TBD | Pending |
+| BACKEND-02 | Backend Configuration | Phase 1 | TBD | Pending |
+| BACKEND-03 | Backend Configuration | Phase 1 | TBD | Pending |
+| BACKEND-04 | Backend Configuration | Phase 1 | TBD | Pending |
+| BACKEND-05 | Backend Configuration | Phase 1 | TBD | Pending |
+| BACKEND-06 | Backend Configuration | Phase 1 | TBD | Pending |
+| BACKEND-07 | Backend Configuration | Phase 2 | TBD | Pending |
+| BACKEND-08 | Backend Configuration | Phase 1 | TBD | Pending |
+| FRONTEND-01 | Frontend Updates | Phase 3 | TBD | Pending |
+| FRONTEND-02 | Frontend Updates | Phase 3 | TBD | Pending |
+| FRONTEND-03 | Frontend Updates | Phase 3 | TBD | Pending |
+| FRONTEND-04 | Frontend Updates | Phase 4 | TBD | Pending |
+| FRONTEND-05 | Frontend Updates | Phase 6 | TBD | Pending |
+| FRONTEND-06 | Frontend Updates | Phase 6 | TBD | Pending |
+| FRONTEND-07 | Frontend Updates | Phase 5 | TBD | Pending |
+| DEPLOY-01 | Integration & Deployment | Phase 7 | TBD | Pending |
+| DEPLOY-02 | Integration & Deployment | Phase 7 | TBD | Pending |
+| DEPLOY-03 | Integration & Deployment | Phase 7 | TBD | Pending |
+| DEPLOY-04 | Integration & Deployment | Phase 2 | TBD | Pending |
+| DEPLOY-05 | Integration & Deployment | Phase 3 | TBD | Pending |
+| TEST-01 | Testing & Verification | Phase 7 | TBD | Pending |
+| TEST-02 | Testing & Verification | Phase 7 | TBD | Pending |
+| TEST-03 | Testing & Verification | Phase 7 | TBD | Pending |
+| TEST-04 | Testing & Verification | Phase 6 | TBD | Pending |
+| TEST-05 | Testing & Verification | Phase 7 | TBD | Pending |
+| TEST-06 | Testing & Verification | Phase 7 | TBD | Pending |
+| TEST-07 | Testing & Verification | Phase 7 | TBD | Pending |
+| CRITICAL-01 | Critical Issues Resolution | Phase 7 | TBD | Pending |
+| CRITICAL-02 | Critical Issues Resolution | Phase 7 | TBD | Pending |
+| CRITICAL-03 | Critical Issues Resolution | Phase 7 | TBD | Pending |
+| CRITICAL-04 | Critical Issues Resolution | Phase 6 | TBD | Pending |
 
 ---
 
-**Total v1 Requirements:** 32
+**Total v1 Requirements:** 31
 
 **Requirements Breakdown:**
 - Backend Configuration: 8 requirements
@@ -304,7 +304,7 @@ Maps requirements to roadmap phases (filled by gsd-roadmapper).
 - Integration & Deployment: 5 requirements
 - Testing & Verification: 7 requirements
 - Critical Issues Resolution: 4 requirements
-- Out of Scope: 11 items
+- Out of Scope: 11 items (not counted in v1 total)
 
 ---
 

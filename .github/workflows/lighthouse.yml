@@ -26,11 +26,19 @@ jobs:
         env:
           # Use placeholder for build (GA4 optional)
           NEXT_PUBLIC_GA_MEASUREMENT_ID: 'G-XXXXXXXXXX'
+          # WooCommerce API credentials for product fetching
+          WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
+          WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
+          WC_CONSUMER_SECRET: ${{ secrets.WC_CONSUMER_SECRET }}
 
       - name: Start Next.js server
         run: npm run start &
         env:
           PORT: 3000
+          # WooCommerce API credentials for runtime API calls
+          WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
+          WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
+          WC_CONSUMER_SECRET: ${{ secrets.WC_CONSUMER_SECRET }}
 
       - name: Wait for server
         run: npx wait-on http://localhost:3000
