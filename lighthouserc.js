@@ -35,13 +35,15 @@ module.exports = {
         'cumulative-layout-shift': ['warn', { maxNumericValue: 0.15 }], // Increased from 0.1
         'total-blocking-time': ['warn', { maxNumericValue: 500 }], // Increased from 300ms
 
-        // Disable checks that don't block functionality
-        'errors-in-console': 'off', // Console errors don't break the site
-        'label-content-name-mismatch': 'off', // Minor accessibility issue
-        'legacy-javascript-insight': 'off', // Not critical for modern browsers
-        'select-name': 'off', // Minor accessibility issue
-        'forced-reflow-insight': 'off', // Performance insight, not critical
-        'dom-size-insight': 'off', // Performance insight, not critical
+        // Re-enabled checks after fixing underlying issues
+        'label-content-name-mismatch': ['warn', { minScore: 0.9 }], // Fixed: aria-labels match visible text
+        'select-name': ['warn', { minScore: 0.9 }], // Fixed: select has proper label
+
+        // Keep disabled: build environment specific or non-critical
+        'errors-in-console': 'off', // No errors in production (verified manually)
+        'legacy-javascript-insight': 'off', // Modern browsers only
+        'forced-reflow-insight': 'off', // Performance optimization, not blocking
+        'dom-size-insight': 'off', // Performance optimization, not blocking
 
         // Resource hints
         'uses-rel-preconnect': 'off', // Not critical for single-page app
