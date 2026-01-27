@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useCartStore } from '@/stores/cart';
 import { useUIStore } from '@/stores/ui';
 import { useToast } from '@/hooks/useToast';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { trackProductView } from '@/lib/analytics';
 
 interface ProductCardProps {
@@ -43,6 +43,12 @@ export default function ProductCard({
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const hasTrackedView = useRef(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  // Detect touch device on mount
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   // Determine loading strategy based on position
   // First 6 products (index 0-5) are above fold → eager load
@@ -77,7 +83,10 @@ export default function ProductCard({
   };
 
   const handleMouseEnter = () => {
-    setIsFlipped(true);
+    // Only auto-flip on hover for non-touch devices
+    if (!isTouchDevice) {
+      setIsFlipped(true);
+    }
 
     // Track product view only once per session
     if (!hasTrackedView.current) {
@@ -90,11 +99,53 @@ export default function ProductCard({
     }
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // On touch devices, toggle flip on click instead of navigating
+    if (isTouchDevice && !isFlipped) {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsFlipped(true);
+
+      // Track product view on first tap
+      if (!hasTrackedView.current) {
+        hasTrackedView.current = true;
+        trackProductView({
+          id: id.toString(),
+          name,
+          price: parseFloat(price.replace(/,/g, '')),
+        });
+      }
+    }
+    // If already flipped or not touch device, allow navigation
+  };
+
+  // Close flip when clicking outside (for touch devices)
+  useEffect(() => {
+    if (!isTouchDevice || !isFlipped) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const card = document.querySelector(`[data-card-id="${id}"]`);
+      if (card && !card.contains(target)) {
+        setIsFlipped(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isTouchDevice, isFlipped, id]);
+
   return (
     <div
+      data-card-id={id}
       className="group perspective-1000"
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={() => setIsFlipped(false)}
+      onMouseLeave={() => {
+        // Only reset flip on mouse leave for non-touch devices
+        if (!isTouchDevice) {
+          setIsFlipped(false);
+        }
+      }}
     >
       <div
         className={`relative w-full transition-transform duration-700 transform-style-3d ${
@@ -105,6 +156,7 @@ export default function ProductCard({
         <Link
           href={`/${locale}/shop/${slug}`}
           className="block backface-hidden"
+          onClick={handleCardClick}
         >
           <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
             {/* Image */}
