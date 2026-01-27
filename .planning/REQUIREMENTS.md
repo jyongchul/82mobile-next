@@ -75,20 +75,23 @@ Requirements for transforming WordPress into API-only headless backend.
 
 Requirements for updating Next.js frontend to consume headless WordPress API.
 
-- [ ] **FRONTEND-01**: Update environment variables for headless backend URL
+- [x] **FRONTEND-01**: Update environment variables for headless backend URL
   - **Acceptance:** `WORDPRESS_API_URL`, `WORDPRESS_JWT_SECRET` configured in Vercel dashboard
   - **Priority:** CRITICAL
   - **Effort:** 1 hour
+  - **Status:** Complete (Phase 3, Plan 03-03)
 
-- [ ] **FRONTEND-02**: Verify all API routes consume WordPress REST API correctly
+- [x] **FRONTEND-02**: Verify all API routes consume WordPress REST API correctly
   - **Acceptance:** `/api/products`, `/api/orders`, `/api/cart` routes proxy WordPress API successfully
   - **Priority:** CRITICAL
   - **Effort:** 3 hours
+  - **Status:** Complete (Phase 3, Plans 03-01, 03-02)
 
-- [ ] **FRONTEND-03**: Implement JWT token authentication flow in API routes
+- [x] **FRONTEND-03**: Implement JWT token authentication flow in API routes
   - **Acceptance:** API routes include JWT token in Authorization header; tokens stored securely
   - **Priority:** CRITICAL
   - **Effort:** 4 hours
+  - **Status:** Complete (Phase 3, Plans 03-01, 03-02)
 
 - [ ] **FRONTEND-04**: Migrate cart from localStorage-only to CoCart API integration
   - **Acceptance:** Zustand cart store syncs with CoCart API; cart persists across sessions
@@ -135,10 +138,11 @@ Requirements for deploying and integrating headless architecture in production.
   - **Effort:** 4 hours
   - **Status:** Complete (Phase 2, Plan 02-03) - Immediate cutover strategy approved; DNS automation script ready; Vercel configuration complete
 
-- [ ] **DEPLOY-05**: Set up environment variable management (Vercel dashboard)
+- [x] **DEPLOY-05**: Set up environment variable management (Vercel dashboard)
   - **Acceptance:** All secrets configured in Vercel; environment variables match production requirements
   - **Priority:** HIGH
   - **Effort:** 1 hour
+  - **Status:** Complete (Phase 3, Plan 03-03)
 
 ### Testing & Verification
 
@@ -279,9 +283,9 @@ Maps requirements to roadmap phases (filled by gsd-roadmapper).
 | BACKEND-06 | Backend Configuration | Phase 1 | TBD | Pending |
 | BACKEND-07 | Backend Configuration | Phase 2 | 02-02 | Complete |
 | BACKEND-08 | Backend Configuration | Phase 1 | TBD | Pending |
-| FRONTEND-01 | Frontend Updates | Phase 3 | TBD | Pending |
-| FRONTEND-02 | Frontend Updates | Phase 3 | TBD | Pending |
-| FRONTEND-03 | Frontend Updates | Phase 3 | TBD | Pending |
+| FRONTEND-01 | Frontend Updates | Phase 3 | 03-03 | Complete |
+| FRONTEND-02 | Frontend Updates | Phase 3 | 03-01, 03-02 | Complete |
+| FRONTEND-03 | Frontend Updates | Phase 3 | 03-01, 03-02 | Complete |
 | FRONTEND-04 | Frontend Updates | Phase 4 | TBD | Pending |
 | FRONTEND-05 | Frontend Updates | Phase 6 | TBD | Pending |
 | FRONTEND-06 | Frontend Updates | Phase 6 | TBD | Pending |
@@ -290,7 +294,7 @@ Maps requirements to roadmap phases (filled by gsd-roadmapper).
 | DEPLOY-02 | Integration & Deployment | Phase 7 | TBD | Pending |
 | DEPLOY-03 | Integration & Deployment | Phase 7 | TBD | Pending |
 | DEPLOY-04 | Integration & Deployment | Phase 2 | 02-03 | Complete |
-| DEPLOY-05 | Integration & Deployment | Phase 3 | TBD | Pending |
+| DEPLOY-05 | Integration & Deployment | Phase 3 | 03-03 | Complete |
 | TEST-01 | Testing & Verification | Phase 7 | TBD | Pending |
 | TEST-02 | Testing & Verification | Phase 7 | TBD | Pending |
 | TEST-03 | Testing & Verification | Phase 7 | TBD | Pending |
