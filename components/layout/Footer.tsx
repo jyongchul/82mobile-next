@@ -68,6 +68,39 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Legal Links */}
+          <div>
+            <h3 className="font-heading font-bold text-white mb-4">
+              {t('footer.legal')}
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href={`/${locale}/privacy-policy`}
+                  className="hover:text-white transition-colors"
+                >
+                  {t('footer.privacyPolicy')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`/${locale}/terms-of-service`}
+                  className="hover:text-white transition-colors"
+                >
+                  {t('footer.termsOfService')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`/${locale}/refund-policy`}
+                  className="hover:text-white transition-colors"
+                >
+                  {t('footer.refundPolicy')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact */}
           <div>
             <h3 className="font-heading font-bold text-white mb-4">
@@ -118,8 +151,19 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Business Information (EXIMBAY Requirement) */}
+        <div className="mt-12 pt-8 border-t border-gray-700">
+          <div className="text-xs text-gray-400 space-y-1">
+            <p><strong className="text-gray-300">상호명 (Business Name):</strong> [고객 정보 대기 중]</p>
+            <p><strong className="text-gray-300">대표자 (CEO):</strong> [고객 정보 대기 중]</p>
+            <p><strong className="text-gray-300">사업자등록번호 (Business Registration No.):</strong> [고객 정보 대기 중]</p>
+            <p><strong className="text-gray-300">주소 (Address):</strong> [고객 정보 대기 중]</p>
+            <p><strong className="text-gray-300">고객지원 (Customer Support):</strong> adamwoohaha@naver.com | +82 10-6424-6530</p>
+          </div>
+        </div>
+
         {/* Bottom Bar - MUST include Whitehat Marketing credit */}
-        <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+        <div className="mt-8 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
           <p>
             © {currentYear} 82Mobile. All rights reserved.
           </p>
