@@ -35,3 +35,11 @@ next-env.d.ts
 
 # Lighthouse CI
 .lighthouseci/
+
+# Sensitive files (secrets, passwords)
+JWT_SECRET.txt
+**/install_*_plugin.py
+**/activate_*.py
+**/upload_*_plugin.py
+*.backup
+backups/
