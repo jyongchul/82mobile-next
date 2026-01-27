@@ -11,30 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 1 of 7 (WordPress Backend API Setup)
-Plan: 0 of 4 in current phase
-Status: Ready to plan
-Last activity: 2026-01-27 — Roadmap created with 7 phases and 100% requirement coverage
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-27 — Completed 01-01-PLAN.md (WordPress headless backend configuration)
 
-Progress: [░░░░░░░░░░] 0% (0/23 plans complete)
+Progress: [█░░░░░░░░░] 4% (1/23 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: N/A
-- Total execution time: 0.0 hours
+- Total plans completed: 1
+- Average duration: 42 min
+- Total execution time: 0.7 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-wordpress-backend-api-setup | 1/4 | 42min | 42min |
 
 **Recent Trend:**
-- Last 5 plans: N/A
-- Trend: N/A (no execution data yet)
-
-*Will update after first plan completion*
+- Last 5 plans: 42min
+- Trend: Baseline established (first plan complete)
 
 ## Accumulated Context
 
@@ -43,10 +41,13 @@ Progress: [░░░░░░░░░░] 0% (0/23 plans complete)
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- **Headless WordPress Architecture**: Decouple backend API from frontend UI for better scalability and modern frontend experience (Status: Pending implementation)
+- **Headless WordPress Architecture**: Decouple backend API from frontend UI for better scalability and modern frontend experience (Status: ✅ Implemented in 01-01)
 - **Zero Downtime Cutover**: Parallel run on subdomain with gradual DNS cutover to prevent order loss during migration
 - **CoCart for Cart Sessions**: Database-backed cart sessions to replace localStorage-only approach for proper headless cart management
-- **Gabia Hosting with Cache Bypass**: Work within existing Gabia hosting by excluding `/wp-json/` from server cache via .htaccess
+- **Gabia Hosting with Cache Bypass**: Work within existing Gabia hosting by excluding `/wp-json/` from server cache via .htaccess (Status: ✅ Verified working in 01-01)
+- **MU-Plugin Frontend Redirect** (01-01): Use MU-plugin instead of .htaccess for frontend redirect - more reliable with WordPress routing
+- **Specific CORS Domain** (01-01): Allow only Vercel domain (not wildcard) for better security
+- **Complete API Cache Bypass** (01-01): Disable all caching for /wp-json/ endpoints to prevent stale data
 
 ### Pending Todos
 
@@ -55,7 +56,7 @@ None yet.
 ### Blockers/Concerns
 
 **Phase 2 Concerns (Infrastructure):**
-- Gabia shared hosting cache behavior not fully documented; may require hosting migration if .htaccess exclusion rules don't work
+- ✅ RESOLVED: Gabia cache bypass working as expected (verified in 01-01)
 - Redis Object Cache plugin availability on Gabia hosting uncertain (will test in Phase 2)
 
 **Phase 6 Concerns (Payments):**
@@ -67,5 +68,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Roadmap and STATE.md created; ready to begin Phase 1 planning
-Resume file: None (start fresh with `/gsd:plan-phase 1`)
+Stopped at: Completed 01-01-PLAN.md (WordPress headless backend configuration)
+Resume file: None (ready for Wave 2 - next plan is 01-02)
