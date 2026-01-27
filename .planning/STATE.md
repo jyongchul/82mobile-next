@@ -11,29 +11,29 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 2 of 7 (Infrastructure & Caching Strategy)
-Plan: 1 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-27 — Completed 02-01-PLAN.md (Cache Verification & Monitoring Setup)
+Plan: 3 of 3 in current phase
+Status: Phase complete
+Last activity: 2026-01-27 — Completed 02-03-PLAN.md (DNS Cutover Strategy & Vercel Configuration)
 
-Progress: [██░░░░░░░░] 19% (4/21 plans complete)
+Progress: [███░░░░░░░] 29% (6/21 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 27 min
-- Total execution time: 1.8 hours
+- Total plans completed: 6
+- Average duration: 22 min
+- Total execution time: 2.1 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-wordpress-backend-api-setup | 2/2 | 100min | 50min |
-| 02-infrastructure-caching | 2/3 | 9min | 5min |
+| 02-infrastructure-caching | 3/3 | 21min | 7min |
 
 **Recent Trend:**
-- Last 5 plans: 42min, 58min, 3min, 6min
-- Trend: High variability (testing/verification tasks much faster than installation tasks)
+- Last 5 plans: 58min, 3min, 6min, 12min
+- Trend: Infrastructure/documentation tasks averaging ~7 min (much faster than initial setup tasks)
 
 ## Accumulated Context
 
@@ -54,17 +54,25 @@ Recent decisions affecting current work:
 - **Test-first hosting validation** (02-02): Upload PHP test script via FTP, execute via HTTP, verify hosting capabilities before attempting plugin installation
 - **Dual-method cache verification** (02-01): Use both HTTP header inspection and timestamp freshness testing for comprehensive cache bypass validation
 - **Asynchronous monitoring** (02-01): Run 48-hour cache monitoring in background to not block development while tracking Gabia cache propagation
+- **Immediate production cutover** (02-03): DNS cutover directly to production (no subdomain testing) per user requirement; Vercel preview domain testing mandatory before cutover
+- **300s TTL for fast rollback** (02-03): Lower DNS TTL to 300s for 5-10 minute rollback capability vs. 1-hour default
+- **Vercel WordPress admin proxy** (02-03): Transparent proxy via Vercel rewrites keeps /wp-admin URL while routing to Gabia backend
+- **DNS cutover after Phase 6** (02-03): DNS cutover executes in Phase 7 after all features operational (product catalog, cart, checkout, payment)
 
 ### Pending Todos
 
-None yet.
+**Before DNS Cutover (Phase 7)**:
+- Obtain Cloudflare API token with Zone:DNS:Edit permissions
+- Install CloudFlare SDK: `pip install cloudflare`
+- 72 hours before cutover: Run `python3 scripts/cloudflare_dns_manager.py --lower-ttl`
 
 ### Blockers/Concerns
 
-**Phase 2 Concerns (Infrastructure):**
+**Phase 2 Complete (Infrastructure):**
 - ✅ RESOLVED: Gabia cache bypass working as expected (verified in 01-01, confirmed in 02-01 baseline test)
 - ✅ RESOLVED: Redis unavailable on Gabia hosting (tested in 02-02); proceeded without Redis (non-blocking)
 - ⏳ MONITORING: 48-hour cache consistency test running (PID 110973); results at 1h, 6h, 24h, 48h intervals
+- ✅ APPROVED: DNS cutover strategy with immediate production deployment (02-03)
 
 **Phase 6 Concerns (Payments):**
 - Eximbay credentials pending from customer (non-blocking; PortOne works, Eximbay can be added later)
@@ -75,5 +83,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed 02-01-PLAN.md (Cache Verification & Monitoring Setup)
-Resume file: None (ready to continue Phase 2 with Plan 02-02 or 02-03)
+Stopped at: Completed 02-03-PLAN.md (DNS Cutover Strategy & Vercel Configuration) — Phase 2 complete
+Resume file: None (ready to begin Phase 3: Next.js API Routes Setup)
