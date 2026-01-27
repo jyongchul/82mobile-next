@@ -2,24 +2,28 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/wp-json/:path*",
+      "destination": "http://182.162.142.102/wp-json/:path*"
+    },
+    {
       "source": "/wp-admin",
-      "destination": "http://82mobile.com/wp-admin"
+      "destination": "http://182.162.142.102/wp-admin"
     },
     {
       "source": "/wp-admin/:path*",
-      "destination": "http://82mobile.com/wp-admin/:path*"
+      "destination": "http://182.162.142.102/wp-admin/:path*"
     },
     {
       "source": "/wp-login.php",
-      "destination": "http://82mobile.com/wp-login.php"
+      "destination": "http://182.162.142.102/wp-login.php"
     },
     {
       "source": "/wp-includes/:path*",
-      "destination": "http://82mobile.com/wp-includes/:path*"
+      "destination": "http://182.162.142.102/wp-includes/:path*"
     },
     {
       "source": "/wp-content/:path*",
-      "destination": "http://82mobile.com/wp-content/:path*"
+      "destination": "http://182.162.142.102/wp-content/:path*"
     }
   ],
   "headers": [

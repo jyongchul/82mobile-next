@@ -5,6 +5,10 @@ type Props = {
   params: { locale: string };
 };
 
+export function generateStaticParams() {
+  return [{ locale: 'ko' }, { locale: 'en' }];
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale: params.locale, namespace: 'termsOfService' });
 
