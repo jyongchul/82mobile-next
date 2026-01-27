@@ -12,7 +12,7 @@ const intlMiddleware = createMiddleware({
   defaultLocale: 'ko',
 
   // Always use locale prefix
-  localePrefix: 'as-needed'
+  localePrefix: 'always'
 });
 
 /**
