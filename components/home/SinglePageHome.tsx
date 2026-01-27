@@ -129,7 +129,7 @@ export default function SinglePageHome() {
                     ? 'scale-110'
                     : 'hover:scale-105 opacity-60 hover:opacity-100'
                 }`}
-                aria-label={`Scroll to ${item.label}`}
+                aria-label={`${item.icon} ${item.label}`}
               >
                 <span
                   className={`w-3 h-3 rounded-full border-2 transition-all ${
@@ -264,7 +264,7 @@ export default function SinglePageHome() {
         <button
           onClick={() => scrollToSection('products')}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce cursor-pointer group"
-          aria-label="Scroll to products"
+          aria-label="Scroll to explore"
         >
           <div className="flex flex-col items-center gap-2 text-white">
             <span className="text-sm font-medium opacity-75 group-hover:opacity-100 transition-opacity">
