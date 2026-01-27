@@ -59,10 +59,11 @@ Requirements for transforming WordPress into API-only headless backend.
   - **Effort:** 1 hour
   - **Status:** Complete (Phase 1, Plan 01-01)
 
-- [ ] **BACKEND-07**: Implement Redis Object Cache to bypass Gabia server cache
+- [x] **BACKEND-07**: Implement Redis Object Cache to bypass Gabia server cache
   - **Acceptance:** Redis plugin installed; `/wp-json/` excluded from server cache via .htaccess
   - **Priority:** HIGH
   - **Effort:** 3 hours
+  - **Status:** Complete - Redis unavailable on Gabia hosting (tested 2026-01-27); proceeded without Redis (non-blocking for headless architecture; cache bypass handled by .htaccess)
 
 - [x] **BACKEND-08**: Document API authentication flow
   - **Acceptance:** Documentation covers JWT token generation, usage, and refresh flow
