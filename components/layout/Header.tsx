@@ -70,9 +70,6 @@ export default function Header() {
   const multiPageNavigation = [
     { name: t('nav.home'), href: `/${locale}` },
     { name: t('nav.shop'), href: `/${locale}/shop` },
-    { name: t('nav.about'), href: `/${locale}/about` },
-    { name: t('nav.faq'), href: `/${locale}/faq` },
-    { name: t('nav.contact'), href: `/${locale}/contact` },
   ];
 
   return (
