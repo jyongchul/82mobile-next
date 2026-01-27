@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -15,9 +14,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function PrivacyPolicyPage({ params: { locale } }: Props) {
+export default async function PrivacyPolicyPage({ params: { locale } }: Props) {
   unstable_setRequestLocale(locale);
-  const t = useTranslations('privacyPolicy');
+  const t = await getTranslations({ locale, namespace: 'privacyPolicy' });
 
   const lastUpdated = '2026-01-28';
 
