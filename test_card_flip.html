@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Card Flip Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #c8102e;
+            margin-bottom: 10px;
+        }
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .status.desktop {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+        .status.mobile {
+            background: #fce7f3;
+            color: #be185d;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .test-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .test-card h3 {
+            color: #1f2937;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .test-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .test-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .test-card li:last-child {
+            border-bottom: none;
+        }
+        .icon {
+            font-size: 20px;
+        }
+        .instructions {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .instructions h3 {
+            color: #92400e;
+            margin-top: 0;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+            color: #78350f;
+        }
+        .code-block {
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        function detectDevice() {
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const statusDiv = document.getElementById('device-status');
+            if (isTouchDevice) {
+                statusDiv.textContent = '📱 터치 디바이스 감지됨';
+                statusDiv.className = 'status mobile';
+            } else {
+                statusDiv.textContent = '🖥️ 데스크톱 (마우스) 감지됨';
+                statusDiv.className = 'status desktop';
+            }
+        }
+        window.onload = detectDevice;
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>🎴 Product Card Flip 수정 완료</h1>
+        <p>일관된 카드 flip 동작이 적용되었습니다</p>
+        <div id="device-status" class="status"></div>
+    </div>
+
+    <div class="instructions">
+        <h3>⚠️ 테스트 방법</h3>
+        <p>Next.js 개발 서버를 실행하고 Shop 페이지에서 테스트하세요:</p>
+        <div class="code-block">
+$ cd /mnt/c/82Mobile/82mobile-next<br>
+$ npm run dev<br>
+# http://localhost:3000/en/shop 접속
+        </div>
+        <p>또는 프로덕션 빌드 후 테스트:</p>
+        <div class="code-block">
+$ npm run build<br>
+$ npm start
+        </div>
+    </div>
+
+    <div class="test-grid">
+        <div class="test-card">
+            <h3>
+                <span class="icon">🖥️</span>
+                Desktop 동작
+            </h3>
+            <ul>
+                <li>
+                    <span>1️⃣</span>
+                    <span>마우스 hover → 카드 flip</span>
+                </li>
+                <li>
+                    <span>2️⃣</span>
+                    <span>Mouse leave → 원래 상태</span>
+                </li>
+                <li>
+                    <span>3️⃣</span>
+                    <span>Flip된 상태에서 클릭 → 페이지 이동</span>
+                </li>
+                <li>
+                    <span>🛒</span>
+                    <span>"Add to Cart" 클릭 → 장바구니</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="test-card">
+            <h3>
+                <span class="icon">📱</span>
+                Mobile/Touch 동작
+            </h3>
+            <ul>
+                <li>
+                    <span>1️⃣</span>
+                    <span>첫 번째 탭 → 카드 flip (이동 X)</span>
+                </li>
+                <li>
+                    <span>2️⃣</span>
+                    <span>두 번째 탭 → 페이지 이동</span>
+                </li>
+                <li>
+                    <span>🛒</span>
+                    <span>"Add to Cart" 탭 → 장바구니</span>
+                </li>
+                <li>
+                    <span>❌</span>
+                    <span>외부 탭 → flip 닫힘</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="test-card">
+            <h3>
+                <span class="icon">✅</span>
+                수정된 기능
+            </h3>
+            <ul>
+                <li>
+                    <span>✓</span>
+                    <span>터치 디바이스 자동 감지</span>
+                </li>
+                <li>
+                    <span>✓</span>
+                    <span>플랫폼별 동작 분리</span>
+                </li>
+                <li>
+                    <span>✓</span>
+                    <span>외부 클릭으로 닫기 (모바일)</span>
+                </li>
+                <li>
+                    <span>✓</span>
+                    <span>일관된 사용자 경험</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="test-card">
+            <h3>
+                <span class="icon">🔧</span>
+                수정된 파일
+            </h3>
+            <ul>
+                <li>
+                    <span>📄</span>
+                    <span>ProductCard.tsx</span>
+                </li>
+                <li>
+                    <span>➕</span>
+                    <span>useEffect import</span>
+                </li>
+                <li>
+                    <span>➕</span>
+                    <span>isTouchDevice state</span>
+                </li>
+                <li>
+                    <span>➕</span>
+                    <span>handleCardClick 함수</span>
+                </li>
+                <li>
+                    <span>➕</span>
+                    <span>외부 클릭 감지 로직</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="instructions" style="background: #f0fdf4; border-left-color: #10b981;">
+        <h3 style="color: #065f46;">🎯 Chrome DevTools로 모바일 테스트</h3>
+        <ol>
+            <li>Chrome에서 F12 눌러 DevTools 열기</li>
+            <li>Device Toolbar 아이콘 클릭 (Ctrl+Shift+M)</li>
+            <li>iPhone 또는 iPad 선택</li>
+            <li>/shop 페이지에서 제품 카드 터치 테스트</li>
+            <li>첫 탭: flip / 두 번째 탭: 이동 확인</li>
+        </ol>
+    </div>
+
+    <div class="footer">
+        <p>✨ 수정 완료: 2026-01-27</p>
+        <p>📝 상세 내역: <code>PRODUCT_CARD_FLIP_FIX.md</code> 참조</p>
+    </div>
+</body>
+</html>

@@ -83,6 +83,7 @@ const config: Config = {
         'slide-up': 'slideUp 0.5s ease-out',
         'slide-down': 'slideDown 0.5s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
+        'scale-up': 'scaleUp 0.3s ease-out',
         'turtle-swim': 'turtleSwim 3s ease-in-out infinite',
       },
       keyframes: {
@@ -100,6 +101,10 @@ const config: Config = {
         },
         scaleIn: {
           '0%': { transform: 'scale(0.9)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        scaleUp: {
+          '0%': { transform: 'scale(0.8)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
         turtleSwim: {
