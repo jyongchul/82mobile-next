@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
 import PlanSelector from '@/components/shop/PlanSelector';
+import { sanitizeHtml } from '@/lib/html-utils';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -194,9 +195,17 @@ export default function ProductDetailPage() {
             </h1>
 
             {/* Description */}
-            <p className="text-lg text-gray-600 leading-relaxed">
-              {product.description}
-            </p>
+            <div
+              className="text-base text-gray-700 leading-relaxed prose prose-sm max-w-none
+                [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-3
+                [&>h4]:text-lg [&>h4]:font-semibold [&>h4]:mt-4 [&>h4]:mb-2
+                [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:my-3
+                [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:my-3
+                [&>li]:my-1
+                [&>p]:my-2
+                [&_strong]:font-semibold [&_strong]:text-gray-900"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description) }}
+            />
 
             {/* Features */}
             <div className="bg-gray-50 rounded-xl p-6">
