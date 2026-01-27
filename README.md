@@ -55,10 +55,7 @@ User → Cloudflare (CDN/Proxy) → Vercel (Next.js Frontend)
    cp .env.example .env.local
    ```
 
-   Edit `.env.local` with your credentials:
-   - `WC_CONSUMER_KEY`: From WooCommerce → Settings → Advanced → REST API
-   - `WC_CONSUMER_SECRET`: From WooCommerce → Settings → Advanced → REST API
-   - `PORTONE_*`: From PortOne dashboard
+   Fill in actual values in `.env.local` - see [Environment Variables](#-environment-variables) section for details on where to get each value
 
 3. **Run development server**:
    ```bash
@@ -231,21 +228,57 @@ curl https://82mobile.com/wp-json/wc/v3/products \
 
 ## 🔐 Environment Variables
 
-Required environment variables (see `.env.example`):
+This project requires the following environment variables:
 
-### WordPress & WooCommerce
-- `WORDPRESS_URL`: WordPress site URL (https://82mobile.com)
-- `WC_CONSUMER_KEY`: WooCommerce API consumer key
-- `WC_CONSUMER_SECRET`: WooCommerce API consumer secret
+### Required Variables
 
-### PortOne Payment Gateway
-- `NEXT_PUBLIC_PORTONE_STORE_ID`: PortOne store ID
-- `NEXT_PUBLIC_PORTONE_CHANNEL_KEY`: PortOne channel key
-- `PORTONE_API_KEY`: PortOne API key (server-side)
-- `PORTONE_API_SECRET`: PortOne API secret (server-side)
+| Variable | Description | Example | Where to Get |
+|----------|-------------|---------|--------------|
+| `WORDPRESS_URL` | WordPress backend API URL | `https://82mobile.com` | Your WordPress installation URL |
+| `WC_CONSUMER_KEY` | WooCommerce API consumer key | `ck_abc123...` | WordPress Admin > WooCommerce > Settings > Advanced > REST API |
+| `WC_CONSUMER_SECRET` | WooCommerce API consumer secret | `cs_xyz789...` | Same as consumer key |
+| `JWT_SECRET` | JWT authentication secret | (64+ char random string) | Generate: `openssl rand -base64 64` |
+| `COCART_API_URL` | CoCart API endpoint (optional) | `https://82mobile.com/wp-json/cocart/v2` | Defaults to WORDPRESS_URL + path |
+| `PORTONE_API_KEY` | PortOne API key (server-side) | `imp_apikey_...` | PortOne Dashboard > API Keys |
+| `PORTONE_API_SECRET` | PortOne API secret (server-side) | (secret string) | PortOne Dashboard > API Keys |
+| `NEXT_PUBLIC_PORTONE_STORE_ID` | PortOne store ID | `store-xxxxx` | PortOne Dashboard > Settings |
+| `NEXT_PUBLIC_PORTONE_CHANNEL_KEY` | PortOne channel key | `channel-xxxxx` | PortOne Dashboard > Settings |
+| `NEXT_PUBLIC_URL` | Production URL | `https://82mobile.com` | Your production domain |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics ID (optional) | `G-XXXXXXXXXX` | Google Analytics Dashboard |
 
-### Next.js
-- `NEXT_PUBLIC_URL`: Production URL (https://82mobile.com)
+### Local Development Setup
+
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Fill in actual values in `.env.local` (see table above for where to get each value)
+
+3. **CRITICAL**: Never commit `.env.local` or expose credentials in client-side code
+
+### Vercel Deployment Setup
+
+1. Go to Vercel Dashboard > Your Project > Settings > Environment Variables
+
+2. Add all variables from `.env.example` with production values
+
+3. Set environment scope:
+   - `WORDPRESS_URL`: All environments (development, preview, production)
+   - `WC_CONSUMER_KEY`: Production only (use test keys for preview)
+   - `WC_CONSUMER_SECRET`: Production only
+   - `JWT_SECRET`: Production only (use separate secret for preview)
+   - `PORTONE_*`: Production only (use test credentials for preview)
+
+4. Redeploy after adding variables
+
+### Security Notes
+
+- **DO NOT** use `NEXT_PUBLIC_` prefix for any credentials (WC keys, JWT secret, PortOne API secret)
+- All API credentials accessed server-side only (Next.js API Routes)
+- JWT tokens stored in httpOnly cookies (not accessible via JavaScript)
+- Cart session keys stored in non-httpOnly cookies (client needs access)
+- Environment variables validated at startup via `lib/env.ts`
 
 ## 🧪 Testing
 
