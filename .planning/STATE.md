@@ -6,22 +6,22 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Seamless backend/frontend separation where WordPress provides product catalog and order management via REST API, while Next.js handles all user-facing experiences with zero downtime during migration.
 
-**Current focus:** Phase 1 - WordPress Backend API Setup
+**Current focus:** Phase 2 - Infrastructure & Caching Strategy
 
 ## Current Position
 
-Phase: 1 of 7 (WordPress Backend API Setup)
-Plan: 2 of 2 in current phase
-Status: Phase complete (awaiting verification)
-Last activity: 2026-01-27 — Completed 01-02-PLAN.md (CoCart plugin installation and API documentation)
+Phase: 2 of 7 (Infrastructure & Caching Strategy)
+Plan: 2 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-27 — Completed 02-02-PLAN.md (Redis Object Cache testing and decision)
 
-Progress: [█░░░░░░░░░] 10% (2/21 plans complete)
+Progress: [██░░░░░░░░] 14% (3/21 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 50 min
+- Total plans completed: 3
+- Average duration: 34 min
 - Total execution time: 1.7 hours
 
 **By Phase:**
@@ -29,10 +29,11 @@ Progress: [█░░░░░░░░░] 10% (2/21 plans complete)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-wordpress-backend-api-setup | 2/2 | 100min | 50min |
+| 02-infrastructure-caching | 2/3 | 3min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 42min, 58min
-- Trend: Consistent velocity (~50min avg)
+- Last 5 plans: 42min, 58min, 3min
+- Trend: High variability (testing tasks much faster than installation tasks)
 
 ## Accumulated Context
 
@@ -49,6 +50,8 @@ Recent decisions affecting current work:
 - **Specific CORS Domain** (01-01): Allow only Vercel domain (not wildcard) for better security
 - **Complete API Cache Bypass** (01-01): Disable all caching for /wp-json/ endpoints to prevent stale data
 - **CoCart Form-Encoded Requirement** (01-02): CoCart requires `application/x-www-form-urlencoded` content type on Gabia hosting; JSON format returns 400 errors (Gabia WAF/mod_security restriction)
+- **Proceed without Redis** (02-02): Gabia shared hosting lacks PHP Redis extension; Redis is WordPress-internal optimization, not required for headless architecture (cache bypass handled by .htaccess)
+- **Test-first hosting validation** (02-02): Upload PHP test script via FTP, execute via HTTP, verify hosting capabilities before attempting plugin installation
 
 ### Pending Todos
 
@@ -58,7 +61,7 @@ None yet.
 
 **Phase 2 Concerns (Infrastructure):**
 - ✅ RESOLVED: Gabia cache bypass working as expected (verified in 01-01)
-- Redis Object Cache plugin availability on Gabia hosting uncertain (will test in Phase 2)
+- ✅ RESOLVED: Redis unavailable on Gabia hosting (tested in 02-02); proceeded without Redis (non-blocking)
 
 **Phase 6 Concerns (Payments):**
 - Eximbay credentials pending from customer (non-blocking; PortOne works, Eximbay can be added later)
@@ -69,5 +72,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed Phase 1 (both plans executed - 01-01 and 01-02)
-Resume file: None (ready for Phase 1 verification via gsd-verifier)
+Stopped at: Completed 02-02-PLAN.md (Redis Object Cache testing and decision)
+Resume file: None (ready to continue Phase 2 with Plan 02-03)
