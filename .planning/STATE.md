@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 1 of 7 (WordPress Backend API Setup)
-Plan: 1 of 4 in current phase
-Status: In progress
-Last activity: 2026-01-27 — Completed 01-01-PLAN.md (WordPress headless backend configuration)
+Plan: 2 of 2 in current phase
+Status: Phase complete (awaiting verification)
+Last activity: 2026-01-27 — Completed 01-02-PLAN.md (CoCart plugin installation and API documentation)
 
-Progress: [█░░░░░░░░░] 4% (1/23 plans complete)
+Progress: [█░░░░░░░░░] 10% (2/21 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 42 min
-- Total execution time: 0.7 hours
+- Total plans completed: 2
+- Average duration: 50 min
+- Total execution time: 1.7 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-wordpress-backend-api-setup | 1/4 | 42min | 42min |
+| 01-wordpress-backend-api-setup | 2/2 | 100min | 50min |
 
 **Recent Trend:**
-- Last 5 plans: 42min
-- Trend: Baseline established (first plan complete)
+- Last 5 plans: 42min, 58min
+- Trend: Consistent velocity (~50min avg)
 
 ## Accumulated Context
 
@@ -48,6 +48,7 @@ Recent decisions affecting current work:
 - **MU-Plugin Frontend Redirect** (01-01): Use MU-plugin instead of .htaccess for frontend redirect - more reliable with WordPress routing
 - **Specific CORS Domain** (01-01): Allow only Vercel domain (not wildcard) for better security
 - **Complete API Cache Bypass** (01-01): Disable all caching for /wp-json/ endpoints to prevent stale data
+- **CoCart Form-Encoded Requirement** (01-02): CoCart requires `application/x-www-form-urlencoded` content type on Gabia hosting; JSON format returns 400 errors (Gabia WAF/mod_security restriction)
 
 ### Pending Todos
 
@@ -68,5 +69,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-27
-Stopped at: Completed 01-01-PLAN.md (WordPress headless backend configuration)
-Resume file: None (ready for Wave 2 - next plan is 01-02)
+Stopped at: Completed Phase 1 (both plans executed - 01-01 and 01-02)
+Resume file: None (ready for Phase 1 verification via gsd-verifier)
