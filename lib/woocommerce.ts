@@ -2,19 +2,29 @@ import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
 // Initialize WooCommerce API client
 // Credentials are provided via environment variables:
-// - WORDPRESS_URL: WordPress site URL (e.g., https://82mobile.com)
+// - WORDPRESS_URL: WordPress backend IP (e.g., http://182.162.142.102)
+// - WORDPRESS_HOST: Host header for virtual hosting (e.g., 82mobile.com)
 // - WC_CONSUMER_KEY: WooCommerce REST API consumer key
 // - WC_CONSUMER_SECRET: WooCommerce REST API consumer secret
 //
 // In production and CI/CD, these are injected via:
 // - Vercel: Environment Variables in project settings
 // - GitHub Actions: Repository Secrets
+//
+// IMPORTANT: Gabia hosting uses virtual host configuration.
+// Requests to IP without proper Host header return 403 Forbidden.
+// We inject the Host header via axiosConfig to bypass this restriction.
 export const woo = new WooCommerceRestApi({
-  url: process.env.WORDPRESS_URL || "https://82mobile.com",
+  url: process.env.WORDPRESS_URL || "http://182.162.142.102",
   consumerKey: process.env.WC_CONSUMER_KEY || "",
   consumerSecret: process.env.WC_CONSUMER_SECRET || "",
   version: "wc/v3",
   queryStringAuth: true, // Force Basic Authentication for all requests
+  axiosConfig: {
+    headers: {
+      Host: process.env.WORDPRESS_HOST || "82mobile.com",
+    },
+  },
 });
 
 // Type definitions for WooCommerce products
