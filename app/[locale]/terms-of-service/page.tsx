@@ -1,26 +1,9 @@
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-import type { Metadata } from 'next';
+'use client';
 
-type Props = {
-  params: { locale: string };
-};
+import { useTranslations } from 'next-intl';
 
-export function generateStaticParams() {
-  return [{ locale: 'ko' }, { locale: 'en' }];
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const t = await getTranslations({ locale: params.locale, namespace: 'termsOfService' });
-
-  return {
-    title: t('metaTitle'),
-    description: t('metaDescription'),
-  };
-}
-
-export default async function TermsOfServicePage({ params: { locale } }: Props) {
-  unstable_setRequestLocale(locale);
-  const t = await getTranslations({ locale, namespace: 'termsOfService' });
+export default function TermsOfServicePage() {
+  const t = useTranslations('termsOfService');
 
   const lastUpdated = '2026-01-28';
 
