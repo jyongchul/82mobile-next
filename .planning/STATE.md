@@ -81,8 +81,14 @@ Recent decisions affecting current work:
 **Phase 7 Concerns (Cutover):**
 - Vercel domain conflict ("82mobile.com already assigned to another project") must be resolved before DNS cutover
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 001 | Fix incorrect DNS architecture guidance for Vercel + Headless WordPress setup | 2026-01-28 | 8b4b4cc | [001-fix-incorrect-dns-architecture-guidance-](./quick/001-fix-incorrect-dns-architecture-guidance-/) |
+
 ## Session Continuity
 
-Last session: 2026-01-27
-Stopped at: Plan 03-01 complete (Foundation - Dependencies & Utilities)
-Resume file: None (ready for Phase 3 continued planning via /gsd:plan-phase 3)
+Last session: 2026-01-28
+Stopped at: Quick task 001 complete (DNS architecture fix)
+Resume file: None (ready for Phase 4 planning via /gsd:plan-phase 4)
