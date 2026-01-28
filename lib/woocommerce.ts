@@ -1,31 +1,84 @@
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-
-// Initialize WooCommerce API client
+// Custom WooCommerce API client using native fetch
+// This bypasses issues with @woocommerce/woocommerce-rest-api library
+// not properly handling Host header injection for Gabia virtual hosting.
+//
 // Credentials are provided via environment variables:
 // - WORDPRESS_URL: WordPress backend IP (e.g., http://182.162.142.102)
 // - WORDPRESS_HOST: Host header for virtual hosting (e.g., 82mobile.com)
 // - WC_CONSUMER_KEY: WooCommerce REST API consumer key
 // - WC_CONSUMER_SECRET: WooCommerce REST API consumer secret
 //
-// In production and CI/CD, these are injected via:
-// - Vercel: Environment Variables in project settings
-// - GitHub Actions: Repository Secrets
-//
 // IMPORTANT: Gabia hosting uses virtual host configuration.
 // Requests to IP without proper Host header return 403 Forbidden.
-// We inject the Host header via axiosConfig to bypass this restriction.
-export const woo = new WooCommerceRestApi({
-  url: process.env.WORDPRESS_URL || "http://182.162.142.102",
-  consumerKey: process.env.WC_CONSUMER_KEY || "",
-  consumerSecret: process.env.WC_CONSUMER_SECRET || "",
-  version: "wc/v3",
-  queryStringAuth: true, // Force Basic Authentication for all requests
-  axiosConfig: {
-    headers: {
-      Host: process.env.WORDPRESS_HOST || "82mobile.com",
-    },
+
+const WORDPRESS_URL = process.env.WORDPRESS_URL || "http://182.162.142.102";
+const WORDPRESS_HOST = process.env.WORDPRESS_HOST || "82mobile.com";
+const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY || "";
+const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET || "";
+
+/**
+ * Make authenticated WooCommerce API request
+ * @param endpoint - API endpoint (e.g., "products", "orders/123")
+ * @param params - Query parameters
+ * @param method - HTTP method
+ * @param body - Request body for POST/PUT
+ * @returns API response data
+ */
+async function wooRequest(
+  endpoint: string,
+  params: Record<string, any> = {},
+  method: string = "GET",
+  body?: any
+): Promise<any> {
+  // Build query string with OAuth credentials
+  const queryParams = new URLSearchParams({
+    consumer_key: WC_CONSUMER_KEY,
+    consumer_secret: WC_CONSUMER_SECRET,
+    ...params,
+  });
+
+  const url = `${WORDPRESS_URL}/wp-json/wc/v3/${endpoint}?${queryParams}`;
+
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Host": WORDPRESS_HOST,
+        "Content-Type": "application/json",
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    if (!response.ok) {
+      throw new Error(`WooCommerce API error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`WooCommerce API request failed: ${endpoint}`, error);
+    throw error;
+  }
+}
+
+// Legacy woo object for backward compatibility
+export const woo = {
+  get: async (endpoint: string, params?: Record<string, any>) => {
+    const data = await wooRequest(endpoint, params, "GET");
+    return { data };
   },
-});
+  post: async (endpoint: string, body: any) => {
+    const data = await wooRequest(endpoint, {}, "POST", body);
+    return { data };
+  },
+  put: async (endpoint: string, body: any) => {
+    const data = await wooRequest(endpoint, {}, "PUT", body);
+    return { data };
+  },
+  delete: async (endpoint: string) => {
+    const data = await wooRequest(endpoint, {}, "DELETE");
+    return { data };
+  },
+};
 
 // Type definitions for WooCommerce products
 export interface WooProduct {
