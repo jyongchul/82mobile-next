@@ -106,20 +106,12 @@ export default function ProductsSection() {
         {!isLoading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
             {filteredProducts.map((product, index) => (
-              <div
+              <ProductCard
                 key={product.id}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setSelectedProduct(product);
-                }}
-                className="cursor-pointer"
-              >
-                <ProductCard
-                  {...product}
-                  index={index}
-                />
-              </div>
+                {...product}
+                index={index}
+                onSelect={() => setSelectedProduct(product)}
+              />
             ))}
           </div>
         )}

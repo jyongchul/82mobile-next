@@ -21,6 +21,7 @@ interface ProductCardProps {
   dataAmount?: string;
   badge?: string;
   index: number; // For lazy loading strategy
+  onSelect?: () => void; // When provided, card click opens modal instead of navigating
 }
 
 export default function ProductCard({
@@ -34,7 +35,8 @@ export default function ProductCard({
   duration,
   dataAmount,
   badge,
-  index
+  index,
+  onSelect
 }: ProductCardProps) {
   const locale = useLocale();
   const addItem = useCartStore((state) => state.addItem);
@@ -101,7 +103,15 @@ export default function ProductCard({
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // On touch devices, open modal instead of navigating
+    // If onSelect is provided (e.g., homepage), always open parent modal
+    if (onSelect) {
+      e.preventDefault();
+      e.stopPropagation();
+      onSelect();
+      return;
+    }
+
+    // On touch devices, open inline modal instead of navigating
     if (isTouchDevice) {
       e.preventDefault();
       e.stopPropagation();
@@ -117,7 +127,7 @@ export default function ProductCard({
         });
       }
     }
-    // If not touch device, allow navigation
+    // If not touch device and no onSelect, allow navigation
   };
 
   const handleCloseModal = () => {
