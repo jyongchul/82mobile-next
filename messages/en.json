@@ -55,7 +55,26 @@
     "contactSupport": "Contact Support",
     "emailUs": "Email Us",
     "liveChat": "Live Chat",
-    "available247": "Available 24/7"
+    "available247": "Available 24/7",
+    "whyChooseTitle": "Why Choose 82Mobile?",
+    "whyChooseSubtitle": "The smart choice for staying connected during your Korean adventure",
+    "viewAllFaqs": "View All FAQs"
+  },
+  "whyChooseUs": {
+    "fastActivationTitle": "Fast Activation",
+    "fastActivationDesc": "Get connected within minutes of landing in Korea. No waiting, no hassle.",
+    "bestPricesTitle": "Best Prices",
+    "bestPricesDesc": "Competitive rates with flexible plans. Pay only for what you need.",
+    "reliableNetworkTitle": "Reliable Network",
+    "reliableNetworkDesc": "Premium LTE/5G coverage on Korea's best networks (SK Telecom, KT, LG U+)."
+  },
+  "faq": {
+    "q1": "How do I activate my eSIM?",
+    "a1": "After purchase, you'll receive a QR code via email. Simply scan it with your phone's camera, and your eSIM will be activated instantly. Make sure your device supports eSIM functionality.",
+    "q2": "Can I use the SIM card immediately upon arrival?",
+    "a2": "Yes! Physical SIM cards can be picked up at our stores in Myeongdong or Hongdae, and activated immediately. eSIMs can be activated before you even land in Korea.",
+    "q3": "What happens if I run out of data?",
+    "a3": "Don't worry! You can top up your data plan anytime through our website or by visiting one of our stores. We also offer unlimited data plans for heavy users."
   },
   "navDots": {
     "home": "Home",

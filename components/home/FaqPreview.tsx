@@ -4,25 +4,16 @@ import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const faqs = [
-  {
-    question: 'How do I activate my eSIM?',
-    answer: 'After purchase, you\'ll receive a QR code via email. Simply scan it with your phone\'s camera, and your eSIM will be activated instantly. Make sure your device supports eSIM functionality.'
-  },
-  {
-    question: 'Can I use the SIM card immediately upon arrival?',
-    answer: 'Yes! Physical SIM cards can be picked up at our stores in Myeongdong or Hongdae, and activated immediately. eSIMs can be activated before you even land in Korea.'
-  },
-  {
-    question: 'What happens if I run out of data?',
-    answer: 'Don\'t worry! You can top up your data plan anytime through our website or by visiting one of our stores. We also offer unlimited data plans for heavy users.'
-  }
-];
-
 export default function FaqPreview() {
   const t = useTranslations();
   const locale = useLocale();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const faqs = [
+    { question: t('faq.q1'), answer: t('faq.a1') },
+    { question: t('faq.q2'), answer: t('faq.a2') },
+    { question: t('faq.q3'), answer: t('faq.a3') },
+  ];
 
   return (
     <section className="py-20 bg-gray-50">
@@ -30,10 +21,10 @@ export default function FaqPreview() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Frequently Asked Questions
+            {t('sections.frequentlyAskedQuestions')}
           </h2>
           <p className="text-xl text-gray-600">
-            Got questions? We've got answers
+            {t('sections.gotQuestions')}
           </p>
         </div>
 
@@ -44,7 +35,6 @@ export default function FaqPreview() {
               key={index}
               className="bg-white rounded-xl shadow-md overflow-hidden transition-all"
             >
-              {/* Question Button */}
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
@@ -69,7 +59,6 @@ export default function FaqPreview() {
                 </svg>
               </button>
 
-              {/* Answer */}
               {openIndex === index && (
                 <div className="px-6 pb-6 text-gray-600 leading-relaxed animate-slide-down">
                   {faq.answer}
@@ -85,7 +74,7 @@ export default function FaqPreview() {
             href={`/${locale}/faq`}
             className="inline-flex items-center text-dancheong-red hover:text-red-700 font-bold transition-colors"
           >
-            View All FAQs
+            {t('sections.viewAllFaqs')}
             <svg
               className="ml-2 w-5 h-5"
               fill="none"

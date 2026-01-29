@@ -55,7 +55,26 @@
     "contactSupport": "고객 지원",
     "emailUs": "이메일 문의",
     "liveChat": "실시간 채팅",
-    "available247": "24시간 가능"
+    "available247": "24시간 가능",
+    "whyChooseTitle": "왜 82Mobile을 선택하나요?",
+    "whyChooseSubtitle": "한국 여행 중 최고의 연결을 위한 스마트한 선택",
+    "viewAllFaqs": "모든 FAQ 보기"
+  },
+  "whyChooseUs": {
+    "fastActivationTitle": "빠른 개통",
+    "fastActivationDesc": "한국 도착 후 몇 분 안에 연결됩니다. 기다림도, 번거로움도 없습니다.",
+    "bestPricesTitle": "최저가 보장",
+    "bestPricesDesc": "유연한 플랜과 경쟁력 있는 요금. 필요한 만큼만 결제하세요.",
+    "reliableNetworkTitle": "안정적인 네트워크",
+    "reliableNetworkDesc": "한국 최고의 통신사 (SK텔레콤, KT, LG U+)의 프리미엄 LTE/5G 커버리지."
+  },
+  "faq": {
+    "q1": "eSIM은 어떻게 활성화하나요?",
+    "a1": "구매 후 이메일로 QR 코드를 받게 됩니다. 휴대폰 카메라로 스캔하면 eSIM이 즉시 활성화됩니다. 기기가 eSIM 기능을 지원하는지 확인해 주세요.",
+    "q2": "도착 즉시 SIM 카드를 사용할 수 있나요?",
+    "a2": "네! 물리적 SIM 카드는 명동 또는 홍대 매장에서 수령 후 바로 활성화할 수 있습니다. eSIM은 한국에 도착하기 전에도 활성화할 수 있습니다.",
+    "q3": "데이터가 소진되면 어떻게 하나요?",
+    "a3": "걱정하지 마세요! 웹사이트를 통해 또는 매장을 방문하여 언제든지 데이터 플랜을 충전할 수 있습니다. 대용량 사용자를 위한 무제한 데이터 플랜도 제공합니다."
   },
   "navDots": {
     "home": "홈",
