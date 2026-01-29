@@ -74,7 +74,18 @@
     "q2": "Can I use the SIM card immediately upon arrival?",
     "a2": "Yes! Physical SIM cards can be picked up at our stores in Myeongdong or Hongdae, and activated immediately. eSIMs can be activated before you even land in Korea.",
     "q3": "What happens if I run out of data?",
-    "a3": "Don't worry! You can top up your data plan anytime through our website or by visiting one of our stores. We also offer unlimited data plans for heavy users."
+    "a3": "Don't worry! You can top up your data plan anytime through our website or by visiting one of our stores. We also offer unlimited data plans for heavy users.",
+    "q4": "Which devices support eSIM?",
+    "a4": "Most modern smartphones support eSIM, including iPhone XS and newer, Samsung Galaxy S20 and newer, and Google Pixel 3 and newer. Check your device settings or contact us if you're unsure.",
+    "q5": "Do I need to unlock my phone?",
+    "a5": "For physical SIM cards, your phone must be unlocked. For eSIM, your device needs to be eSIM-capable and not carrier-locked for eSIM functionality. Most phones purchased outright are unlocked.",
+    "q6": "What network coverage can I expect?",
+    "a6": "We use Korea's top carriers - SK Telecom, KT, and LG U+ - providing excellent LTE/5G coverage across the entire country, including rural areas and subway systems.",
+    "pageTitle": "Frequently Asked Questions",
+    "pageSubtitle": "Find answers to common questions about our SIM cards and services",
+    "stillHaveQuestions": "Still Have Questions?",
+    "contactUsText": "Our support team is available 24/7 to help you with any questions.",
+    "contactUs": "Contact Us"
   },
   "navDots": {
     "home": "Home",
