@@ -62,7 +62,7 @@ export default function Header() {
   const singlePageNavigation = [
     { name: t('nav.home'), id: 'hero', icon: '🏠' },
     { name: t('nav.shop'), id: 'products', icon: '📱' },
-    { name: 'Why Us', id: 'why-choose-us', icon: '⭐' },
+    { name: t('navDots.whyUs'), id: 'why-choose-us', icon: '⭐' },
     { name: t('nav.faq'), id: 'faq', icon: '❓' },
     { name: t('nav.contact'), id: 'contact', icon: '📧' },
   ];

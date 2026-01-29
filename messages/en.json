@@ -73,10 +73,17 @@
       "dataPlan": "Data Plan"
     },
     "filters": {
+      "type": "Type",
+      "duration": "Duration",
+      "dataAmount": "Data Amount",
       "sortBy": "Sort By",
       "priceAsc": "Price: Low to High",
       "priceDesc": "Price: High to Low",
-      "newest": "Newest"
+      "newest": "Newest",
+      "newestFirst": "Newest First",
+      "filters": "Filters",
+      "clearAll": "Clear All",
+      "showingProducts": "Showing {count} products"
     }
   },
   "cart": {

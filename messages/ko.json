@@ -73,10 +73,17 @@
       "dataPlan": "데이터 플랜"
     },
     "filters": {
+      "type": "유형",
+      "duration": "기간",
+      "dataAmount": "데이터 용량",
       "sortBy": "정렬",
       "priceAsc": "가격: 낮은 순",
       "priceDesc": "가격: 높은 순",
-      "newest": "최신순"
+      "newest": "최신순",
+      "newestFirst": "최신순",
+      "filters": "필터",
+      "clearAll": "초기화",
+      "showingProducts": "{count}개의 상품 표시 중"
     }
   },
   "cart": {
