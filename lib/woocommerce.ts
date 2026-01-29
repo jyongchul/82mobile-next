@@ -37,13 +37,13 @@ async function wooRequest(
     ...params,
   });
 
-  const url = `${WORDPRESS_URL}/wp-json/wc/v3/${endpoint}?${queryParams}`;
+  // Use custom 82m/v1 proxy endpoint to bypass WooCommerce OAuth auth issues on HTTP
+  const url = `${WORDPRESS_URL}/wp-json/82m/v1/${endpoint}?${queryParams}`;
 
   try {
     const response = await fetch(url, {
       method,
       headers: {
-        "Host": WORDPRESS_HOST,
         "Content-Type": "application/json",
       },
       body: body ? JSON.stringify(body) : undefined,
@@ -268,7 +268,7 @@ export async function updateOrderStatus(
  */
 export async function getCategories() {
   try {
-    const { data } = await woo.get("products/categories", {
+    const { data } = await woo.get("categories", {
       per_page: 100,
     });
     return data;
