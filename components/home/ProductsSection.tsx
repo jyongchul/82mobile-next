@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { useProducts } from '@/hooks/useProducts';
 import ProductCard from '@/components/shop/ProductCard';
 import ProductFilter from '@/components/shop/ProductFilter';
@@ -8,6 +9,7 @@ import ProductExpanded from './ProductExpanded';
 import type { Product } from '@/hooks/useProducts';
 
 export default function ProductsSection() {
+  const t = useTranslations();
   const { data, isLoading, error } = useProducts();
   const [filters, setFilters] = useState({
     duration: [] as string[],
@@ -64,10 +66,10 @@ export default function ProductsSection() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="font-heading text-4xl md:text-5xl font-black text-gray-900 mb-4">
-            Browse Our Plans
+            {t('sections.browseOurPlans')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose the perfect plan for your Korean adventure
+            {t('sections.choosePerfectPlan')}
           </p>
         </div>
 

@@ -115,11 +115,11 @@ export default function SinglePageHome() {
       <nav className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
         <ul className="space-y-4">
           {[
-            { id: 'hero', label: 'Home', icon: '🏠' },
-            { id: 'products', label: 'Products', icon: '📱' },
-            { id: 'why-choose-us', label: 'Why Us', icon: '⭐' },
-            { id: 'faq', label: 'FAQ', icon: '❓' },
-            { id: 'contact', label: 'Contact', icon: '📧' }
+            { id: 'hero', label: t('navDots.home'), icon: '🏠' },
+            { id: 'products', label: t('navDots.products'), icon: '📱' },
+            { id: 'why-choose-us', label: t('navDots.whyUs'), icon: '⭐' },
+            { id: 'faq', label: t('navDots.faq'), icon: '❓' },
+            { id: 'contact', label: t('navDots.contact'), icon: '📧' }
           ].map((item) => (
             <li key={item.id}>
               <button
@@ -176,29 +176,29 @@ export default function SinglePageHome() {
               <div className="inline-block">
                 <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-sm font-semibold border border-white/20">
                   <span className="w-2 h-2 bg-jade-green rounded-full animate-pulse" />
-                  Korea's #1 eSIM Provider
+                  {t('hero.badge')}
                 </span>
               </div>
 
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
-                Stay Connected
+                {t('hero.titleLine1')}
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300">
-                  Anywhere in Korea
+                  {t('hero.titleLine2')}
                 </span>
               </h1>
 
               <p className="text-xl md:text-2xl text-gray-200 font-body leading-relaxed">
-                Instant eSIM activation. Unlimited data. No roaming fees.
+                {t('hero.description')}
                 <br />
-                <span className="text-jade-green font-bold">Your Korean adventure starts here.</span>
+                <span className="text-jade-green font-bold">{t('hero.adventureStart')}</span>
               </p>
 
               {/* Features Grid */}
               <div className="grid grid-cols-3 gap-4 pt-4">
                 {[
-                  { icon: '⚡', label: 'Instant' },
-                  { icon: '📶', label: '5G Speed' },
-                  { icon: '🌏', label: 'Unlimited' }
+                  { icon: '⚡', label: t('hero.featureInstant') },
+                  { icon: '📶', label: t('hero.feature5G') },
+                  { icon: '🌏', label: t('hero.featureUnlimited') }
                 ].map((feature, index) => (
                   <div
                     key={index}
@@ -216,7 +216,7 @@ export default function SinglePageHome() {
                   onClick={() => scrollToSection('products')}
                   className="inline-flex items-center justify-center px-8 py-4 bg-dancheong-red hover:bg-red-700 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg group"
                 >
-                  Browse Plans
+                  {t('hero.cta')}
                   <svg
                     className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"
                     fill="none"
@@ -236,7 +236,7 @@ export default function SinglePageHome() {
                   onClick={() => scrollToSection('why-choose-us')}
                   className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-lg transition-all border-2 border-white/50"
                 >
-                  Why 82Mobile?
+                  {t('hero.whyUs')}
                 </button>
               </div>
 
@@ -247,9 +247,9 @@ export default function SinglePageHome() {
                   <span className="font-semibold">4.9/5</span>
                 </div>
                 <div className="h-4 w-px bg-white/30" />
-                <div className="font-semibold">10,000+ Happy Customers</div>
+                <div className="font-semibold">{t('hero.happyCustomers')}</div>
                 <div className="h-4 w-px bg-white/30" />
-                <div className="font-semibold">24/7 Support</div>
+                <div className="font-semibold">{t('hero.support247')}</div>
               </div>
             </div>
 
@@ -268,7 +268,7 @@ export default function SinglePageHome() {
         >
           <div className="flex flex-col items-center gap-2 text-white">
             <span className="text-sm font-medium opacity-75 group-hover:opacity-100 transition-opacity">
-              Scroll to explore
+              {t('hero.scrollToExplore')}
             </span>
             <svg
               className="w-6 h-6 group-hover:translate-y-1 transition-transform"
@@ -295,10 +295,10 @@ export default function SinglePageHome() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 animate-fade-in-up">
             <span className="inline-block px-4 py-2 bg-jade-100 text-jade-700 rounded-full text-sm font-bold mb-4">
-              WHY CHOOSE US
+              {t('sections.whyChooseUs')}
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              The 82Mobile Difference
+              {t('sections.the82MobileDifference')}
             </h2>
           </div>
           <WhyChooseUs />
@@ -310,10 +310,10 @@ export default function SinglePageHome() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 animate-fade-in-up">
             <span className="inline-block px-4 py-2 bg-secondary-100 text-secondary-700 rounded-full text-sm font-bold mb-4">
-              FREQUENTLY ASKED QUESTIONS
+              {t('sections.frequentlyAskedQuestions')}
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Got Questions? We've Got Answers
+              {t('sections.gotQuestions')}
             </h2>
           </div>
           <FaqPreview />
@@ -324,17 +324,17 @@ export default function SinglePageHome() {
       <section id="contact" className="py-20 bg-gradient-to-br from-primary via-secondary to-tertiary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-            Ready to Get Connected?
+            {t('sections.readyToConnect')}
           </h2>
           <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Have questions? Our support team is available 24/7 to help you
+            {t('sections.supportTeamAvailable')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href={`/${locale}/shop`}
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-bold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
             >
-              Get Started Now
+              {t('sections.getStartedNow')}
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -343,7 +343,7 @@ export default function SinglePageHome() {
               href={`/${locale}/contact`}
               className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-lg hover:bg-white/20 transition-all border-2 border-white/50"
             >
-              Contact Support
+              {t('sections.contactSupport')}
             </Link>
           </div>
 
@@ -351,13 +351,13 @@ export default function SinglePageHome() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 text-center">
             <div className="space-y-2">
               <div className="text-4xl mb-2">📧</div>
-              <h3 className="font-bold text-lg">Email Us</h3>
+              <h3 className="font-bold text-lg">{t('sections.emailUs')}</h3>
               <p className="text-gray-200">support@82mobile.com</p>
             </div>
             <div className="space-y-2">
               <div className="text-4xl mb-2">💬</div>
-              <h3 className="font-bold text-lg">Live Chat</h3>
-              <p className="text-gray-200">Available 24/7</p>
+              <h3 className="font-bold text-lg">{t('sections.liveChat')}</h3>
+              <p className="text-gray-200">{t('sections.available247')}</p>
             </div>
             <div className="space-y-2">
               <div className="text-4xl mb-2">📱</div>

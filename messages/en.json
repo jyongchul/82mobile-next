@@ -27,8 +27,42 @@
   },
   "hero": {
     "title": "Stay Connected in Korea",
+    "titleLine1": "Stay Connected",
+    "titleLine2": "Anywhere in Korea",
     "subtitle": "Data, Calls, and Texts in One SIM Card",
-    "cta": "Shop Now"
+    "description": "Instant eSIM activation. Unlimited data. No roaming fees.",
+    "adventureStart": "Your Korean adventure starts here.",
+    "cta": "Browse Plans",
+    "whyUs": "Why 82Mobile?",
+    "badge": "Korea's #1 eSIM Provider",
+    "featureInstant": "Instant",
+    "feature5G": "5G Speed",
+    "featureUnlimited": "Unlimited",
+    "scrollToExplore": "Scroll to explore",
+    "happyCustomers": "10,000+ Happy Customers",
+    "support247": "24/7 Support"
+  },
+  "sections": {
+    "browseOurPlans": "Browse Our Plans",
+    "choosePerfectPlan": "Choose the perfect plan for your Korean adventure",
+    "whyChooseUs": "WHY CHOOSE US",
+    "the82MobileDifference": "The 82Mobile Difference",
+    "frequentlyAskedQuestions": "FREQUENTLY ASKED QUESTIONS",
+    "gotQuestions": "Got Questions? We've Got Answers",
+    "readyToConnect": "Ready to Get Connected?",
+    "supportTeamAvailable": "Have questions? Our support team is available 24/7 to help you",
+    "getStartedNow": "Get Started Now",
+    "contactSupport": "Contact Support",
+    "emailUs": "Email Us",
+    "liveChat": "Live Chat",
+    "available247": "Available 24/7"
+  },
+  "navDots": {
+    "home": "Home",
+    "products": "Products",
+    "whyUs": "Why Us",
+    "faq": "FAQ",
+    "contact": "Contact"
   },
   "products": {
     "title": "Our Products",
