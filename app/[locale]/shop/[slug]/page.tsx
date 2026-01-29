@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
@@ -14,6 +14,8 @@ export default function ProductDetailPage() {
   const router = useRouter();
   const locale = useLocale();
   const slug = params.slug as string;
+  const t = useTranslations('productDetail');
+  const tc = useTranslations('common');
 
   const addItem = useCartStore((state) => state.addItem);
 
@@ -35,7 +37,7 @@ export default function ProductDetailPage() {
         if (data.success && data.product) {
           setProduct(data.product);
         } else {
-          setError(data.error || 'Product not found');
+          setError(data.error || t('notFound'));
         }
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -48,7 +50,7 @@ export default function ProductDetailPage() {
     if (slug) {
       fetchProduct();
     }
-  }, [slug]);
+  }, [slug, t]);
 
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
@@ -86,7 +88,7 @@ export default function ProductDetailPage() {
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             />
           </svg>
-          <p className="text-gray-600">Loading product...</p>
+          <p className="text-gray-600">{t('loading')}</p>
         </div>
       </div>
     );
@@ -97,12 +99,12 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">{error || 'Product not found'}</h1>
+          <h1 className="text-4xl font-bold mb-4">{error || t('notFound')}</h1>
           <Link
             href={`/${locale}/shop`}
             className="text-dancheong-red hover:underline"
           >
-            Back to Shop
+            {t('backToShop')}
           </Link>
         </div>
       </div>
@@ -132,17 +134,20 @@ export default function ProductDetailPage() {
     handleAddToCart();
   };
 
+  // Description is sanitized with DOMPurify via sanitizeHtml() before rendering
+  const sanitizedDescription = sanitizeHtml(product.description);
+
   return (
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
           <Link href={`/${locale}`} className="hover:text-dancheong-red">
-            Home
+            {tc('home')}
           </Link>
           <span>/</span>
           <Link href={`/${locale}/shop`} className="hover:text-dancheong-red">
-            Shop
+            {tc('shop')}
           </Link>
           <span>/</span>
           <span className="text-gray-900 font-medium">{product.name}</span>
@@ -194,7 +199,7 @@ export default function ProductDetailPage() {
               {product.name}
             </h1>
 
-            {/* Description */}
+            {/* Description - sanitized with DOMPurify */}
             <div
               className="text-base text-gray-700 leading-relaxed prose prose-sm max-w-none
                 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-3
@@ -204,13 +209,13 @@ export default function ProductDetailPage() {
                 [&>li]:my-1
                 [&>p]:my-2
                 [&_strong]:font-semibold [&_strong]:text-gray-900"
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description) }}
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
             />
 
             {/* Features */}
             <div className="bg-gray-50 rounded-xl p-6">
               <h3 className="font-heading text-lg font-bold text-gray-900 mb-4">
-                What's Included
+                {t('whatsIncluded')}
               </h3>
               <ul className="space-y-3">
                 {product.features.map((feature: string, index: number) => (
@@ -241,7 +246,7 @@ export default function ProductDetailPage() {
             {/* Quantity */}
             <div className="flex items-center gap-4">
               <label className="font-heading font-bold text-gray-900">
-                Quantity:
+                {t('quantity')}:
               </label>
               <div className="flex items-center border-2 border-gray-300 rounded-lg">
                 <button
@@ -273,14 +278,14 @@ export default function ProductDetailPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    Adding...
+                    {t('adding')}
                   </>
                 ) : (
                   <>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    Add to Cart
+                    {t('addToCart')}
                   </>
                 )}
               </button>
@@ -289,7 +294,7 @@ export default function ProductDetailPage() {
                 onClick={handleBuyNow}
                 className="flex-1 px-8 py-4 bg-dancheong-red hover:bg-red-700 text-white font-bold rounded-lg transition-all transform hover:scale-105"
               >
-                Buy Now
+                {t('buyNow')}
               </button>
             </div>
 
@@ -297,15 +302,15 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
               <div className="text-center">
                 <div className="text-2xl mb-2">🔒</div>
-                <p className="text-xs text-gray-600">Secure Payment</p>
+                <p className="text-xs text-gray-600">{t('securePayment')}</p>
               </div>
               <div className="text-center">
                 <div className="text-2xl mb-2">📱</div>
-                <p className="text-xs text-gray-600">Instant Delivery</p>
+                <p className="text-xs text-gray-600">{t('instantDelivery')}</p>
               </div>
               <div className="text-center">
                 <div className="text-2xl mb-2">🎧</div>
-                <p className="text-xs text-gray-600">24/7 Support</p>
+                <p className="text-xs text-gray-600">{t('support247')}</p>
               </div>
             </div>
           </div>

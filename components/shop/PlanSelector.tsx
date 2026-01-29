@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Plan {
   id: string;
@@ -17,6 +18,7 @@ interface PlanSelectorProps {
 }
 
 export default function PlanSelector({ plans, onSelectPlan }: PlanSelectorProps) {
+  const t = useTranslations('productDetail');
   const [selectedPlan, setSelectedPlan] = useState<Plan>(
     plans.find((p) => p.recommended) || plans[0]
   );
@@ -29,7 +31,7 @@ export default function PlanSelector({ plans, onSelectPlan }: PlanSelectorProps)
   return (
     <div className="space-y-4">
       <h3 className="font-heading text-xl font-bold text-gray-900">
-        Choose Your Plan
+        {t('chooseYourPlan')}
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -52,7 +54,7 @@ export default function PlanSelector({ plans, onSelectPlan }: PlanSelectorProps)
               {/* Recommended Badge */}
               {plan.recommended && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-jade-green text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                  Recommended
+                  {t('recommended')}
                 </div>
               )}
 
@@ -101,13 +103,13 @@ export default function PlanSelector({ plans, onSelectPlan }: PlanSelectorProps)
                 {/* Savings Badge */}
                 {savings > 0 && (
                   <div className="inline-block bg-jade-green text-white px-2 py-1 rounded text-sm font-bold">
-                    Save ₩{savings.toLocaleString()}
+                    ₩{savings.toLocaleString()} {t('recommended') === '추천' ? '할인' : 'Save'}
                   </div>
                 )}
 
                 {/* Price per day */}
                 <div className="text-sm text-gray-600">
-                  ₩{Math.round(plan.price / parseInt(plan.duration)).toLocaleString()} per day
+                  ₩{Math.round(plan.price / parseInt(plan.duration)).toLocaleString()} {t('recommended') === '추천' ? '/ 일' : 'per day'}
                 </div>
               </div>
             </button>
@@ -119,13 +121,13 @@ export default function PlanSelector({ plans, onSelectPlan }: PlanSelectorProps)
       <div className="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Selected Plan</p>
+            <p className="text-sm text-gray-600 mb-1">{t('selectedPlan')}</p>
             <p className="font-heading font-bold text-gray-900">
               {selectedPlan.duration} • {selectedPlan.dataAmount}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-600 mb-1">Total</p>
+            <p className="text-sm text-gray-600 mb-1">{t('total')}</p>
             <p className="font-heading text-2xl font-bold text-dancheong-red">
               ₩{selectedPlan.price.toLocaleString()}
             </p>
