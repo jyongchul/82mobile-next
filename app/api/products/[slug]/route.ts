@@ -36,11 +36,12 @@ export async function GET(
       );
     }
 
-    // Rewrite WordPress image URLs to use Gabia backend directly
-    // (82mobile.com DNS points to Vercel, causing a loop for image optimization)
-    const rewriteImageUrl = (url: string) =>
-      url.replace(/^https?:\/\/82mobile\.com\/wp-content\/uploads\//,
-        'http://adam82mob0105.gabia.io/wp-content/uploads/');
+    // Map WordPress image filenames to local /images/products/ directory
+    const toLocalImage = (url: string): string => {
+      if (!url || url === '/images/products/placeholder.jpg') return url;
+      const filename = url.split('/').pop() || '';
+      return `/images/products/${filename}`;
+    };
 
     // Transform WooCommerce data to frontend format
     const transformedProduct = {
@@ -51,10 +52,10 @@ export async function GET(
       regularPrice: product.regular_price,
       salePrice: product.sale_price,
       onSale: product.on_sale,
-      image: rewriteImageUrl(product.images[0]?.src || '/images/products/placeholder.jpg'),
+      image: toLocalImage(product.images[0]?.src || '/images/products/placeholder.jpg'),
       images: product.images.map((img) => ({
         id: img.id,
-        src: rewriteImageUrl(img.src),
+        src: toLocalImage(img.src),
         alt: img.alt || product.name
       })),
       category: product.categories[0]?.name || 'Uncategorized',

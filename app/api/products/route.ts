@@ -29,27 +29,28 @@ export async function GET(request: Request) {
     // Limit results
     const limitedProducts = filteredProducts.slice(0, limit);
 
-    // Rewrite WordPress image URLs to use Gabia backend directly
-    // (82mobile.com DNS points to Vercel, causing a loop for image optimization)
-    const rewriteImageUrl = (url: string) =>
-      url.replace(/^https?:\/\/82mobile\.com\/wp-content\/uploads\//,
-        'http://adam82mob0105.gabia.io/wp-content/uploads/');
+    // Map WordPress image filenames to local /images/products/ directory
+    // Images have been downloaded from gabia to avoid HTTP proxy issues
+    const toLocalImage = (url: string): string => {
+      if (!url || url === '/images/products/placeholder.jpg') return url;
+      const filename = url.split('/').pop() || '';
+      return `/images/products/${filename}`;
+    };
 
     // Transform WooCommerce data to our format
     const transformedProducts = limitedProducts.map((product: any) => {
       const rawUrl = product.images[0]?.src || '/images/products/placeholder.jpg';
-      let imageUrl = rewriteImageUrl(rawUrl);
-      const imageFull = rewriteImageUrl(rawUrl);
+      const fullFilename = rawUrl.split('/').pop() || '';
 
-      // Apply image size transformation
-      if (imageUrl !== '/images/products/placeholder.jpg') {
-        if (imageSize === 'thumbnail') {
-          imageUrl = imageUrl.replace(/\.(jpg|jpeg|png|webp)$/i, '-150x150.$1');
-        } else if (imageSize === 'shop_catalog') {
-          imageUrl = imageUrl.replace(/\.(jpg|jpeg|png|webp)$/i, '-300x300.$1');
-        }
-        // 'full' size uses original URL (no transformation)
+      let imageUrl: string;
+      if (imageSize === 'thumbnail') {
+        imageUrl = toLocalImage(rawUrl.replace(/\.(jpg|jpeg|png|webp)$/i, '-150x150.$1'));
+      } else if (imageSize === 'shop_catalog') {
+        imageUrl = toLocalImage(rawUrl.replace(/\.(jpg|jpeg|png|webp)$/i, '-300x300.$1'));
+      } else {
+        imageUrl = toLocalImage(rawUrl);
       }
+      const imageFull = toLocalImage(rawUrl);
 
       return {
         id: product.id,
