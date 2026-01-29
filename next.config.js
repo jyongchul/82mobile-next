@@ -22,6 +22,11 @@ const nextConfig = {
         hostname: '182.162.142.102',
         pathname: '/wp-content/uploads/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'adam82mob0105.gabia.io',
+        pathname: '/wp-content/uploads/**',
+      },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
