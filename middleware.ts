@@ -92,6 +92,6 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match all routes: API routes for auth, other routes for i18n
-  matcher: ['/', '/(ko|en)/:path*', '/api/:path*']
+  // Match all pathnames except static files and Next.js internals
+  matcher: ['/((?!_next|images|favicon\\.ico|.*\\..*).*)', '/api/:path*']
 };
