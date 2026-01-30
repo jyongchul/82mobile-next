@@ -43,7 +43,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href={`/${locale}/about`}
+                  href={`/${locale}#why-choose-us`}
                   className="hover:text-white transition-colors"
                 >
                   {t('nav.about')}
@@ -59,7 +59,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href={`/${locale}/contact`}
+                  href={`/${locale}#contact`}
                   className="hover:text-white transition-colors"
                 >
                   {t('nav.contact')}
