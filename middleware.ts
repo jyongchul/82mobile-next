@@ -95,7 +95,7 @@ export default async function middleware(request: NextRequest) {
     pathname.startsWith('/wp-content')
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = `/cms-proxy${pathname}`;
+    url.pathname = `/api/cms-proxy${pathname}`;
     return NextResponse.rewrite(url);
   }
 
