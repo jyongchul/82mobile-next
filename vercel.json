@@ -6,18 +6,6 @@
       "destination": "http://182.162.142.102/wp-json/:path*"
     },
     {
-      "source": "/wp-admin",
-      "destination": "http://182.162.142.102/wp-admin"
-    },
-    {
-      "source": "/wp-admin/:path*",
-      "destination": "http://182.162.142.102/wp-admin/:path*"
-    },
-    {
-      "source": "/wp-login.php",
-      "destination": "http://182.162.142.102/wp-login.php"
-    },
-    {
       "source": "/wp-includes/:path*",
       "destination": "http://182.162.142.102/wp-includes/:path*"
     },

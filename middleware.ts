@@ -87,25 +87,20 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Bypass WordPress paths — let vercel.json rewrites handle them
+  // Proxy WordPress admin/login through our custom proxy (Host header injection)
   if (
     pathname.startsWith('/wp-admin') ||
     pathname.startsWith('/wp-login') ||
-    pathname.startsWith('/wp-json') ||
     pathname.startsWith('/wp-includes') ||
     pathname.startsWith('/wp-content')
   ) {
-    return NextResponse.next();
+    const url = request.nextUrl.clone();
+    url.pathname = `/wp-proxy${pathname}`;
+    return NextResponse.rewrite(url);
   }
 
-  // Bypass WordPress paths — let vercel.json rewrites handle them
-  if (
-    pathname.startsWith('/wp-admin') ||
-    pathname.startsWith('/wp-login') ||
-    pathname.startsWith('/wp-json') ||
-    pathname.startsWith('/wp-includes') ||
-    pathname.startsWith('/wp-content')
-  ) {
+  // wp-json uses vercel.json rewrites (API calls work fine)
+  if (pathname.startsWith('/wp-json')) {
     return NextResponse.next();
   }
 
