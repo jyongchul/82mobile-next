@@ -340,7 +340,7 @@ export default function SinglePageHome() {
               </svg>
             </Link>
             <Link
-              href={`/${locale}/contact`}
+              href={`/${locale}#contact`}
               className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-lg hover:bg-white/20 transition-all border-2 border-white/50"
             >
               {t('sections.contactSupport')}

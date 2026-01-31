@@ -82,7 +82,7 @@ export default function Hero() {
             </Link>
 
             <Link
-              href={`/${locale}/about`}
+              href={`/${locale}#why-choose-us`}
               className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-lg transition-all border-2 border-white/50"
             >
               Learn More
