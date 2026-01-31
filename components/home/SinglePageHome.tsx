@@ -291,7 +291,9 @@ export default function SinglePageHome() {
       </section>
 
       {/* Products Section */}
-      <ProductsSection />
+      <div id="products" className="scroll-mt-20">
+        <ProductsSection />
+      </div>
 
       {/* Why Choose Us Section */}
       <section id="why-choose-us" className="py-20 bg-white">
