@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useCartStore } from '@/stores/cart';
+import { useUIStore } from '@/stores/ui';
 import { useToast } from '@/hooks/useToast';
 import { sanitizeHtml } from '@/lib/sanitize';
 import type { Product } from '@/hooks/useProducts';
@@ -17,6 +18,7 @@ interface ProductExpandedProps {
 
 export default function ProductExpanded({ product, onClose }: ProductExpandedProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const openCart = useUIStore((state) => state.openCart);
   const { success } = useToast();
   const t = useTranslations('productDetail');
   const [mounted, setMounted] = useState(false);
@@ -60,6 +62,7 @@ export default function ProductExpanded({ product, onClose }: ProductExpandedPro
 
     success(`${product.name} added to cart!`);
     onClose();
+    openCart();
   };
 
   // Content is sanitized with DOMPurify via sanitizeHtml() before rendering

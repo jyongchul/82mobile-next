@@ -62,36 +62,39 @@ export default function SinglePageHome() {
   // Optimized Intersection Observer for accurate section tracking
   useEffect(() => {
     let rafId: number;
+    const ratioMap: Record<string, number> = {};
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Use RAF to debounce and align with 60fps
+        // Update ratio map with latest values
+        entries.forEach((entry) => {
+          ratioMap[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
+        });
+
         if (rafId) {
           cancelAnimationFrame(rafId);
         }
 
         rafId = requestAnimationFrame(() => {
-          // Find the entry with the largest intersection ratio
-          let maxEntry: IntersectionObserverEntry | null = null;
-          let maxRatio = 0;
+          // Find section with highest visibility across ALL tracked sections
+          let bestId = '';
+          let bestRatio = 0;
 
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-              maxRatio = entry.intersectionRatio;
-              maxEntry = entry;
+          for (const [id, ratio] of Object.entries(ratioMap)) {
+            if (ratio > bestRatio) {
+              bestRatio = ratio;
+              bestId = id;
             }
-          });
+          }
 
-          // Only update if we found an intersecting entry with at least 30% visibility
-          if (maxEntry && maxRatio >= 0.3) {
-            const sectionId = (maxEntry as IntersectionObserverEntry).target.id;
-            updateHashOnScroll(sectionId); // Updates both activeSection and URL hash
+          if (bestId && bestRatio >= 0.1) {
+            updateHashOnScroll(bestId);
           }
         });
       },
       {
-        threshold: [0.1, 0.3, 0.5, 0.7, 0.9], // Multiple thresholds for accuracy
-        rootMargin: '0px 0px -20% 0px',       // Bottom 20% is "dead zone"
+        threshold: [0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9],
+        rootMargin: '0px 0px -10% 0px',
       }
     );
 
