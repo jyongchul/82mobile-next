@@ -110,5 +110,5 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   // Match all pathnames except static files and Next.js internals
-  matcher: ['/((?!_next|images|wp-admin|wp-login|wp-json|wp-includes|wp-content|favicon\\.ico|.*\\..*).*)', '/api/:path*']
+  matcher: ['/((?!_next|images|favicon\\.ico|.*\\..*).*)', '/api/:path*']
 };
