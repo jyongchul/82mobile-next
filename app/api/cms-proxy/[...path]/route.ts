@@ -48,6 +48,11 @@ async function proxyToWordPress(request: NextRequest) {
     reqHeaders['Content-Length'] = String(bodyBuf.byteLength);
   }
 
+  // Debug mode: add ?debug=1 to see decoded path without proxying
+  if (url.searchParams.get('debug') === '1') {
+    return NextResponse.json({ encodedSegment, fullPath, method: request.method });
+  }
+
   try {
     const result = await new Promise<{
       status: number;
