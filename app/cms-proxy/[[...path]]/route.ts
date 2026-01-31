@@ -11,8 +11,8 @@ const WP_HOST = '82mobile.com';
  */
 async function proxyToWordPress(request: NextRequest) {
   const url = new URL(request.url);
-  // Remove /wp-proxy prefix to get the real WordPress path
-  const wpPath = url.pathname.replace(/^\/wp-proxy/, '') || '/';
+  // Remove /cms-proxy prefix to get the real WordPress path
+  const wpPath = url.pathname.replace(/^\/cms-proxy/, '') || '/';
   const targetUrl = `${GABIA_ORIGIN}${wpPath}${url.search}`;
 
   const headers = new Headers();
@@ -29,11 +29,11 @@ async function proxyToWordPress(request: NextRequest) {
   const contentType = request.headers.get('content-type');
   if (contentType) headers.set('Content-Type', contentType);
 
-  // Forward referer, rewriting admin.82mobile.com or 82mobile.com/wp-proxy to 82mobile.com
+  // Forward referer, rewriting admin.82mobile.com or 82mobile.com/cms-proxy to 82mobile.com
   const referer = request.headers.get('referer');
   if (referer) {
     headers.set('Referer', referer
-      .replace(/\/wp-proxy/g, '')
+      .replace(/\/cms-proxy/g, '')
       .replace(/admin\.82mobile\.com/g, '82mobile.com'));
   }
 
@@ -62,10 +62,10 @@ async function proxyToWordPress(request: NextRequest) {
         let location = value;
         // Rewrite absolute WordPress URLs to proxy URLs
         location = location
-          .replace(/https?:\/\/82mobile\.com\/wp-admin/g, '/wp-proxy/wp-admin')
-          .replace(/https?:\/\/82mobile\.com\/wp-login/g, '/wp-proxy/wp-login')
-          .replace(/\/wp-admin/g, '/wp-proxy/wp-admin')
-          .replace(/\/wp-login\.php/g, '/wp-proxy/wp-login.php');
+          .replace(/https?:\/\/82mobile\.com\/wp-admin/g, '/cms-proxy/wp-admin')
+          .replace(/https?:\/\/82mobile\.com\/wp-login/g, '/cms-proxy/wp-login')
+          .replace(/\/wp-admin/g, '/cms-proxy/wp-admin')
+          .replace(/\/wp-login\.php/g, '/cms-proxy/wp-login.php');
         respHeaders.set(key, location);
         return;
       }
@@ -86,10 +86,10 @@ async function proxyToWordPress(request: NextRequest) {
     if (contentTypeResp.includes('text/html')) {
       const text = await resp.text();
       const rewritten = text
-        .replace(/https?:\/\/82mobile\.com\/wp-admin/g, '/wp-proxy/wp-admin')
-        .replace(/https?:\/\/82mobile\.com\/wp-login/g, '/wp-proxy/wp-login')
-        .replace(/https?:\/\/82mobile\.com\/wp-includes/g, '/wp-proxy/wp-includes')
-        .replace(/https?:\/\/82mobile\.com\/wp-content/g, '/wp-proxy/wp-content');
+        .replace(/https?:\/\/82mobile\.com\/wp-admin/g, '/cms-proxy/wp-admin')
+        .replace(/https?:\/\/82mobile\.com\/wp-login/g, '/cms-proxy/wp-login')
+        .replace(/https?:\/\/82mobile\.com\/wp-includes/g, '/cms-proxy/wp-includes')
+        .replace(/https?:\/\/82mobile\.com\/wp-content/g, '/cms-proxy/wp-content');
 
       return new NextResponse(rewritten, {
         status: resp.status,
