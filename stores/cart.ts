@@ -22,10 +22,19 @@ interface CartStore {
   itemCount: number;
 }
 
+function computeDerived(items: CartItem[]) {
+  return {
+    total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+  };
+}
+
 const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      total: 0,
+      itemCount: 0,
 
       addItem: (item, quantity = 1) => {
         set((state) => {
@@ -33,24 +42,20 @@ const useCartStore = create<CartStore>()(
             (i) => i.productId === item.productId
           );
 
+          let newItems: CartItem[];
           if (existingItem) {
-            // Update quantity if item already exists
-            return {
-              items: state.items.map((i) =>
-                i.productId === item.productId
-                  ? { ...i, quantity: i.quantity + quantity }
-                  : i
-              ),
-            };
+            newItems = state.items.map((i) =>
+              i.productId === item.productId
+                ? { ...i, quantity: i.quantity + quantity }
+                : i
+            );
           } else {
-            // Add new item
-            return {
-              items: [...state.items, { ...item, quantity }],
-            };
+            newItems = [...state.items, { ...item, quantity }];
           }
+
+          return { items: newItems, ...computeDerived(newItems) };
         });
 
-        // Track add to cart event in GA4
         trackAddToCart({
           id: item.productId.toString(),
           name: item.name,
@@ -60,9 +65,10 @@ const useCartStore = create<CartStore>()(
       },
 
       removeItem: (productId) => {
-        set((state) => ({
-          items: state.items.filter((item) => item.productId !== productId),
-        }));
+        set((state) => {
+          const newItems = state.items.filter((item) => item.productId !== productId);
+          return { items: newItems, ...computeDerived(newItems) };
+        });
       },
 
       updateQuantity: (productId, quantity) => {
@@ -71,30 +77,27 @@ const useCartStore = create<CartStore>()(
           return;
         }
 
-        set((state) => ({
-          items: state.items.map((item) =>
+        set((state) => {
+          const newItems = state.items.map((item) =>
             item.productId === productId ? { ...item, quantity } : item
-          ),
-        }));
+          );
+          return { items: newItems, ...computeDerived(newItems) };
+        });
       },
 
       clearCart: () => {
-        set({ items: [] });
-      },
-
-      get total() {
-        return get().items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
-        );
-      },
-
-      get itemCount() {
-        return get().items.reduce((sum, item) => sum + item.quantity, 0);
+        set({ items: [], total: 0, itemCount: 0 });
       },
     }),
     {
-      name: 'cart-storage', // localStorage key
+      name: 'cart-storage',
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          const derived = computeDerived(state.items);
+          state.total = derived.total;
+          state.itemCount = derived.itemCount;
+        }
+      },
     }
   )
 );
