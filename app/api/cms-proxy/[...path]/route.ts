@@ -16,8 +16,10 @@ async function proxyToWordPress(request: NextRequest) {
     const qIdx = decoded.indexOf('?');
     const decodedPath = qIdx >= 0 ? decoded.slice(0, qIdx) : decoded;
     const decodedSearch = qIdx >= 0 ? decoded.slice(qIdx) : '';
-    // Ensure path segments are properly URI-encoded for http.request
-    fullPath = encodeURI(decodedPath) + decodedSearch || '/';
+    // WordPress expects trailing slash on directory-like paths
+    let finalPath = decodedPath;
+    if (finalPath === '/wp-admin') finalPath = '/wp-admin/';
+    fullPath = encodeURI(finalPath) + decodedSearch || '/';
   } catch {
     // Fallback: treat as literal path
     fullPath = `/${encodedSegment}${url.search}`;
@@ -89,11 +91,8 @@ async function proxyToWordPress(request: NextRequest) {
       const values = Array.isArray(value) ? value : [value];
       for (const v of values) {
         if (lower === 'location') {
-          const rewritten = v
-            .replace(/https?:\/\/82mobile\.com\/wp-admin/g, '/wp-admin')
-            .replace(/https?:\/\/82mobile\.com\/wp-login/g, '/wp-login')
-            .replace(/https?:\/\/82mobile\.com\/wp-content/g, '/wp-content')
-            .replace(/https?:\/\/82mobile\.com\/wp-includes/g, '/wp-includes');
+          // Rewrite absolute WordPress URLs to relative paths
+          const rewritten = v.replace(/https?:\/\/82mobile\.com/g, '');
           outHeaders.set(key, rewritten);
         } else if (lower === 'set-cookie') {
           outHeaders.append(key, v);
