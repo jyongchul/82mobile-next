@@ -87,8 +87,8 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Proxy WordPress paths through custom proxy with base64-encoded path
-  // to bypass Vercel WAF which blocks URLs containing wp-admin/wp-login keywords
+  // Proxy WordPress paths through Node.js reverse proxy (Host header injection)
+  // Next.js rewrite routes internally to cms-proxy handler while preserving original URL
   if (
     pathname.startsWith('/wp-admin') ||
     pathname.startsWith('/wp-login') ||
@@ -97,10 +97,7 @@ export default async function middleware(request: NextRequest) {
     pathname.startsWith('/wp-json')
   ) {
     const url = request.nextUrl.clone();
-    const originalPath = `${pathname}${url.search}`;
-    const encoded = Buffer.from(originalPath).toString('base64url');
-    url.pathname = `/api/cms-proxy/${encoded}`;
-    url.search = '';
+    url.pathname = `/api/cms-proxy${pathname}`;
     return NextResponse.rewrite(url);
   }
 

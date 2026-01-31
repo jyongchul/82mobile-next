@@ -7,23 +7,12 @@ const WP_HOST = '82mobile.com';
 
 async function proxyToWordPress(request: NextRequest) {
   const url = new URL(request.url);
-  const encodedSegment = url.pathname.replace(/^\/api\/cms-proxy\//, '');
-  // Decode base64url-encoded WordPress path (set by middleware)
-  let fullPath: string;
-  try {
-    const decoded = Buffer.from(encodedSegment, 'base64url').toString('utf-8');
-    // Split decoded path into pathname and search parts, then re-encode properly
-    const qIdx = decoded.indexOf('?');
-    const decodedPath = qIdx >= 0 ? decoded.slice(0, qIdx) : decoded;
-    const decodedSearch = qIdx >= 0 ? decoded.slice(qIdx) : '';
-    // WordPress expects trailing slash on directory-like paths
-    let finalPath = decodedPath;
-    if (finalPath === '/wp-admin') finalPath = '/wp-admin/';
-    fullPath = encodeURI(finalPath) + decodedSearch || '/';
-  } catch {
-    // Fallback: treat as literal path
-    fullPath = `/${encodedSegment}${url.search}`;
-  }
+  // Next.js rewrite preserves original URL in request.url
+  // So we use the original pathname directly (not the rewritten /api/cms-proxy/... path)
+  let wpPath = url.pathname;
+  // Add trailing slash for wp-admin directory
+  if (wpPath === '/wp-admin') wpPath = '/wp-admin/';
+  const fullPath = `${wpPath}${url.search}` || '/';
 
   const reqHeaders: Record<string, string> = {
     Host: WP_HOST,
@@ -50,17 +39,6 @@ async function proxyToWordPress(request: NextRequest) {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     bodyBuf = await request.arrayBuffer();
     reqHeaders['Content-Length'] = String(bodyBuf.byteLength);
-  }
-
-  // Temporary debug: return decoded info when X-Debug header is present
-  if (request.headers.get('x-debug') === '1') {
-    return NextResponse.json({
-      requestUrl: request.url,
-      pathname: url.pathname,
-      search: url.search,
-      encodedSegment,
-      fullPath,
-    });
   }
 
   try {
