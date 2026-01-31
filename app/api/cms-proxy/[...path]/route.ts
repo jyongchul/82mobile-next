@@ -27,9 +27,13 @@ async function proxyToWordPress(request: NextRequest) {
 
   const reqHeaders: Record<string, string> = {
     Host: WP_HOST,
-    'X-Forwarded-For': request.headers.get('x-forwarded-for') || '',
-    'X-Forwarded-Proto': 'https',
+    'User-Agent': request.headers.get('user-agent') || 'Mozilla/5.0',
+    Accept: request.headers.get('accept') || 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': request.headers.get('accept-language') || 'ko-KR,ko;q=0.9,en;q=0.8',
   };
+
+  const xff = request.headers.get('x-forwarded-for');
+  if (xff) reqHeaders['X-Forwarded-For'] = xff;
 
   const cookie = request.headers.get('cookie');
   if (cookie) reqHeaders['Cookie'] = cookie;
@@ -48,10 +52,7 @@ async function proxyToWordPress(request: NextRequest) {
     reqHeaders['Content-Length'] = String(bodyBuf.byteLength);
   }
 
-  // Debug mode: add ?debug=1 to see decoded path without proxying
-  if (url.searchParams.get('debug') === '1') {
-    return NextResponse.json({ encodedSegment, fullPath, method: request.method });
-  }
+  console.log('[cms-proxy]', request.method, fullPath);
 
   try {
     const result = await new Promise<{
