@@ -4,14 +4,6 @@
     {
       "source": "/wp-json/:path*",
       "destination": "http://182.162.142.102/wp-json/:path*"
-    },
-    {
-      "source": "/wp-includes/:path*",
-      "destination": "http://182.162.142.102/wp-includes/:path*"
-    },
-    {
-      "source": "/wp-content/:path*",
-      "destination": "http://182.162.142.102/wp-content/:path*"
     }
   ],
   "headers": [
