@@ -87,21 +87,21 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Proxy WordPress admin/login through our custom proxy (Host header injection)
+  // Proxy WordPress paths through custom proxy with base64-encoded path
+  // to bypass Vercel WAF which blocks URLs containing wp-admin/wp-login keywords
   if (
     pathname.startsWith('/wp-admin') ||
     pathname.startsWith('/wp-login') ||
     pathname.startsWith('/wp-includes') ||
-    pathname.startsWith('/wp-content')
+    pathname.startsWith('/wp-content') ||
+    pathname.startsWith('/wp-json')
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = `/api/cms-proxy${pathname}`;
+    const originalPath = `${pathname}${url.search}`;
+    const encoded = Buffer.from(originalPath).toString('base64url');
+    url.pathname = `/api/cms-proxy/${encoded}`;
+    url.search = '';
     return NextResponse.rewrite(url);
-  }
-
-  // wp-json uses vercel.json rewrites (API calls work fine)
-  if (pathname.startsWith('/wp-json')) {
-    return NextResponse.next();
   }
 
   // Handle internationalization for non-API routes
@@ -110,5 +110,5 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   // Match all pathnames except static files and Next.js internals
-  matcher: ['/((?!_next|images|favicon\\.ico|.*\\..*).*)', '/api/:path*', '/wp-login.php', '/wp-admin/:path*', '/wp-includes/:path*', '/wp-content/:path*']
+  matcher: ['/((?!_next|images|favicon\\.ico|.*\\..*).*)', '/api/:path*', '/wp-login.php', '/wp-admin/:path*', '/wp-includes/:path*', '/wp-content/:path*', '/wp-json/:path*']
 };

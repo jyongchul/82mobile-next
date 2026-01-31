@@ -7,8 +7,15 @@ const WP_HOST = '82mobile.com';
 
 async function proxyToWordPress(request: NextRequest) {
   const url = new URL(request.url);
-  const wpPath = url.pathname.replace(/^\/api\/cms-proxy/, '') || '/';
-  const fullPath = `${wpPath}${url.search}`;
+  const encodedSegment = url.pathname.replace(/^\/api\/cms-proxy\//, '');
+  // Decode base64url-encoded WordPress path (set by middleware)
+  let fullPath: string;
+  try {
+    fullPath = Buffer.from(encodedSegment, 'base64url').toString('utf-8') || '/';
+  } catch {
+    // Fallback: treat as literal path
+    fullPath = `/${encodedSegment}${url.search}`;
+  }
 
   const reqHeaders: Record<string, string> = {
     Host: WP_HOST,

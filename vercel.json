@@ -1,11 +1,6 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/wp-json/:path*",
-      "destination": "http://182.162.142.102/wp-json/:path*"
-    }
-  ],
+  "rewrites": [],
   "headers": [
     {
       "source": "/(.*)",
