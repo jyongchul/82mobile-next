@@ -97,7 +97,10 @@ async function proxyToWordPress(request: NextRequest) {
 
     const ct = result.headers['content-type'] || '';
     if (typeof ct === 'string' && ct.includes('text/html')) {
-      const html = result.body.toString('utf-8');
+      // Rewrite http:// to https:// in HTML to prevent mixed content / insecure form warnings
+      const html = result.body
+        .toString('utf-8')
+        .replace(/http:\/\/82mobile\.com/g, 'https://82mobile.com');
       return new NextResponse(html, { status: result.status, headers: outHeaders });
     }
 
