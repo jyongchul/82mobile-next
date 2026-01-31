@@ -11,7 +11,13 @@ async function proxyToWordPress(request: NextRequest) {
   // Decode base64url-encoded WordPress path (set by middleware)
   let fullPath: string;
   try {
-    fullPath = Buffer.from(encodedSegment, 'base64url').toString('utf-8') || '/';
+    const decoded = Buffer.from(encodedSegment, 'base64url').toString('utf-8');
+    // Split decoded path into pathname and search parts, then re-encode properly
+    const qIdx = decoded.indexOf('?');
+    const decodedPath = qIdx >= 0 ? decoded.slice(0, qIdx) : decoded;
+    const decodedSearch = qIdx >= 0 ? decoded.slice(qIdx) : '';
+    // Ensure path segments are properly URI-encoded for http.request
+    fullPath = encodeURI(decodedPath) + decodedSearch || '/';
   } catch {
     // Fallback: treat as literal path
     fullPath = `/${encodedSegment}${url.search}`;

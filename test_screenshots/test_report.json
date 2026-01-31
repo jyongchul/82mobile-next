@@ -1,0 +1,149 @@
+{
+  "timestamp": "2026-01-31T23:29:54.804880",
+  "base_url": "http://localhost:3099",
+  "total": 28,
+  "passed": 26,
+  "failed": 2,
+  "results": [
+    {
+      "test": "Homepage loads",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "test": "No horizontal scroll",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "No broken images",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Nav dots present (desktop)",
+      "status": "PASS",
+      "detail": "count=5"
+    },
+    {
+      "test": "Section '#hero' exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Section '#products' exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Section '#why-choose-us' exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Section '#faq' exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Section '#contact' exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Scroll progress bar exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Nav dot click scrolls page",
+      "status": "PASS",
+      "detail": "scrollY=1065"
+    },
+    {
+      "test": "Product cards loaded",
+      "status": "PASS",
+      "detail": "count=12"
+    },
+    {
+      "test": "Reservation 5,000 shown",
+      "status": "FAIL",
+      "detail": ""
+    },
+    {
+      "test": "Reserve button found",
+      "status": "FAIL",
+      "detail": "not found"
+    },
+    {
+      "test": "Korean locale has Korean text",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "English: no Korean in main content",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Footer has business info",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Legal page /privacy-policy",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "test": "Legal page /terms-of-service",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "test": "Legal page /refund-policy",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "test": "Legal page /in-store-pickup-policy",
+      "status": "PASS",
+      "detail": "status=200"
+    },
+    {
+      "test": "FAQ items >= 6",
+      "status": "PASS",
+      "detail": "count=6"
+    },
+    {
+      "test": "FAQ accordion clickable",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Mobile: no horizontal scroll",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Mobile menu opens",
+      "status": "PASS",
+      "detail": "clicked"
+    },
+    {
+      "test": "Mobile menu closes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Mobile: product modal opens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "test": "Mobile: cart drawer opens",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}
