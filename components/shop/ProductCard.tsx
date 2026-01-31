@@ -41,6 +41,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const locale = useLocale();
   const t = useTranslations('productDetail');
+  const tr = useTranslations('reservation');
   const tc = useTranslations('common');
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useUIStore((state) => state.openCart);
@@ -60,7 +61,7 @@ export default function ProductCard({
   const loadingStrategy = index < 6 ? 'eager' : 'lazy';
   const priority = index < 6;
 
-  const handleAddToCart = async (e: React.MouseEvent) => {
+  const handleReserve = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -68,15 +69,15 @@ export default function ProductCard({
 
     addItem({
       productId: id,
-      name,
+      name: `[${tr('reservationPrefix')}] ${name}`,
       slug,
-      price: parseFloat(price.replace(/,/g, '')),
+      price: 5000,
       image
     }, 1);
 
     setTimeout(() => {
       setIsAdding(false);
-      toast.success(`${name} added to cart!`, {
+      toast.success(tr('reservationAdded'), {
         icon: '🛒',
         duration: 3000,
       });
@@ -240,18 +241,20 @@ export default function ProductCard({
             </li>
           </ul>
 
+          <div className="mb-4 pb-4 border-b border-white/20">
+            <p className="text-sm text-white/70 mb-1">{tr('fullPriceAtStore')}</p>
+            <p className="text-xl text-white/50 line-through">₩{price}</p>
+          </div>
+
           <div className="mb-6 pb-6 border-b border-white/20">
-            <div className="flex items-baseline gap-2 justify-center">
-              <p className="text-4xl font-bold">₩{price}</p>
-              {regularPrice && regularPrice !== price && (
-                <p className="text-xl text-white/60 line-through">₩{regularPrice}</p>
-              )}
-            </div>
+            <p className="text-sm text-white/70 mb-1">{tr('onlineReservation')}</p>
+            <p className="text-4xl font-bold">₩5,000</p>
+            <p className="text-sm text-white/80 mt-1">{tr('discountAtStore')}</p>
           </div>
 
           <div className="space-y-3">
             <button
-              onClick={handleAddToCart}
+              onClick={handleReserve}
               disabled={isAdding}
               className={`w-full py-4 px-4 bg-white text-dancheong-red font-bold rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 min-h-[44px] ${
                 isAdding ? 'opacity-75' : ''
@@ -268,9 +271,9 @@ export default function ProductCard({
               ) : (
                 <>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  {t('addToCart')}
+                  {tr('reserveButton')}
                 </>
               )}
             </button>
@@ -355,7 +358,7 @@ export default function ProductCard({
               </div>
 
               <button
-                onClick={handleAddToCart}
+                onClick={handleReserve}
                 disabled={isAdding}
                 className={`w-full py-4 px-4 bg-white text-dancheong-red font-bold rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 min-h-[44px] ${
                   isAdding ? 'opacity-75' : ''
@@ -367,14 +370,14 @@ export default function ProductCard({
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    Adding...
+                    {t('adding')}
                   </>
                 ) : (
                   <>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    {t('addToCart')}
+                    {tr('reserveButton')}
                   </>
                 )}
               </button>

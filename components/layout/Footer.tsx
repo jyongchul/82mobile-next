@@ -98,6 +98,14 @@ export default function Footer() {
                   {t('footer.refundPolicy')}
                 </Link>
               </li>
+              <li>
+                <Link
+                  href={`/${locale}/in-store-pickup-policy`}
+                  className="hover:text-white transition-colors"
+                >
+                  {t('footer.inStorePickupPolicy')}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -139,14 +147,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Stores */}
+          {/* Store */}
           <div>
             <h3 className="font-heading font-bold text-white mb-4">
               {t('footer.stores')}
             </h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>📍 {t('footer.myeongdong')}</li>
-              <li>📍 {t('footer.hongdae')}</li>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li className="flex items-start gap-2">
+                <span>📍</span>
+                <span>
+                  {t('footer.storeAddress')}
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span>🕐</span>
+                <span>{t('footer.storeHours')}</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -154,11 +170,17 @@ export default function Footer() {
         {/* Business Information (EXIMBAY Requirement) */}
         <div className="mt-12 pt-8 border-t border-gray-700">
           <div className="text-xs text-gray-400 space-y-1">
-            <p><strong className="text-gray-300">상호명 (Business Name):</strong> [고객 정보 대기 중]</p>
-            <p><strong className="text-gray-300">대표자 (CEO):</strong> [고객 정보 대기 중]</p>
-            <p><strong className="text-gray-300">사업자등록번호 (Business Registration No.):</strong> [고객 정보 대기 중]</p>
-            <p><strong className="text-gray-300">주소 (Address):</strong> [고객 정보 대기 중]</p>
+            <p><strong className="text-gray-300">상호명 (Business Name):</strong> 82모바일 (82mobile)</p>
+            <p><strong className="text-gray-300">대표자 (CEO):</strong> 권아담 (Adam Kwon)</p>
+            <p><strong className="text-gray-300">사업자등록번호 (Business Registration No.):</strong> 355-40-01128</p>
+            <p><strong className="text-gray-300">사업자 유형 (Business Type):</strong> 간이과세자 (Simplified Taxpayer) — 전자상거래 소매업, 통신기기판매</p>
+            <p><strong className="text-gray-300">주소 (Address):</strong> 서울특별시 성북구 월곡로10길 42, 4동 201호 (종암동, 종암힐스톤)</p>
             <p><strong className="text-gray-300">고객지원 (Customer Support):</strong> adamwoohaha@naver.com | +82 10-6424-6530</p>
+            <p className="pt-2 text-gray-500">
+              ※ 간이과세자로서 연 매출 1억 2천만원 이하 사업자이므로 「전자상거래 등에서의 소비자보호에 관한 법률」 제12조 제1항에 의한 통신판매업 신고 의무가 면제됩니다.
+              <br />
+              ※ As a simplified taxpayer (간이과세자) with annual revenue under KRW 120 million, this business is exempt from the online sales business registration requirement under Article 12(1) of the Act on Consumer Protection in Electronic Commerce.
+            </p>
           </div>
         </div>
 
