@@ -87,6 +87,28 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Bypass WordPress paths — let vercel.json rewrites handle them
+  if (
+    pathname.startsWith('/wp-admin') ||
+    pathname.startsWith('/wp-login') ||
+    pathname.startsWith('/wp-json') ||
+    pathname.startsWith('/wp-includes') ||
+    pathname.startsWith('/wp-content')
+  ) {
+    return NextResponse.next();
+  }
+
+  // Bypass WordPress paths — let vercel.json rewrites handle them
+  if (
+    pathname.startsWith('/wp-admin') ||
+    pathname.startsWith('/wp-login') ||
+    pathname.startsWith('/wp-json') ||
+    pathname.startsWith('/wp-includes') ||
+    pathname.startsWith('/wp-content')
+  ) {
+    return NextResponse.next();
+  }
+
   // Handle internationalization for non-API routes
   return intlMiddleware(request);
 }
