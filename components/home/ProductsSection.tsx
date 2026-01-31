@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useProducts } from '@/hooks/useProducts';
+import { translateProductName } from '@/lib/translateProduct';
 import ProductCard from '@/components/shop/ProductCard';
 import ProductFilter from '@/components/shop/ProductFilter';
 import ProductExpanded from './ProductExpanded';
@@ -10,6 +11,7 @@ import type { Product } from '@/hooks/useProducts';
 
 export default function ProductsSection() {
   const t = useTranslations();
+  const locale = useLocale();
   const { data, isLoading, error } = useProducts();
   const [filters, setFilters] = useState({
     duration: [] as string[],
@@ -54,8 +56,12 @@ export default function ProductsSection() {
       filtered.sort((a, b) => parseFloat(b.price.replace(/,/g, '')) - parseFloat(a.price.replace(/,/g, '')));
     }
 
-    return filtered;
-  }, [data?.products, filters]);
+    // Translate product names for current locale
+    return filtered.map((p) => ({
+      ...p,
+      name: translateProductName(p.name, locale),
+    }));
+  }, [data?.products, filters, locale]);
 
   return (
     <section

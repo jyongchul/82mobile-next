@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import ProductCard from '@/components/shop/ProductCard';
 import ProductFilter from '@/components/shop/ProductFilter';
+import { translateProductName } from '@/lib/translateProduct';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,6 +83,7 @@ const mockProducts: Product[] = [
 
 export default function ShopPage() {
   const t = useTranslations();
+  const locale = useLocale();
   const [products, setProducts] = useState<Product[]>(mockProducts);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
   const [isLoading, setIsLoading] = useState(false);
@@ -143,7 +145,7 @@ export default function ShopPage() {
           const transformedProducts = data.products.map((p: any) => ({
             id: p.id,
             slug: p.slug,
-            name: p.name,
+            name: translateProductName(p.name, locale),
             price: p.price,
             regularPrice: p.regularPrice,
             image: p.image,
