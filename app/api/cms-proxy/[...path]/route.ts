@@ -52,7 +52,16 @@ async function proxyToWordPress(request: NextRequest) {
     reqHeaders['Content-Length'] = String(bodyBuf.byteLength);
   }
 
-  console.log('[cms-proxy]', request.method, fullPath);
+  // Temporary debug: return decoded info when X-Debug header is present
+  if (request.headers.get('x-debug') === '1') {
+    return NextResponse.json({
+      requestUrl: request.url,
+      pathname: url.pathname,
+      search: url.search,
+      encodedSegment,
+      fullPath,
+    });
+  }
 
   try {
     const result = await new Promise<{
